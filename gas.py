@@ -188,6 +188,12 @@ class KeroseneCombustionProducts(IdealGas):
     @alpha.setter
     def alpha(self, value):
         self._alpha = value
+        self._c_p = self._c_p_real_func(self._T, alpha=value)
+        self._k = self._c_p / (self._c_p - self._R)
+        self._c_p_av = self._c_p_av_func(self._T, alpha=value)
+        self._k_av = self._c_p_av / (self._c_p_av - self._R)
+        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=value)
+        self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     def _T_get(self):
         return self._T
