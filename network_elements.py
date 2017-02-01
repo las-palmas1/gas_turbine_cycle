@@ -1,9 +1,16 @@
 from gas import *
+import gas_dynamics as gd
 import numpy as np
 import functions as func
 from abc import ABCMeta, abstractmethod
 import copy
+import enum
+import typing
 
+
+class ConnectionType(enum.Enum):
+    GasDynamic = 0
+    Mechanical = 1
 
 class Connection(metaclass=ABCMeta):
     def __init__(self):
@@ -30,11 +37,12 @@ class Connection(metaclass=ABCMeta):
 
 
 class GasDynamicConnection(Connection):
-    def __init__(self, alpha=np.inf, T_stag=None, p_stag=None, g=1):
+    def __init__(self, alpha=np.inf, T_stag=None, p_stag=None, g=1, g_fuel=0):
         Connection.__init__(self)
         self._T_stag = T_stag
         self._p_stag = p_stag
         self._g = g
+        self._g_fuel = g_fuel
         self._alpha = alpha
         self._previous_state = copy.deepcopy(self)
 
@@ -87,6 +95,14 @@ class GasDynamicConnection(Connection):
     @alpha.setter
     def alpha(self, value):
         self._alpha = value
+
+    @property
+    def g_fuel(self):
+        return self._g_fuel
+
+    @g_fuel.setter
+    def g_fuel(self, value):
+        self._g_fuel = value
 
     def check(self):
         return self._T_stag is not None and self._p_stag is not None and self._g is not None
@@ -192,16 +208,14 @@ class Unit(metaclass=ABCMeta):
 
 
 class Compressor(Unit):
-    def __init__(self, gd_inlet_port: GasDynamicPort = GasDynamicPort(),
-                 gd_outlet_port: GasDynamicPort = GasDynamicPort(),
-                 m_inlet_port: MechanicalPort = MechanicalPort()):
-        self.gd_inlet_port = gd_inlet_port
-        self.gd_outlet_port = gd_outlet_port
-        self.m_inlet_port = m_inlet_port
-        self.eta_stag_p = 0.89
-        self.pi_c = None
-        self.work_fluid = Air()
-        self.precision = 0.01
+    def __init__(self, pi_c, work_fluid=Air(), eta_stag_p=0.89, precision=0.01):
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+        self.m_inlet_port = MechanicalPort()
+        self.eta_stag_p = eta_stag_p
+        self.pi_c = pi_c
+        self.work_fluid = work_fluid
+        self.precision = precision
         self._k = self.work_fluid.k_av_int
         self._k_old = None
         self._k_res = 1
@@ -290,20 +304,19 @@ class Compressor(Unit):
             self.p_stag_out = self.p_stag_in * self.pi_c
             self.g_out = 1
             self.m_inlet_port.L_outlet = self._L
+            self.gd_outlet_port.linked_connection.alpha = self.gd_inlet_port.linked_connection.alpha
+            self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
 
 
 class Turbine(Unit):
-    def __init__(self, gd_inlet_port: GasDynamicPort = GasDynamicPort(),
-                 gd_outlet_port: GasDynamicPort = GasDynamicPort(),
-                 m_comp_outlet_port: MechanicalPort = MechanicalPort(),
-                 m_load_outlet_port: MechanicalPort = MechanicalPort()):
-        self.gd_inlet_port = gd_inlet_port
-        self.gd_outlet_port = gd_outlet_port
-        self.m_comp_outlet_port = m_comp_outlet_port
-        self.m_load_outlet_port = m_load_outlet_port
-        self.eta_stag_p = 0.91
-        self.precision = 0.01
-        self.work_fluid = KeroseneCombustionProducts()
+    def __init__(self, work_fluid=KeroseneCombustionProducts(), eta_stag_p=0.91, precision=0.01):
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+        self.m_comp_outlet_port = MechanicalPort()
+        self.m_load_outlet_port = MechanicalPort()
+        self.eta_stag_p = eta_stag_p
+        self.precision = precision
+        self.work_fluid = work_fluid
         self._k = self.work_fluid.k_av_int
         self._k_old = None
         self._k_res = 1
@@ -419,6 +432,7 @@ class Turbine(Unit):
         self.work_fluid.alpha = self.alpha
         self.work_fluid.T1 = self.T_stag_in
         self.g_out = self.g_in
+        self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
         self._L = self.m_comp_outlet_port.linked_connection.L_inlet / self.g_in
         while self._k_res >= self.precision:
             self.T_stag_out = self.T_stag_in - self._L / self.work_fluid.c_p_av_int
@@ -436,7 +450,7 @@ class Turbine(Unit):
             self._pi_t_res = abs(self._pi_t - self._pi_t_old) / self._pi_t_old
         self.gd_outlet_port.linked_connection.alpha = self.alpha
 
-    def update(self, relax_coef=1):
+    def update(self):
         if self._check_power_turbine():
             self.work_fluid.__init__()
             self.work_fluid.alpha = self.alpha
@@ -452,6 +466,7 @@ class Turbine(Unit):
                 self._k_res = abs(self._k - self._k_old) / self._k_old
             self._L = self.work_fluid.c_p_av_int * (self.T_stag_in - self.T_stag_out)
             self.g_out = self.g_in
+            self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
             self.m_load_outlet_port.linked_connection.L_inlet = self._L * self.g_in - \
                                                                 self.m_comp_outlet_port.linked_connection.L_inlet
             self.gd_outlet_port.linked_connection.alpha = self.alpha
@@ -466,29 +481,210 @@ class Turbine(Unit):
 
 
 class CombustionChamber(Unit):
-    def __init__(self, gd_inlet_port: GasDynamicPort = GasDynamicPort(),
-                 gd_outlet_port: GasDynamicPort = GasDynamicPort()):
-        self.gd_inlet_port = gd_inlet_port
-        self.gd_outlet_port = gd_outlet_port
-        self.work_fluid_in = Air()
-        self.work_fluid_out = KeroseneCombustionProducts()
-        self.work_fluid_out_T0 = KeroseneCombustionProducts()
-        self.alpha_out_init = 2
-        self.precision = 0.01
-        self.eta_burn = 0.98
-        self.Q_n = None
-        self.l0 = None
-        self.sigma_comb = 0.98
-        self.g_outflow = 0.01
-        self.g_cooling = 0.04
-        self.g_return = 0.02
-        self._g_fuel = None
+    def __init__(self, Q_n, l0, alpha_out_init=2, precision=0.01, eta_burn=0.98, sigma_comb=0.98, g_outflow=0.01,
+                 g_cooling=0.04, g_return=0.02, work_fluid_in=Air(), work_fluid_out=KeroseneCombustionProducts()):
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+        self.work_fluid_in = work_fluid_in
+        self.work_fluid_out = work_fluid_out
+        self.work_fluid_out_T0 = self.work_fluid_out
+        self.alpha_out_init = alpha_out_init
+        self.precision = precision
+        self.eta_burn = eta_burn
+        self.Q_n = Q_n
+        self.l0 = l0
+        self.sigma_comb = sigma_comb
+        self.g_outflow = g_outflow
+        self.g_cooling = g_cooling
+        self.g_return = g_return
         self._alpha_res = 1
         self._alpha_out_old = None
 
     @property
-    def g_fuel(self):
-        return self._g_fuel
+    def T_stag_in(self):
+        return self.gd_inlet_port.linked_connection.T_stag
+
+    @T_stag_in.setter
+    def T_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_in(self):
+        return self.gd_inlet_port.linked_connection.p_stag
+
+    @p_stag_in.setter
+    def p_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.p_stag = value
+
+    @property
+    def g_in(self):
+        return self.gd_inlet_port.linked_connection.g
+
+    @g_in.setter
+    def g_in(self, value):
+        self.gd_inlet_port.linked_connection.g = value
+
+    @property
+    def g_fuel_in(self):
+        return self.gd_inlet_port.linked_connection.g_fuel
+
+    @g_fuel_in.setter
+    def g_fuel_in(self, value):
+        self.gd_inlet_port.linked_connection.g_fuel = value
+
+    @property
+    def T_stag_out(self):
+        return self.gd_outlet_port.linked_connection.T_stag
+
+    @T_stag_out.setter
+    def T_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_out(self):
+        return self.gd_outlet_port.linked_connection.p_stag
+
+    @p_stag_out.setter
+    def p_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.p_stag = value
+
+    @property
+    def g_out(self):
+        return self.gd_outlet_port.linked_connection.g
+
+    @g_out.setter
+    def g_out(self, value):
+        self.gd_outlet_port.linked_connection.g = value
+
+    @property
+    def alpha_out(self):
+        return self.gd_outlet_port.linked_connection.alpha
+
+    @alpha_out.setter
+    def alpha_out(self, value):
+        self.gd_outlet_port.linked_connection.alpha = value
+
+    @property
+    def g_fuel_out(self):
+        return self.gd_outlet_port.linked_connection.g_fuel
+
+    @g_fuel_out.setter
+    def g_fuel_out(self, value):
+        self.gd_outlet_port.linked_connection.g_fuel = value
+
+    def _check(self):
+        return self.gd_inlet_port.linked_connection.check() and \
+               self.alpha_out_init is not None and \
+               self.eta_burn is not None and \
+               self.Q_n is not None and \
+               self.l0 is not None and \
+               self.sigma_comb is not None and \
+               self.T_stag_out is not None and \
+               self.g_cooling is not None and \
+               self.g_outflow is not None and \
+               self.g_return is not None and \
+               self.g_fuel_in is not None
+
+    def update(self):
+        if self._check():
+            self.work_fluid_in.__init__()
+            self.work_fluid_out.__init__()
+            self.work_fluid_out_T0.__init__()
+            self.work_fluid_out.alpha = self.alpha_out_init
+            self.work_fluid_out_T0.alpha = self.alpha_out_init
+            self.work_fluid_out.T = self.T_stag_out
+            self.work_fluid_out_T0.T = 288
+            self.work_fluid_in.T = self.T_stag_in
+            while self._alpha_res >= self.precision:
+                g_fuel_prime = (self.work_fluid_out.c_p_av * self.T_stag_out -
+                                self.work_fluid_in.c_p_av * self.T_stag_in) / \
+                                   (self.Q_n * self.eta_burn - self.work_fluid_out.c_p_av * self.T_stag_out +
+                                    self.work_fluid_out_T0.c_p_av * 288)
+                self.g_out = (1 + self.g_fuel_in + g_fuel_prime) * (1 - self.g_cooling - self.g_outflow) + \
+                            self.g_return
+                self._alpha_out_old = self.work_fluid_out.alpha
+                self.alpha_out = 1 / (self.l0 * self.g_fuel_in + g_fuel_prime)
+                self.g_fuel_out = self.g_fuel_in + g_fuel_prime
+                self.work_fluid_out.alpha = self.alpha_out
+                self.work_fluid_out_T0.alpha = self.alpha_out
+                self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out
+            self.p_stag_out = self.p_stag_in * self.sigma_comb
+
+
+class Inlet(Unit):
+    def __init__(self, sigma=0.99, work_fluid=Air()):
+        self.sigma = sigma
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+        self.work_fluid = work_fluid
+
+    @property
+    def T_stag_in(self):
+        return self.gd_inlet_port.linked_connection.T_stag
+
+    @T_stag_in.setter
+    def T_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_in(self):
+        return self.gd_inlet_port.linked_connection.p_stag
+
+    @p_stag_in.setter
+    def p_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.p_stag = value
+
+    @property
+    def g_in(self):
+        return self.gd_inlet_port.linked_connection.g
+
+    @g_in.setter
+    def g_in(self, value):
+        self.gd_inlet_port.linked_connection.g = value
+
+    @property
+    def T_stag_out(self):
+        return self.gd_outlet_port.linked_connection.T_stag
+
+    @T_stag_out.setter
+    def T_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_out(self):
+        return self.gd_outlet_port.linked_connection.p_stag
+
+    @p_stag_out.setter
+    def p_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.p_stag = value
+
+    @property
+    def g_out(self):
+        return self.gd_outlet_port.linked_connection.g
+
+    @g_out.setter
+    def g_out(self, value):
+        self.gd_outlet_port.linked_connection.g = value
+
+    def _check(self):
+        return self.p_stag_in is not None and self.T_stag_in is not None and self.g_in is not None \
+               and self.sigma is None
+
+    def update(self):
+        if self._check():
+            self.p_stag_out = self.p_stag_in * self.sigma
+            self.T_stag_out = self.T_stag_in
+            self.g_out = self.g_in
+            self.gd_outlet_port.linked_connection.alpha = self.gd_inlet_port.linked_connection.alpha
+            self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
+
+
+class Outlet(Unit):
+    def __init__(self, sigma=0.99, work_fluid=KeroseneCombustionProducts()):
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+        self.sigma = sigma
+        self.work_fluid = work_fluid
 
     @property
     def T_stag_in(self):
@@ -539,44 +735,140 @@ class CombustionChamber(Unit):
         self.gd_outlet_port.linked_connection.g = value
 
     @property
-    def alpha_out(self):
-        return self.gd_outlet_port.linked_connection.alpha
+    def alpha(self):
+        return self.gd_inlet_port.linked_connection.alpha
 
-    @alpha_out.setter
-    def alpha_out(self, value):
-        self.gd_outlet_port.linked_connection.alpha = value
+    @alpha.setter
+    def alpha(self, value):
+        self.gd_inlet_port.linked_connection.alpha = value
+
+    def _check1(self):
+        return self.sigma is not None and self.p_stag_out
+
+    def _check2(self):
+        return self.T_stag_in is not None
+
+    def update(self):
+        if self._check2():
+            self.T_stag_out = self.T_stag_in
+            self.gd_outlet_port.linked_connection.alpha = self.alpha
+            self.g_out = self.g_in
+        if self._check1() and self._check1():
+            self.T_stag_out = self.T_stag_in
+            self.gd_outlet_port.linked_connection.alpha = self.alpha
+            self.g_out = self.g_in
+            self.p_stag_in = self.p_stag_out / self.sigma
+            self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
+
+
+class Atmosphere(Unit):
+    def __init__(self, p0=1e5, T0=288, lam_in=0.04, work_fluid_in=KeroseneCombustionProducts(), work_fluid_out=Air()):
+        self.p0 = p0
+        self.T0 = T0
+        self.lam_in = lam_in
+        self.work_fluid_in = work_fluid_in
+        self.work_fluid_out = work_fluid_out
+        self.gd_inlet_port = GasDynamicPort()
+        self.gd_outlet_port = GasDynamicPort()
+
+    @property
+    def T_stag_in(self):
+        return self.gd_inlet_port.linked_connection.T_stag
+
+    @T_stag_in.setter
+    def T_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_in(self):
+        return self.gd_inlet_port.linked_connection.p_stag
+
+    @p_stag_in.setter
+    def p_stag_in(self, value):
+        self.gd_inlet_port.linked_connection.p_stag = value
+
+    @property
+    def T_stag_out(self):
+        return self.gd_outlet_port.linked_connection.T_stag
+
+    @T_stag_out.setter
+    def T_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.T_stag = value
+
+    @property
+    def p_stag_out(self):
+        return self.gd_outlet_port.linked_connection.p_stag
+
+    @p_stag_out.setter
+    def p_stag_out(self, value):
+        self.gd_outlet_port.linked_connection.p_stag = value
 
     def _check(self):
-        return self.gd_inlet_port.linked_connection.check() and \
-               self.alpha_out_init is not None and \
-               self.eta_burn is not None and \
-               self.Q_n is not None and \
-               self.l0 is not None and \
-               self.sigma_comb is not None and \
-               self.T_stag_out is not None and \
-               self.g_cooling is not None and \
-               self.g_outflow is not None and \
-               self.g_return is not None
+        return self.lam_in is not None and self.p0 is not None and self.T0 is not None and self.T_stag_in
 
     def update(self):
         if self._check():
-            self.work_fluid_out.alpha = self.alpha_out_init
-            self.work_fluid_out_T0.alpha = self.alpha_out_init
-            self.work_fluid_out.T = self.T_stag_out
-            self.work_fluid_out_T0.T = 288
+            self.T_stag_out = self.T0
+            self.p_stag_out = self.p0
+            self.work_fluid_in.__init__()
+            self.work_fluid_out.__init__()
             self.work_fluid_in.T = self.T_stag_in
-            while self._alpha_res >= self.precision:
-                self._g_fuel = (self.work_fluid_out.c_p_av * self.T_stag_out -
-                                self.work_fluid_in.c_p_av * self.T_stag_in) / \
-                               (self.Q_n * self.eta_burn - self.work_fluid_out.c_p_av * self.T_stag_out +
-                                self.work_fluid_out_T0.c_p_av * 288)
-                self.g_out = (1 + self.g_fuel) * (1 - self.g_cooling - self.g_outflow) + self.g_return
-                self._alpha_out_old = self.work_fluid_out.alpha
-                self.alpha_out = 1 / (self.l0 * self.g_fuel)
-                self.work_fluid_out.alpha = self.alpha_out
-                self.work_fluid_out_T0.alpha = self.alpha_out
-                self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out
-            self.p_stag_out = self.p_stag_in * self.sigma_comb
+            self.p_stag_in = self.p0 / gd.GasDynamicFunctions.pi_lam(self.lam_in, self.work_fluid_in.k)
+
+
+class Load(Unit):
+    def __init__(self, power=0):
+        self.power = power
+        self.m_inlet_port = MechanicalPort()
+        self._G_air = None
+
+    @property
+    def G_air(self):
+        return self._G_air
+
+    @property
+    def L(self):
+        return self.m_inlet_port.linked_connection.L_outlet
+
+    @L.setter
+    def L(self, value):
+        self.m_inlet_port.linked_connection.L_outlet = value
+
+    def update(self):
+        if self.power != 0:
+            self._G_air = self.power / self.L
+        else:
+            self.L = 0
+
+
+class NetworkSolver:
+    def __init__(self, unit_arr: typing.List[Unit], relax_coef=1, precision=0.01):
+        self._connection_arr = []
+        self._unit_arr = unit_arr
+        self.relax_coef = relax_coef
+        self.precision = precision
+
+    def create_connection(self, outlet_port: Port, inlet_port: Port, connection_type: ConnectionType):
+        if connection_type == ConnectionType.GasDynamic:
+            connection = GasDynamicConnection()
+            outlet_port.linked_connection = connection
+            inlet_port.linked_connection = connection
+            self._connection_arr.append(connection)
+
+    def commit(self):
+        pass
+
+    def _update_previous_connections_state(self, connection_arr: typing.List[Connection]):
+        pass
+
+    def _update_units_state(self, precision, unit_arr: typing.List[Unit]):
+        pass
+
+    def _update_current_connections_state(self, relax_coef, connection_arr: typing.List[Connection]):
+        pass
+
+    def _is_converged(self, precision, connection_arr: typing.List[Connection]):
+        pass
 
 
 if __name__ == '__main__':
@@ -606,6 +898,7 @@ if __name__ == '__main__':
     print(turb.p_stag_out)
     print(turb.T_stag_out)
     print(turb.m_load_outlet_port.linked_connection.L_inlet)
+
 
 
 
