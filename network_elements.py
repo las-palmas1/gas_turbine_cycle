@@ -6,11 +6,15 @@ from abc import ABCMeta, abstractmethod
 import copy
 import enum
 import typing
+import logging
+
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 
 class ConnectionType(enum.Enum):
     GasDynamic = 0
     Mechanical = 1
+
 
 class Connection(metaclass=ABCMeta):
     def __init__(self):
@@ -34,6 +38,17 @@ class Connection(metaclass=ABCMeta):
 
     def check(self):
         pass
+
+    @abstractmethod
+    def log_state(self):
+        pass
+
+    @classmethod
+    def _rnd(cls, number, ndigits):
+        if number is not None:
+            return round(number, ndigits)
+        else:
+            return None
 
 
 class GasDynamicConnection(Connection):
@@ -63,6 +78,10 @@ class GasDynamicConnection(Connection):
             p_res = abs(self.p_stag - self._previous_state.p_stag) / self.p_stag
         result = max(T_res, p_res)
         return result
+
+    def log_state(self):
+        logging.debug('T_stag = %.2f,  p_stag = %s,  g = %.3f,  alpha = %.2f,  g_fuel = %.3f' %
+                     (self.T_stag, self._rnd(self.p_stag, 3), self.g, self.alpha, self.g_fuel))
 
     @property
     def T_stag(self):
@@ -133,6 +152,9 @@ class MechanicalConnection(Connection):
             L_inlet_res = abs(self._previous_state._L_inlet - self._L_inlet) / self._L_inlet
             L_outlet_res = abs(self._previous_state._L_outlet - self._L_outlet) / self._L_outlet
         return max(L_inlet_res, L_outlet_res)
+
+    def log_state(self):
+        logging.debug('L_inlet = %s,  eta = %s' % (self._rnd(self.L_inlet, 3), self._eta))
 
     def check(self):
         return self.L_inlet is not None and self.L_outlet is not None
@@ -206,6 +228,10 @@ class Unit(metaclass=ABCMeta):
     def update(self):
         pass
 
+    @abstractmethod
+    def update_connection_current_state(self, relax_coef):
+        pass
+
 
 class Compressor(Unit):
     def __init__(self, pi_c, work_fluid=Air(), eta_stag_p=0.89, precision=0.01):
@@ -218,7 +244,6 @@ class Compressor(Unit):
         self.precision = precision
         self._k = self.work_fluid.k_av_int
         self._k_old = None
-        self._k_res = 1
         self._eta_stag = None
         self._L = None
 
@@ -289,13 +314,23 @@ class Compressor(Unit):
     def g_out(self, value):
         self.gd_outlet_port.linked_connection.g = value
 
-    def update(self):
+    def update_connection_current_state(self, relax_coef=1):
         if self._check():
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection:')
+            self.gd_outlet_port.linked_connection.log_state()
+            self.m_inlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of m_inlet_port connection:')
+            self.m_inlet_port.linked_connection.log_state()
+
+    def update(self, relax_coef=1):
+        if self._check():
+            self._k_res = 1
             self.work_fluid.__init__()
             self.work_fluid.T1 = self.T_stag_in
             while self._k_res >= self.precision:
                 self._eta_stag = func.eta_comp_stag(self.pi_c, self._k, self.eta_stag_p)
-                self.work_fluid.T2 = self.T_stag_in * (1 + (self.pi_c ** ((self._k - 1) / self._k))) / self._eta_stag
+                self.work_fluid.T2 = self.T_stag_in * (1 + (self.pi_c ** ((self._k - 1) / self._k) - 1)) / self._eta_stag
                 self.T_stag_out = self.work_fluid.T2
                 self._k_old = self._k
                 self._k = self.work_fluid.k_av_int
@@ -303,7 +338,7 @@ class Compressor(Unit):
             self._L = self.work_fluid.c_p_av_int * (self.T_stag_out - self.T_stag_in)
             self.p_stag_out = self.p_stag_in * self.pi_c
             self.g_out = 1
-            self.m_inlet_port.L_outlet = self._L
+            self.m_inlet_port.linked_connection.L_outlet = self._L
             self.gd_outlet_port.linked_connection.alpha = self.gd_inlet_port.linked_connection.alpha
             self.gd_outlet_port.linked_connection.g_fuel = self.gd_inlet_port.linked_connection.g_fuel
 
@@ -319,7 +354,7 @@ class Turbine(Unit):
         self.work_fluid = work_fluid
         self._k = self.work_fluid.k_av_int
         self._k_old = None
-        self._k_res = 1
+        self._k_res = None
         self._pi_t = None
         self._eta_stag = None
         self._L = None
@@ -427,7 +462,29 @@ class Turbine(Unit):
                and self.m_comp_outlet_port.linked_connection.L_inlet is not None \
                and self.m_load_outlet_port.linked_connection.L_inlet == 0
 
+    def update_connection_current_state(self, relax_coef=1):
+        if self._check_power_turbine():
+            self.m_load_outlet_port.linked_connection.update_current_state(relax_coef)
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of m_load_port connection:')
+            self.m_load_outlet_port.linked_connection.log_state()
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
+        elif self._check_comp_turbine_p_in():
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
+        elif self._check_comp_turbine_p_out():
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            self.gd_inlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
+            logging.debug('New state of gd_inlet_port connection')
+            self.gd_inlet_port.linked_connection.log_state()
+
     def _compute_compressor_turbine(self):
+        self._k_res = 1
+        self._pi_t_res = 1
         self.work_fluid.__init__()
         self.work_fluid.alpha = self.alpha
         self.work_fluid.T1 = self.T_stag_in
@@ -452,6 +509,7 @@ class Turbine(Unit):
 
     def update(self):
         if self._check_power_turbine():
+            self._k_res = 1
             self.work_fluid.__init__()
             self.work_fluid.alpha = self.alpha
             self.work_fluid.T1 = self.T_stag_in
@@ -585,8 +643,15 @@ class CombustionChamber(Unit):
                self.g_return is not None and \
                self.g_fuel_in is not None
 
+    def update_connection_current_state(self, relax_coef=1):
+        if self._check():
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
+
     def update(self):
         if self._check():
+            self._alpha_res = 1
             self.work_fluid_in.__init__()
             self.work_fluid_out.__init__()
             self.work_fluid_out_T0.__init__()
@@ -603,7 +668,7 @@ class CombustionChamber(Unit):
                 self.g_out = (1 + self.g_fuel_in + g_fuel_prime) * (1 - self.g_cooling - self.g_outflow) + \
                             self.g_return
                 self._alpha_out_old = self.work_fluid_out.alpha
-                self.alpha_out = 1 / (self.l0 * self.g_fuel_in + g_fuel_prime)
+                self.alpha_out = 1 / (self.l0 * (self.g_fuel_in + g_fuel_prime))
                 self.g_fuel_out = self.g_fuel_in + g_fuel_prime
                 self.work_fluid_out.alpha = self.alpha_out
                 self.work_fluid_out_T0.alpha = self.alpha_out
@@ -668,7 +733,13 @@ class Inlet(Unit):
 
     def _check(self):
         return self.p_stag_in is not None and self.T_stag_in is not None and self.g_in is not None \
-               and self.sigma is None
+               and self.sigma is not None
+
+    def update_connection_current_state(self, relax_coef=1):
+        if self._check():
+            self.gd_outlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
 
     def update(self):
         if self._check():
@@ -748,12 +819,20 @@ class Outlet(Unit):
     def _check2(self):
         return self.T_stag_in is not None
 
+    def update_connection_current_state(self, relax_coef=1):
+        if self._check1() and self._check2():
+            self.gd_inlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_outlet_port connection')
+            self.gd_outlet_port.linked_connection.log_state()
+            logging.debug('New state of gd_inlet_port connection')
+            self.gd_inlet_port.linked_connection.log_state()
+
     def update(self):
         if self._check2():
             self.T_stag_out = self.T_stag_in
             self.gd_outlet_port.linked_connection.alpha = self.alpha
             self.g_out = self.g_in
-        if self._check1() and self._check1():
+        if self._check1() and self._check2():
             self.T_stag_out = self.T_stag_in
             self.gd_outlet_port.linked_connection.alpha = self.alpha
             self.g_out = self.g_in
@@ -803,11 +882,23 @@ class Atmosphere(Unit):
     def p_stag_out(self, value):
         self.gd_outlet_port.linked_connection.p_stag = value
 
-    def _check(self):
-        return self.lam_in is not None and self.p0 is not None and self.T0 is not None and self.T_stag_in
+    def _check1(self):
+        return self.lam_in is not None and self.p0 is not None and self.T0 is not None
+
+    def _check2(self):
+        return self.T_stag_in is not None
+
+    def update_connection_current_state(self, relax_coef=1):
+        if self._check1() and self._check2():
+            self.gd_inlet_port.linked_connection.update_current_state(relax_coef)
+            logging.debug('New state of gd_inlet_port connection')
+            self.gd_inlet_port.linked_connection.log_state()
 
     def update(self):
-        if self._check():
+        if self._check1():
+            self.T_stag_out = self.T0
+            self.p_stag_out = self.p0
+        if self._check1() and self._check2():
             self.T_stag_out = self.T0
             self.p_stag_out = self.p0
             self.work_fluid_in.__init__()
@@ -817,7 +908,7 @@ class Atmosphere(Unit):
 
 
 class Load(Unit):
-    def __init__(self, power=0):
+    def __init__(self, power: float =0):
         self.power = power
         self.m_inlet_port = MechanicalPort()
         self._G_air = None
@@ -834,19 +925,25 @@ class Load(Unit):
     def L(self, value):
         self.m_inlet_port.linked_connection.L_outlet = value
 
+    def update_connection_current_state(self, relax_coef=1):
+        logging.debug('New state of m_inlet_port connection')
+        self.m_inlet_port.linked_connection.log_state()
+
     def update(self):
-        if self.power != 0:
+        if self.power != 0 and self.L is not None and self.L != 0:
             self._G_air = self.power / self.L
-        else:
+        elif self.power == 0:
             self.L = 0
 
 
 class NetworkSolver:
-    def __init__(self, unit_arr: typing.List[Unit], relax_coef=1, precision=0.01):
+    def __init__(self, unit_arr: typing.List[Unit], relax_coef=1, precision=0.01, max_iter_number=50):
         self._connection_arr = []
         self._unit_arr = unit_arr
         self.relax_coef = relax_coef
         self.precision = precision
+        self.max_iter_number = max_iter_number
+        self._residual_arr = []
 
     def create_connection(self, outlet_port: Port, inlet_port: Port, connection_type: ConnectionType):
         if connection_type == ConnectionType.GasDynamic:
@@ -854,51 +951,102 @@ class NetworkSolver:
             outlet_port.linked_connection = connection
             inlet_port.linked_connection = connection
             self._connection_arr.append(connection)
+        elif connection_type == ConnectionType.Mechanical:
+            connection = MechanicalConnection()
+            outlet_port.linked_connection = connection
+            inlet_port.linked_connection = connection
+            self._connection_arr.append(connection)
 
-    def commit(self):
-        pass
+    def solve(self):
+        for i in range(self.max_iter_number):
+            logging.info('Iteration %s\n' % i)
+            self._update_previous_connections_state(self._connection_arr)
+            self._update_units_state(self._unit_arr, self.relax_coef)
+            self._residual_arr.append(self._get_max_residual(self._connection_arr))
+            logging.info('MAX RESIDUAL = %.4f\n' % (self._get_max_residual(self._connection_arr)))
+            if self._is_converged(self.precision, self._connection_arr):
+                return
+        raise RuntimeError('Convergence is not obtained')
 
-    def _update_previous_connections_state(self, connection_arr: typing.List[Connection]):
-        pass
+    @classmethod
+    def _update_previous_connections_state(cls, connection_arr: typing.List[Connection]):
+        for i in connection_arr:
+            i.update_previous_state()
 
-    def _update_units_state(self, precision, unit_arr: typing.List[Unit]):
-        pass
+    @classmethod
+    def _update_units_state(cls, unit_arr: typing.List[Unit], relax_coef=1):
+        for i in unit_arr:
+            logging.info(str(i) + ' ' + 'updating')
+            i.update()
+            i.update_connection_current_state(relax_coef)
 
-    def _update_current_connections_state(self, relax_coef, connection_arr: typing.List[Connection]):
-        pass
+    @classmethod
+    def _get_max_residual(cls, connection_arr: typing.List[Connection]):
+        result = connection_arr[0].get_max_residual()
+        for i in connection_arr:
+            if i.get_max_residual() > result:
+                result = i.get_max_residual()
+        return result
 
-    def _is_converged(self, precision, connection_arr: typing.List[Connection]):
-        pass
+    @classmethod
+    def _is_converged(cls, precision, connection_arr: typing.List[Connection]):
+        def is_valid(connection: Connection):
+            max_residual = connection.get_max_residual()
+            return max_residual < precision
+
+        for i in connection_arr:
+            if not is_valid(i):
+                return False
+        return True
 
 
 if __name__ == '__main__':
-    turb = Turbine()
-    g_con1 = GasDynamicConnection()
-    g_con2 = GasDynamicConnection()
-    m_con1 = MechanicalConnection()
-    m_con2 = MechanicalConnection()
-    turb.gd_inlet_port.linked_connection = g_con1
-    turb.gd_outlet_port.linked_connection = g_con2
-    turb.m_comp_outlet_port.linked_connection = m_con1
-    turb.m_load_outlet_port.linked_connection = m_con2
-    turb.p_stag_in = 5e5
-    turb.T_stag_in = 1600
-    turb.g_in = 0.98
-    turb.alpha = 2.5
-    turb.eta_stag_p = 0.91
-    turb.m_comp_outlet_port.linked_connection.L_outlet = 500e3
-    # turb.m_load_outlet.L_outlet = 0
-    turb.p_stag_out = 1.1e5
-    turb.update()
-    print(turb.k)
-    print(turb.eta_stag)
-    print(turb.L)
-    print(turb.pi_t)
-    print(turb.p_stag_in)
-    print(turb.p_stag_out)
-    print(turb.T_stag_out)
-    print(turb.m_load_outlet_port.linked_connection.L_inlet)
-
+    # turb = Turbine()
+    # g_con1 = GasDynamicConnection()
+    # g_con2 = GasDynamicConnection()
+    # m_con1 = MechanicalConnection()
+    # m_con2 = MechanicalConnection()
+    # turb.gd_inlet_port.linked_connection = g_con1
+    # turb.gd_outlet_port.linked_connection = g_con2
+    # turb.m_comp_outlet_port.linked_connection = m_con1
+    # turb.m_load_outlet_port.linked_connection = m_con2
+    # turb.p_stag_in = 5e5
+    # turb.T_stag_in = 1600
+    # turb.g_in = 0.98
+    # turb.alpha = 2.5
+    # turb.eta_stag_p = 0.91
+    # turb.m_comp_outlet_port.linked_connection.L_outlet = 500e3
+    # # turb.m_load_outlet.L_outlet = 0
+    # turb.p_stag_out = 1.1e5
+    # turb.update()
+    # print(turb.k)
+    # print(turb.eta_stag)
+    # print(turb.L)
+    # print(turb.pi_t)
+    # print(turb.p_stag_in)
+    # print(turb.p_stag_out)
+    # print(turb.T_stag_out)
+    # print(turb.m_load_outlet_port.linked_connection.L_inlet)
+    atmosphere = Atmosphere()
+    inlet = Inlet()
+    comp = Compressor(pi_c=5)
+    comb_chamber = CombustionChamber(Q_n=43e6, l0=14.61)
+    turbine = Turbine()
+    load = Load(power=2.3e6)
+    outlet = Outlet()
+    unit_arr = [comb_chamber, atmosphere, inlet, comp, turbine, outlet, load]
+    solver = NetworkSolver(unit_arr)
+    solver.create_connection(atmosphere.gd_outlet_port, inlet.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(inlet.gd_outlet_port, comp.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(comp.gd_outlet_port, comb_chamber.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(comb_chamber.gd_outlet_port, turbine.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(turbine.m_comp_outlet_port, comp.m_inlet_port, ConnectionType.Mechanical)
+    solver.create_connection(turbine.gd_outlet_port, outlet.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(turbine.m_load_outlet_port, load.m_inlet_port, ConnectionType.Mechanical)
+    solver.create_connection(outlet.gd_outlet_port, atmosphere.gd_inlet_port, ConnectionType.GasDynamic)
+    comb_chamber.T_stag_out = 1600
+    turbine.p_stag_out = 170e3
+    solver.solve()
 
 
 
