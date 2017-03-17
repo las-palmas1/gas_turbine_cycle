@@ -1,7 +1,7 @@
-from gases import *
-import gas_dynamics as gd
-from network_lib import *
-import functions as func
+from cycle_lib.gases import *
+import cycle_lib.gas_dynamics as gd
+from cycle_lib.network_lib import *
+import cycle_lib.functions as func
 
 
 class Compressor(Unit):
@@ -14,6 +14,7 @@ class Compressor(Unit):
         self.work_fluid = work_fluid
         self.precision = precision
         self._k = self.work_fluid.k_av_int
+        self._k_res = 1
         self._k_old = None
         self._eta_stag = None
         self._L = None
@@ -96,12 +97,12 @@ class Compressor(Unit):
 
     def update(self, relax_coef=1):
         if self._check():
-            self._k_res = 1
             self.work_fluid.__init__()
             self.work_fluid.T1 = self.T_stag_in
             while self._k_res >= self.precision:
                 self._eta_stag = func.eta_comp_stag(self.pi_c, self._k, self.eta_stag_p)
-                self.work_fluid.T2 = self.T_stag_in * (1 + (self.pi_c ** ((self._k - 1) / self._k) - 1)) / self._eta_stag
+                self.work_fluid.T2 = self.T_stag_in * (1 + (self.pi_c ** ((self._k - 1) / self._k) - 1) /
+                                                       self._eta_stag)
                 self.T_stag_out = self.work_fluid.T2
                 self._k_old = self._k
                 self._k = self.work_fluid.k_av_int
