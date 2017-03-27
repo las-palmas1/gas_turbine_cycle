@@ -327,6 +327,7 @@ class CombustionChamber(Unit):
         self.g_return = g_return
         self._alpha_res = 1
         self._alpha_out_old = None
+        self._g_fuel_prime = 0
 
     @property
     def T_stag_in(self):
@@ -431,15 +432,15 @@ class CombustionChamber(Unit):
             self.work_fluid_out_T0.T = 288
             self.work_fluid_in.T = self.T_stag_in
             while self._alpha_res >= self.precision:
-                g_fuel_prime = (self.work_fluid_out.c_p_av * self.T_stag_out -
-                                self.work_fluid_in.c_p_av * self.T_stag_in) / \
-                                   (self.Q_n * self.eta_burn - self.work_fluid_out.c_p_av * self.T_stag_out +
-                                    self.work_fluid_out_T0.c_p_av * 288)
-                self.g_out = (1 + self.g_fuel_in + g_fuel_prime) * (1 - self.g_cooling - self.g_outflow) + \
-                            self.g_return
+                self._g_fuel_prime = (self.work_fluid_out.c_p_av * self.T_stag_out -
+                                      self.work_fluid_in.c_p_av * self.T_stag_in) / \
+                                     (self.Q_n * self.eta_burn - self.work_fluid_out.c_p_av * self.T_stag_out +
+                                      self.work_fluid_out_T0.c_p_av * 288)
+                self.g_out = (1 + self.g_fuel_in + self._g_fuel_prime) * (1 - self.g_cooling - self.g_outflow) + \
+                              self.g_return
                 self._alpha_out_old = self.work_fluid_out.alpha
-                self.alpha_out = 1 / (self.l0 * (self.g_fuel_in + g_fuel_prime))
-                self.g_fuel_out = self.g_fuel_in + g_fuel_prime
+                self.alpha_out = 1 / (self.l0 * (self.g_fuel_in + self._g_fuel_prime))
+                self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime
                 self.work_fluid_out.alpha = self.alpha_out
                 self.work_fluid_out_T0.alpha = self.alpha_out
                 self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out
