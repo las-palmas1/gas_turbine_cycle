@@ -1,7 +1,7 @@
-from cycle_lib.gases import *
-import cycle_lib.gas_dynamics as gd
-from cycle_lib.network_lib import *
-import cycle_lib.functions as func
+from gases import *
+import gas_dynamics as gd
+from network_lib import *
+import functions as func
 
 
 class Compressor(Unit):
