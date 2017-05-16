@@ -870,94 +870,69 @@ class Regenerator(Unit):
 
 
 if __name__ == '__main__':
-    # turb = Turbine()
-    # g_con1 = GasDynamicConnection()
-    # g_con2 = GasDynamicConnection()
-    # m_con1 = MechanicalConnection()
-    # m_con2 = MechanicalConnection()
-    # turb.gd_inlet_port.linked_connection = g_con1
-    # turb.gd_outlet_port.linked_connection = g_con2
-    # turb.m_comp_outlet_port.linked_connection = m_con1
-    # turb.m_load_outlet_port.linked_connection = m_con2
-    # turb.p_stag_in = 5e5
-    # turb.T_stag_in = 1600
-    # turb.g_in = 0.98
-    # turb.alpha = 2.5
-    # turb.eta_stag_p = 0.91
-    # turb.m_comp_outlet_port.linked_connection.L_outlet = 500e3
-    # # turb.m_load_outlet.L_outlet = 0
-    # turb.p_stag_out = 1.1e5
-    # turb.update()
-    # print(turb.k)
-    # print(turb.eta_stag)
-    # print(turb.L)
-    # print(turb.pi_t)
-    # print(turb.p_stag_in)
-    # print(turb.p_stag_out)
-    # print(turb.T_stag_out)
-    # print(turb.m_load_outlet_port.linked_connection.L_inlet)
     # ---------------------------------------------------------
     # простейшая ГТУ с регенератором
     # ---------------------------------------------------------
-    # atmosphere = Atmosphere()
-    # inlet = Inlet()
-    # comp = Compressor(pi_c=5)
-    # comb_chamber = CombustionChamber(Q_n=43e6, l0=14.61)
-    # turbine = Turbine()
-    # load = Load(power=2.3e6)
-    # outlet = Outlet()
-    # regenerator = Regenerator(regeneration_rate=0.3)
-    # unit_arr = [comb_chamber, regenerator, atmosphere, inlet, comp, turbine, outlet, load]
-    # solver = NetworkSolver(unit_arr)
-    # solver.create_connection(atmosphere.gd_outlet_port, inlet.gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(inlet.gd_outlet_port, comp.gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(comp.gd_outlet_port, regenerator.cold_gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(regenerator.cold_gd_outlet_port, comb_chamber.gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(comb_chamber.gd_outlet_port, turbine.gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(turbine.m_comp_outlet_port, comp.m_inlet_port, ConnectionType.Mechanical)
-    # solver.create_connection(turbine.gd_outlet_port, regenerator.hot_gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(regenerator.hot_gd_outlet_port, outlet.gd_inlet_port, ConnectionType.GasDynamic)
-    # solver.create_connection(turbine.m_load_outlet_port, load.m_inlet_port, ConnectionType.Mechanical)
-    # solver.create_connection(outlet.gd_outlet_port, atmosphere.gd_inlet_port, ConnectionType.GasDynamic)
-    # comb_chamber.T_stag_out = 1600
-    # comb_chamber.alpha_out = 2.5
-    # turbine.p_stag_out = 170e3
-    # regenerator.T_stag_hot_in = 1100
-    # regenerator.T_stag_hot_out = 900
-    # solver.solve()
-    # ----------------------------------------------------------------
-    #  схема 2Н
-    # ----------------------------------------------------------------
     atmosphere = Atmosphere()
     inlet = Inlet()
-    comp = Compressor(pi_c=15)
-    combustion_chamber = CombustionChamber(Q_n=43e6, l0=14)
-    comp_turbine = Turbine()
-    zero_load1 = Load(power=0)
-    zero_load2 = Load(power=0)
-    power_turbine = Turbine()
-    load = Load(power=2e6)
+    comp = Compressor(pi_c=5)
+    comb_chamber = CombustionChamber(Q_n=43e6, l0=14.61)
+    turbine = Turbine()
+    load = Load(power=2.3e6)
     outlet = Outlet()
-    unit_arr = [atmosphere, inlet, comp, combustion_chamber, comp_turbine, zero_load1, power_turbine, zero_load2, load,
-                outlet]
+    regenerator = Regenerator(regeneration_rate=0.3)
+    unit_arr = [comb_chamber, regenerator, atmosphere, inlet, comp, turbine, outlet, load]
     solver = NetworkSolver(unit_arr)
     solver.create_connection(atmosphere.gd_outlet_port, inlet.gd_inlet_port, ConnectionType.GasDynamic)
     solver.create_connection(inlet.gd_outlet_port, comp.gd_inlet_port, ConnectionType.GasDynamic)
-    solver.create_connection(comp.gd_outlet_port, combustion_chamber.gd_inlet_port, ConnectionType.GasDynamic)
-    solver.create_connection(combustion_chamber.gd_outlet_port, comp_turbine.gd_inlet_port, ConnectionType.GasDynamic)
-    solver.create_connection(comp_turbine.gd_outlet_port, power_turbine.gd_inlet_port, ConnectionType.GasDynamic)
-    solver.create_connection(power_turbine.gd_outlet_port, outlet.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(comp.gd_outlet_port, regenerator.cold_gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(regenerator.cold_gd_outlet_port, comb_chamber.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(comb_chamber.gd_outlet_port, turbine.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(turbine.m_comp_outlet_port, comp.m_inlet_port, ConnectionType.Mechanical)
+    solver.create_connection(turbine.gd_outlet_port, regenerator.hot_gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(regenerator.hot_gd_outlet_port, outlet.gd_inlet_port, ConnectionType.GasDynamic)
+    solver.create_connection(turbine.m_load_outlet_port, load.m_inlet_port, ConnectionType.Mechanical)
     solver.create_connection(outlet.gd_outlet_port, atmosphere.gd_inlet_port, ConnectionType.GasDynamic)
-
-    solver.create_connection(comp_turbine.m_comp_outlet_port, comp.m_inlet_port, ConnectionType.Mechanical)
-    solver.create_connection(comp_turbine.m_load_outlet_port, zero_load1.m_inlet_port, ConnectionType.Mechanical)
-    solver.create_connection(power_turbine.m_comp_outlet_port, zero_load2.m_inlet_port, ConnectionType.Mechanical)
-    solver.create_connection(power_turbine.m_load_outlet_port, load.m_inlet_port, ConnectionType.Mechanical)
-
-    combustion_chamber.T_stag_out = 1450
-    combustion_chamber.alpha_out = 2.5
-    power_turbine.p_stag_out = 170e3
+    comb_chamber.T_stag_out = 1600
+    comb_chamber.alpha_out = 2.5
+    turbine.p_stag_out = 170e3
+    regenerator.T_stag_hot_in = 1100
+    regenerator.T_stag_hot_out = 900
     solver.solve()
+    print(load.G_air)
+    # ----------------------------------------------------------------
+    #  схема 2Н
+    # ----------------------------------------------------------------
+    # atmosphere = Atmosphere()
+    # inlet = Inlet()
+    # comp = Compressor(pi_c=15)
+    # combustion_chamber = CombustionChamber(Q_n=43e6, l0=14)
+    # comp_turbine = Turbine()
+    # zero_load1 = Load(power=0)
+    # zero_load2 = Load(power=0)
+    # power_turbine = Turbine()
+    # load = Load(power=2e6)
+    # outlet = Outlet()
+    # unit_arr = [atmosphere, inlet, comp, combustion_chamber, comp_turbine, zero_load1, power_turbine, zero_load2, load,
+    #             outlet]
+    # solver = NetworkSolver(unit_arr)
+    # solver.create_connection(atmosphere.gd_outlet_port, inlet.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(inlet.gd_outlet_port, comp.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(comp.gd_outlet_port, combustion_chamber.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(combustion_chamber.gd_outlet_port, comp_turbine.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(comp_turbine.gd_outlet_port, power_turbine.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(power_turbine.gd_outlet_port, outlet.gd_inlet_port, ConnectionType.GasDynamic)
+    # solver.create_connection(outlet.gd_outlet_port, atmosphere.gd_inlet_port, ConnectionType.GasDynamic)
+    #
+    # solver.create_connection(comp_turbine.m_comp_outlet_port, comp.m_inlet_port, ConnectionType.Mechanical)
+    # solver.create_connection(comp_turbine.m_load_outlet_port, zero_load1.m_inlet_port, ConnectionType.Mechanical)
+    # solver.create_connection(power_turbine.m_comp_outlet_port, zero_load2.m_inlet_port, ConnectionType.Mechanical)
+    # solver.create_connection(power_turbine.m_load_outlet_port, load.m_inlet_port, ConnectionType.Mechanical)
+    #
+    # combustion_chamber.T_stag_out = 1450
+    # combustion_chamber.alpha_out = 2.5
+    # power_turbine.p_stag_out = 170e3
+    # solver.solve()
 
 
 
