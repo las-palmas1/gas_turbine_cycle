@@ -2,13 +2,16 @@ import numpy as np
 import logging.config
 
 
-def create_logger(name=__name__, loggerlevel=logging.INFO, add_file_handler=True,
+def create_logger(name=__name__, loggerlevel=logging.INFO, add_file_handler=True, add_datetime=False,
                   add_console_handler=True, filename='logfile.log', filemode='a'):
     logger = logging.getLogger(name)
     logger.setLevel(loggerlevel)
     logger.propagate = 0
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                                  datefmt='%d\%m\%Y %H:%M:%S')
+    if add_datetime:
+        formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(message)s',
+                                      datefmt='%d\%m\%Y %H:%M:%S')
+    else:
+        formatter = logging.Formatter(fmt='%(levelname)s - %(message)s')
     if add_console_handler:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.NOTSET)

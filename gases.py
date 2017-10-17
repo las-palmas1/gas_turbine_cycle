@@ -13,6 +13,15 @@ class IdealGas(metaclass=ABCMeta):
         self._k = None
         self._k_av = None
         self._k_av_int = None
+        self._alpha = 1
+
+    @property
+    def alpha(self):
+        return self._alpha
+
+    @alpha.setter
+    def alpha(self, value):
+        self._alpha = value
 
     def rho_func(self, T, p):
         return p / (self._R * T)
