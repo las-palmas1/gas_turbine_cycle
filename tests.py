@@ -1,10 +1,13 @@
-import unittest
-import numpy as np
-from network_lib import *
-from turbine_lib import Compressor, Turbine, Source, Sink, CombustionChamber, Inlet, Outlet, Atmosphere, Load
 import logging
-from gases import Air, KeroseneCombustionProducts
-from solver import NetworkSolver
+import unittest
+
+import numpy as np
+
+from gas_turbine_cycle.core.network_lib import *
+from gas_turbine_cycle.core.solver import NetworkSolver
+from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, Source, Sink, CombustionChamber, Inlet, Outlet, \
+    Atmosphere, Load
+from gas_turbine_cycle.gases import KeroseneCombustionProducts
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -152,7 +155,7 @@ class UnitsTests(unittest.TestCase):
         self.inlet = Inlet()
         self.atmosphere = Atmosphere(lam_in=0.1)
         self.outlet = Outlet()
-        self.comb_chamber = CombustionChamber(1450, 43e6, 14, p_stag_out_init=10e5, alpha_out_init=2.4)
+        self.comb_chamber = CombustionChamber(1450, p_stag_out_init=10e5, alpha_out_init=2.4)
         self.compressor = Compressor(5)
         self.turbine = Turbine(p_stag_out_init=1e5)
         self.source = Source()
@@ -232,7 +235,7 @@ class UnitsTests(unittest.TestCase):
 
     def set_turbine_connections(self):
         solver = NetworkSolver([self.upstream_gd_unit, self.turbine, self.downstream_gd_unit,
-                                self.consume_unit1, self.gen_unit])
+                                self.consume_unit1, self.gen_unit, self.consume_unit2])
         solver.create_gas_dynamic_connection(self.upstream_gd_unit, self.turbine)
         solver.create_gas_dynamic_connection(self.turbine, self.downstream_gd_unit)
         solver.create_mechanical_connection(self.turbine, self.consume_unit1, self.consume_unit2)
@@ -764,10 +767,10 @@ class SolverTests(unittest.TestCase):
         self.compressor1 = Compressor(6)
         self.compressor2 = Compressor(10, precision=0.001)
         self.sink = Sink()
-        self.comb_chamber = CombustionChamber(1400, 43e6, 14, alpha_out_init=2.7, precision=0.001)
-        self.comb_chamber_inter_up = CombustionChamber(1300, 43e6, 14, alpha_out_init=2.7, precision=0.001,
+        self.comb_chamber = CombustionChamber(1400, alpha_out_init=2.7, precision=0.001)
+        self.comb_chamber_inter_up = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001,
                                                        work_fluid_in=KeroseneCombustionProducts())
-        self.comb_chamber_inter_down = CombustionChamber(1300, 43e6, 14, alpha_out_init=2.7, precision=0.001,
+        self.comb_chamber_inter_down = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001,
                                                          p_stag_out_init=4e5,
                                                          work_fluid_in=KeroseneCombustionProducts())
         self.source1 = Source()

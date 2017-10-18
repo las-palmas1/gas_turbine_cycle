@@ -1,10 +1,10 @@
-from network_lib import *
 import logging
-from gases import IdealGas, Air, KeroseneCombustionProducts
-from turbine_lib import Compressor, Turbine, CombustionChamber, Inlet, Outlet, Source, Sink, Load, Atmosphere
 
+from gas_turbine_cycle.core.network_lib import *
+from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, CombustionChamber, Inlet, Outlet, Load, Atmosphere
+from gas_turbine_cycle.gases import IdealGas, Air, KeroseneCombustionProducts
 
-logging.basicConfig(format='%(levelname)s: %(message)s', filemode='w', filename='logfile.log', level=logging.INFO)
+logging.basicConfig(format='%(levelname)s: %(message)s', filemode='w', filename='cycle.log', level=logging.INFO)
 
 
 class NetworkSolver:
@@ -28,6 +28,9 @@ class NetworkSolver:
                                      consuming_unit1: MechEnergyConsumingUnit, consuming_unit2: MechEnergyConsumingUnit):
         """Связывает порты передачи механической энергии вырабатывающего юнита с портами приемы энергии другого юнита
         и внешней нагрузки"""
+        assert (self._unit_arr.count(generating_unit) != 0 and self._unit_arr.count(consuming_unit1) != 0 and
+                self._unit_arr.count(consuming_unit2) != 0), \
+            "You try to connect units, of which at least one isn't added to the solver units list."
         mech_conn1 = Connection()
         mech_conn2 = Connection()
         conn_set = ConnectionSet([mech_conn1, mech_conn2])
@@ -41,6 +44,8 @@ class NetworkSolver:
 
     def create_gas_dynamic_connection(self, upstream_unit: GasDynamicUnit, downstream_unit: GasDynamicUnit):
         """Связывает газодинамические порты двух юнитов"""
+        assert self._unit_arr.count(upstream_unit) != 0 and self._unit_arr.count(downstream_unit) != 0, \
+            "You try to connect units, of which at least one isn't added to the solver units list."
         temp_conn = Connection()
         pres_conn = Connection()
         alpha_conn = Connection()
@@ -87,7 +92,7 @@ class NetworkSolver:
                 unit.set_behaviour()
                 is_set[n] = unit.has_undefined_ports()
             if is_set.count(True) == 0:
-                logging.info('End behaviour setting')
+                logging.info('End behaviour setting\n')
                 return
         raise RuntimeError('Setting of ports behaviour is not obtained')
 
