@@ -313,12 +313,12 @@ class NaturalGasCombustionProducts(IdealGas):
         self._c_p_real_20 = [1.4957, 1.3816, 1.3420, 1.3220, 1.3099, 1.3017, 1.2959, 1.2915, 1.2881, 1.2854]
         self._c_p_real_21 = [1.5028, 1.3875, 1.3476, 1.3273, 1.3151, 1.3069, 1.3010, 1.2966, 1.2931, 1.2904]
 
-        self._c_p_real_arr = [self._c_p_real_1, self._c_p_real_2, self._c_p_real_3, self._c_p_real_4,
-                              self._c_p_real_5, self._c_p_real_6, self._c_p_real_7, self._c_p_real_8,
-                              self._c_p_real_9, self._c_p_real_10, self._c_p_real_11, self._c_p_real_12,
-                              self._c_p_real_13, self._c_p_real_14, self._c_p_real_15, self._c_p_real_16,
-                              self._c_p_real_17, self._c_p_real_18, self._c_p_real_19, self._c_p_real_20,
-                              self._c_p_real_21]
+        self._c_p_real_arr = np.array([self._c_p_real_1, self._c_p_real_2, self._c_p_real_3, self._c_p_real_4,
+                                       self._c_p_real_5, self._c_p_real_6, self._c_p_real_7, self._c_p_real_8,
+                                       self._c_p_real_9, self._c_p_real_10, self._c_p_real_11, self._c_p_real_12,
+                                       self._c_p_real_13, self._c_p_real_14, self._c_p_real_15, self._c_p_real_16,
+                                       self._c_p_real_17, self._c_p_real_18, self._c_p_real_19, self._c_p_real_20,
+                                       self._c_p_real_21]) * 1000
 
         self._c_p_av_1 = [1.1000, 1.0533, 1.0371, 1.0289, 1.0239, 1.0206, 1.0182, 1.0164, 1.0151, 1.0139]
         self._c_p_av_2 = [1.1095, 1.0592, 1.0418, 1.0330, 1.0277, 1.0241, 1.0215, 1.0196, 1.0181, 1.0169]
@@ -341,12 +341,12 @@ class NaturalGasCombustionProducts(IdealGas):
         self._c_p_av_19 = [1.3266, 1.2410, 1.2113, 1.1963, 1.1872, 1.1811, 1.1767, 1.1734, 1.1708, 1.1688]
         self._c_p_av_20 = [1.3349, 1.2477, 1.2175, 1.2022, 1.1929, 1.1867, 1.1823, 1.1789, 1.1763, 1.1742]
         self._c_p_av_21 = [1.3426, 1.2537, 1.2229, 1.2073, 1.1979, 1.1915, 1.1870, 1.1836, 1.1809, 1.1788]
-        self._c_p_av_arr = [self._c_p_av_1, self._c_p_av_2, self._c_p_av_3, self._c_p_av_4,
-                            self._c_p_av_5, self._c_p_av_6, self._c_p_av_7, self._c_p_av_8,
-                            self._c_p_av_9, self._c_p_av_10, self._c_p_av_11, self._c_p_av_12,
-                            self._c_p_av_13, self._c_p_av_14, self._c_p_av_15, self._c_p_av_16,
-                            self._c_p_av_17, self._c_p_av_18, self._c_p_av_19, self._c_p_av_20,
-                            self._c_p_av_21]
+        self._c_p_av_arr = np.array([self._c_p_av_1, self._c_p_av_2, self._c_p_av_3, self._c_p_av_4,
+                                     self._c_p_av_5, self._c_p_av_6, self._c_p_av_7, self._c_p_av_8,
+                                     self._c_p_av_9, self._c_p_av_10, self._c_p_av_11, self._c_p_av_12,
+                                     self._c_p_av_13, self._c_p_av_14, self._c_p_av_15, self._c_p_av_16,
+                                     self._c_p_av_17, self._c_p_av_18, self._c_p_av_19, self._c_p_av_20,
+                                     self._c_p_av_21]) * 1000
         self._temp_arr = np.array(np.linspace(0, 2000, 21)) + 273
         self._alpha_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         self._c_p_real_interp = interp2d(self._alpha_arr, self._temp_arr, self._c_p_real_arr)
@@ -406,17 +406,17 @@ class NaturalGasCombustionProducts(IdealGas):
     T2 = property(_T2_get, _T2_set)
 
     def _c_p_real_func(self, T, **kwargs):
-        """Истинная удельная теплоемкость продуктов сгорания керосина"""
+        """Истинная удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
-        return self._c_p_real_interp(alpha, T)
+        return self._c_p_real_interp(alpha, T)[0]
 
     def _c_p_av_func(self, T, **kwargs):
-        """Средняя удельная теплоемкость продуктов сгорания керосина"""
+        """Средняя удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
-        return self._c_p_av_interp(alpha, T)
+        return self._c_p_av_interp(alpha, T)[0]
 
     def _c_p_av_int_func(self, T1, T2, **kwargs):
-        """Средняя удельная теплоемкость продуктов сгорания керосина в интервале температур"""
+        """Средняя удельная теплоемкость продуктов сгорания природного газа в интервале температур"""
         alpha = kwargs['alpha']
         T0 = 273
         return (self._c_p_av_func(T2, alpha=alpha) * (T2 - T0) -

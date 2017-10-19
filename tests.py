@@ -7,7 +7,7 @@ from gas_turbine_cycle.core.network_lib import *
 from gas_turbine_cycle.core.solver import NetworkSolver
 from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, Source, Sink, CombustionChamber, Inlet, Outlet, \
     Atmosphere, Load
-from gas_turbine_cycle.gases import KeroseneCombustionProducts
+from gas_turbine_cycle.gases import KeroseneCombustionProducts, NaturalGasCombustionProducts, Air
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -358,8 +358,9 @@ class UnitsTests(unittest.TestCase):
         self.assertNotEqual(self.turbine.gen_labour2, None)
         # проверка баланса работ
         self.assertAlmostEqual(self.turbine.total_labour * self.turbine.g_in * self.turbine.eta_m,
-                               self.consume_unit1.consumable_labour + self.consume_unit2.consumable_labour,
-                               places=2)
+                               self.consume_unit1.consumable_labour +
+                               self.consume_unit2.consumable_labour / self.turbine.eta_r,
+                               places=3)
 
     def test_upstream_compressor_turbine_updating(self):
         self.set_turbine_connections()
@@ -768,11 +769,9 @@ class SolverTests(unittest.TestCase):
         self.compressor2 = Compressor(10, precision=0.001)
         self.sink = Sink()
         self.comb_chamber = CombustionChamber(1400, alpha_out_init=2.7, precision=0.001)
-        self.comb_chamber_inter_up = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001,
-                                                       work_fluid_in=KeroseneCombustionProducts())
+        self.comb_chamber_inter_up = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001)
         self.comb_chamber_inter_down = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001,
-                                                         p_stag_out_init=4e5,
-                                                         work_fluid_in=KeroseneCombustionProducts())
+                                                         p_stag_out_init=4e5)
         self.source1 = Source()
         self.source2 = Source()
         self.turbine_low_pres_power = Turbine(p_stag_out_init=1e5)
@@ -786,7 +785,8 @@ class SolverTests(unittest.TestCase):
 
     def get_1B_solver(self) -> NetworkSolver:
         solver = NetworkSolver([self.atmosphere, self.outlet, self.sink, self.source1, self.turbine_low_pres_power,
-                                self.inlet, self.comb_chamber, self.compressor1, self.load])
+                                self.inlet, self.comb_chamber, self.compressor1, self.load], cold_work_fluid=Air(),
+                               hot_work_fluid=NaturalGasCombustionProducts())
         solver.create_gas_dynamic_connection(self.atmosphere, self.inlet)
         solver.create_gas_dynamic_connection(self.inlet, self.compressor1)
         solver.create_gas_dynamic_connection(self.compressor1, self.sink)
@@ -801,7 +801,8 @@ class SolverTests(unittest.TestCase):
     def get_2N_solver(self) -> NetworkSolver:
         solver = NetworkSolver([self.atmosphere, self.outlet, self.turbine_comp_up, self.sink, self.source1,
                                 self.turbine_low_pres_power, self.inlet, self.comb_chamber, self.compressor2,
-                                self.load, self.zero_load1, self.zero_load2])
+                                self.load, self.zero_load1, self.zero_load2], cold_work_fluid=Air(),
+                               hot_work_fluid=NaturalGasCombustionProducts())
         solver.create_gas_dynamic_connection(self.atmosphere, self.inlet)
         solver.create_gas_dynamic_connection(self.inlet, self.compressor2)
         solver.create_gas_dynamic_connection(self.compressor2, self.sink)
@@ -819,7 +820,8 @@ class SolverTests(unittest.TestCase):
         solver = NetworkSolver([self.atmosphere, self.outlet, self.turbine_comp_up, self.sink, self.source1,
                                 self.turbine_low_pres_power, self.inlet, self.comb_chamber, self.compressor2,
                                 self.load, self.zero_load1, self.zero_load2, self.comb_chamber_inter_up, self.source2],
-                               precision=0.001)
+                               precision=0.001, cold_work_fluid=Air(),
+                               hot_work_fluid=NaturalGasCombustionProducts())
         solver.create_gas_dynamic_connection(self.atmosphere, self.inlet)
         solver.create_gas_dynamic_connection(self.inlet, self.compressor2)
         solver.create_gas_dynamic_connection(self.compressor2, self.sink)
@@ -838,7 +840,9 @@ class SolverTests(unittest.TestCase):
     def get_2V_solver(self) -> NetworkSolver:
         solver = NetworkSolver([self.load, self.zero_load1, self.zero_load2, self.atmosphere, self.outlet, self.inlet,
                                 self.turbine_comp_down, self.compressor2, self.turbine_high_pres_power,
-                                self.comb_chamber, self.sink, self.source1, self.source2], precision=0.0005)
+                                self.comb_chamber, self.sink, self.source1, self.source2], precision=0.0005,
+                               cold_work_fluid=Air(),
+                               hot_work_fluid=NaturalGasCombustionProducts())
         solver.create_gas_dynamic_connection(self.atmosphere, self.inlet)
         solver.create_gas_dynamic_connection(self.inlet, self.compressor2)
         solver.create_gas_dynamic_connection(self.compressor2, self.sink)
@@ -857,7 +861,8 @@ class SolverTests(unittest.TestCase):
         solver = NetworkSolver([self.load, self.zero_load1, self.zero_load2, self.atmosphere, self.outlet, self.inlet,
                                 self.turbine_comp_down, self.compressor2, self.turbine_high_pres_power,
                                 self.comb_chamber, self.sink, self.source1, self.source2,
-                                self.comb_chamber_inter_down], precision=0.0005)
+                                self.comb_chamber_inter_down], precision=0.0005, cold_work_fluid=Air(),
+                               hot_work_fluid=NaturalGasCombustionProducts())
         solver.create_gas_dynamic_connection(self.atmosphere, self.inlet)
         solver.create_gas_dynamic_connection(self.inlet, self.compressor2)
         solver.create_gas_dynamic_connection(self.compressor2, self.sink)
@@ -1242,6 +1247,18 @@ class SolverTests(unittest.TestCase):
                                    self.comb_chamber_inter_down.sigma_comb /
                                    (self.atmosphere.p_stag_in * self.turbine_high_pres_power.pi_t *
                                     self.turbine_comp_down.pi_t)), 0, places=3)
+
+    def test_2VIH_work_fluids(self):
+        solver = self.get_2VIH_solver()
+        solver.solve()
+
+        self.assertEqual(type(self.atmosphere.work_fluid_in), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.comb_chamber.work_fluid_out), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.comb_chamber_inter_down.work_fluid_in), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.comb_chamber_inter_down.work_fluid_out), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.turbine_comp_down.work_fluid), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.outlet.work_fluid), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.turbine_high_pres_power.work_fluid), NaturalGasCombustionProducts)
 
 
 if __name__ == '__main__':

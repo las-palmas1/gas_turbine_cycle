@@ -129,11 +129,18 @@ class NetworkSolver:
             elif type(unit) == Atmosphere:
                 unit.work_fluid_in = self.hot_work_fluid
                 unit.work_fluid_out = self.cold_work_fluid
+        count = 0
         for unit in unit_list:
-            if type(unit_list) == CombustionChamber:
-                unit.work_fluid_in = self.cold_work_fluid
-                unit.work_fluid_out = self.hot_work_fluid
-                break
+            if type(unit) == CombustionChamber:
+                count += 1
+                if count == 1:
+                    unit.work_fluid_in = self.cold_work_fluid
+                    unit.work_fluid_out = self.hot_work_fluid
+                    unit.work_fluid_out_T0 = type(self.hot_work_fluid)()
+                else:
+                    unit.work_fluid_in = self.hot_work_fluid
+                    unit.work_fluid_out = type(self.hot_work_fluid)()
+                    unit.work_fluid_out_T0 = type(self.hot_work_fluid)()
 
     @classmethod
     def _update_units_state(cls, sorted_unit_list: typing.List[Unit], relax_coef=1):

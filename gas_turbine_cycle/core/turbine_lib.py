@@ -80,11 +80,12 @@ class Compressor(GasDynamicUnit, MechEnergyConsumingUnit):
 
 class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
     def __init__(self, work_fluid: IdealGas=KeroseneCombustionProducts(), eta_stag_p=0.91, eta_m=0.99, precision=0.01,
-                 **kwargs):
+                 eta_r=0.99, **kwargs):
         """
         :param work_fluid: рабочее тело турбины
         :param eta_stag_p: политропическй КПД
         :param eta_m: механический КПД
+        :param eta_r: КПД редуктора
         :param precision: точность расчета турбины
         :param kwargs: p_stag_out_init - необходимо задать для силовой турбины и компрессорной \n
                 турбины, находящейся по потоку ниже силовой турбины
@@ -95,6 +96,7 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
         self.precision = precision
         self.work_fluid = work_fluid
         self.eta_m = eta_m
+        self.eta_r = eta_r
         self._k = self.work_fluid.k_av_int
         self._k_old = None
         self._k_res = None
@@ -246,9 +248,9 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
                     self._k_res = abs(self._k - self._k_old) / self._k_old
                 self.total_labour = self.work_fluid.c_p_av_int * (self.T_stag_in - self.T_stag_out)
                 if self.labour_generating_port2.port_type == PortType.Output:
-                    self.gen_labour2 = self.total_labour * self.eta_m * self.g_in - self.gen_labour1
+                    self.gen_labour2 = self.eta_r * (self.total_labour * self.eta_m * self.g_in - self.gen_labour1)
                 elif self.labour_generating_port1.port_type == PortType.Output:
-                    self.gen_labour1 = self.total_labour * self.eta_m * self.g_in - self.gen_labour2
+                    self.gen_labour1 = self.eta_r * (self.total_labour * self.eta_m * self.g_in - self.gen_labour2)
 
             elif self.check_upstream_compressor_turbine_behaviour():
                 self._compute_compressor_turbine()
