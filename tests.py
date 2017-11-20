@@ -1253,6 +1253,7 @@ class SolverTests(unittest.TestCase):
         solver.solve()
 
         self.assertEqual(type(self.atmosphere.work_fluid_in), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.comb_chamber.work_fluid_in), Air)
         self.assertEqual(type(self.comb_chamber.work_fluid_out), NaturalGasCombustionProducts)
         self.assertEqual(type(self.comb_chamber_inter_down.work_fluid_in), NaturalGasCombustionProducts)
         self.assertEqual(type(self.comb_chamber_inter_down.work_fluid_out), NaturalGasCombustionProducts)

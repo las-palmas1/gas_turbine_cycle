@@ -81,6 +81,16 @@ class IdealGas(metaclass=ABCMeta):
         return self._c_p_av_int
 
     @abstractmethod
+    def mu(self, T):
+        """Динамическая вязкость при заданной температуре."""
+        pass
+
+    @abstractmethod
+    def lam(self, T):
+        """Теплопроводность при заданной температуре."""
+        pass
+
+    @abstractmethod
     def _T_get(self):
         pass
 
@@ -159,6 +169,12 @@ class Air(IdealGas):
 
     T1 = property(_T1_get, _T1_set)
 
+    def mu(self, T):
+        return 17.6e-6 * (T / 273) ** 0.68
+
+    def lam(self, T):
+        return 0.0244 * (T / 273) ** 0.82
+
     def _T2_get(self):
         return self._T2
 
@@ -231,6 +247,12 @@ class KeroseneCombustionProducts(IdealGas):
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
 
     T = property(_T_get, _T_set)
+
+    def mu(self, T):
+        return 17.6e-6 * (T / 273) ** 0.68
+
+    def lam(self, T):
+        return 0.0244 * (T / 273) ** 0.82
 
     def _T1_get(self):
         return self._T1
@@ -372,6 +394,12 @@ class NaturalGasCombustionProducts(IdealGas):
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
         self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=value)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
+
+    def mu(self, T):
+        return 17.6e-6 * (T / 273) ** 0.68
+
+    def lam(self, T):
+        return 0.0244 * (T / 273) ** 0.82
 
     def _T_get(self):
         return self._T
