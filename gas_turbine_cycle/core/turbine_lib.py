@@ -32,6 +32,10 @@ class Compressor(GasDynamicUnit, MechEnergyConsumingUnit):
         return self._k
 
     @property
+    def k_res(self):
+        return self._k_res
+
+    @property
     def eta_stag(self):
         return self._eta_stag
 
@@ -493,6 +497,10 @@ class CombustionChamber(GasDynamicUnit):
         """Невязка по коэффициенту избытка воздуха"""
         return self._alpha_res
 
+    @property
+    def alpha_out_old(self):
+        return self._alpha_out_old
+
     def update(self):
         if self.check_downstream_behaviour():
             assert self._p_stag_out_init is not None, 'For downstream combustion chamber computing the initial ' \
@@ -657,7 +665,7 @@ class Atmosphere(GasDynamicUnit):
         """
         :param p0: атмосферное давление
         :param T0: темперактура атмосферы
-        :param lam_in: приведенная скорость на выходе в атмосфере (на выходе их выходного устройства)
+        :param lam_in: приведенная скорость на входе в атмосферу (на выходе их выходного устройства)
         :param work_fluid_in: рабочее тело на входе в атмосферу
         :param work_fluid_out: рабочее тело на выходе из атмосферы (на входе во входной устройство)
         :param kwargs: T_stag_in_init - начальное прибилжение для температуры выходных газов

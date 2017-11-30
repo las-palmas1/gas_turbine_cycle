@@ -46,10 +46,10 @@ class IdealGas(metaclass=ABCMeta):
     def p_func(self, T, rho):
         return self._R * rho * T
 
-    def _k_func(self, c_p):
+    def k_func(self, c_p):
         return c_p / (c_p - self._R)
 
-    def _c_p_func(self, k):
+    def c_p_func(self, k):
         return k * self._R / (k - 1)
 
     @property
@@ -121,15 +121,15 @@ class IdealGas(metaclass=ABCMeta):
     T2 = abstractproperty(_T2_get, _T2_set)
 
     @abstractmethod
-    def _c_p_real_func(self, T, **kwargs):
+    def c_p_real_func(self, T, **kwargs):
         pass
 
     @abstractmethod
-    def _c_p_av_func(self, T, **kwargs):
+    def c_p_av_func(self, T, **kwargs):
         pass
 
     @abstractmethod
-    def _c_p_av_int_func(self, T1, T2, **kwargs):
+    def c_p_av_int_func(self, T1, T2, **kwargs):
         pass
 
 
@@ -140,21 +140,21 @@ class Air(IdealGas):
         self._T = 288
         self._T1 = 288
         self._T2 = 400
-        self._c_p = self._c_p_real_func(self._T)
-        self._c_p_av = self._c_p_av_func(self._T)
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2)
-        self._k = self._k_func(self._c_p)
-        self._k_av = self._k_func(self._c_p_av)
-        self._k_av_int = self._k_func(self._c_p_av_int)
+        self._c_p = self.c_p_real_func(self._T)
+        self._c_p_av = self.c_p_av_func(self._T)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2)
+        self._k = self.k_func(self._c_p)
+        self._k_av = self.k_func(self._c_p_av)
+        self._k_av_int = self.k_func(self._c_p_av_int)
 
     def _T_get(self):
         return self._T
 
     def _T_set(self, value):
         self._T = value
-        self._c_p = self._c_p_real_func(value)
+        self._c_p = self.c_p_real_func(value)
         self._k = self._c_p / (self._c_p - self._R)
-        self._c_p_av = self._c_p_av_func(value)
+        self._c_p_av = self.c_p_av_func(value)
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
 
     T = property(_T_get, _T_set)
@@ -164,7 +164,7 @@ class Air(IdealGas):
 
     def _T1_set(self, value):
         self._T1 = value
-        self._c_p_av_int = self._c_p_av_int_func(value, self._T2)
+        self._c_p_av_int = self.c_p_av_int_func(value, self._T2)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T1 = property(_T1_get, _T1_set)
@@ -180,12 +180,12 @@ class Air(IdealGas):
 
     def _T2_set(self, value):
         self._T2 = value
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, value)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, value)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T2 = property(_T2_get, _T2_set)
 
-    def _c_p_real_func(self, T, **kwargs):
+    def c_p_real_func(self, T, **kwargs):
         """Истинная удельная теплоемкость воздуха"""
         exp1 = 1e3 * (0.2407 + 0.0193 * (2.5 * 1e-3 * T - 0.875) +
                       2 * 1e-3 * (2.5 * 1e-5 * T ** 2 - 0.0275 * T + 6.5625)) * 4.187
@@ -193,16 +193,16 @@ class Air(IdealGas):
                       0.374 * 1e-2 * (5.5556 * 1e-6 * T ** 2 - 1.3056 * 1e-2 * T + 6.67)) * 4.187
         return exp1 * (T < 750) + exp2 * (T >= 750)
 
-    def _c_p_av_func(self, T, **kwargs):
+    def c_p_av_func(self, T, **kwargs):
         """Средняя удельная теплоемкость воздуха"""
         exp1 = 4.187e3 * (1.2e-5 * (T - 70) + 0.236)
         exp2 = 4.187e3 * (2.2e-5 * (T + 450) + 0.218)
         return exp1 * (T < 700) + exp2 * (T >= 700)
 
-    def _c_p_av_int_func(self, T1, T2, **kwargs):
+    def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя теплоемкость воздуха в интервале температур"""
         T0 = 273
-        return (self._c_p_av_func(T2) * (T2 - T0) - self._c_p_av_func(T1) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2) * (T2 - T0) - self.c_p_av_func(T1) * (T1 - T0)) / (T2 - T1)
 
 
 class KeroseneCombustionProducts(IdealGas):
@@ -215,12 +215,12 @@ class KeroseneCombustionProducts(IdealGas):
         self._T2 = 400
         self._Q_n = 43e6
         self._l0 = 14.61
-        self._c_p = self._c_p_real_func(self._T, alpha=self._alpha)
-        self._c_p_av = self._c_p_av_func(self._T, alpha=self._alpha)
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=self._alpha)
-        self._k = self._k_func(self._c_p)
-        self._k_av = self._k_func(self._c_p_av)
-        self._k_av_int = self._k_func(self._c_p_av_int)
+        self._c_p = self.c_p_real_func(self._T, alpha=self._alpha)
+        self._c_p_av = self.c_p_av_func(self._T, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2, alpha=self._alpha)
+        self._k = self.k_func(self._c_p)
+        self._k_av = self.k_func(self._c_p_av)
+        self._k_av_int = self.k_func(self._c_p_av_int)
 
     @property
     def alpha(self):
@@ -229,11 +229,11 @@ class KeroseneCombustionProducts(IdealGas):
     @alpha.setter
     def alpha(self, value):
         self._alpha = value
-        self._c_p = self._c_p_real_func(self._T, alpha=value)
+        self._c_p = self.c_p_real_func(self._T, alpha=value)
         self._k = self._c_p / (self._c_p - self._R)
-        self._c_p_av = self._c_p_av_func(self._T, alpha=value)
+        self._c_p_av = self.c_p_av_func(self._T, alpha=value)
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=value)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2, alpha=value)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     def _T_get(self):
@@ -241,9 +241,9 @@ class KeroseneCombustionProducts(IdealGas):
 
     def _T_set(self, value):
         self._T = value
-        self._c_p = self._c_p_real_func(value, alpha=self._alpha)
+        self._c_p = self.c_p_real_func(value, alpha=self._alpha)
         self._k = self._c_p / (self._c_p - self._R)
-        self._c_p_av = self._c_p_av_func(value, alpha=self._alpha)
+        self._c_p_av = self.c_p_av_func(value, alpha=self._alpha)
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
 
     T = property(_T_get, _T_set)
@@ -259,7 +259,7 @@ class KeroseneCombustionProducts(IdealGas):
 
     def _T1_set(self, value):
         self._T1 = value
-        self._c_p_av_int = self._c_p_av_int_func(value, self._T2, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(value, self._T2, alpha=self._alpha)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T1 = property(_T1_get, _T1_set)
@@ -269,12 +269,12 @@ class KeroseneCombustionProducts(IdealGas):
 
     def _T2_set(self, value):
         self._T2 = value
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, value, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, value, alpha=self._alpha)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T2 = property(_T2_get, _T2_set)
 
-    def _c_p_real_func(self, T, **kwargs):
+    def c_p_real_func(self, T, **kwargs):
         """Истинная удельная теплоемкость продуктов сгорания керосина"""
         alpha = kwargs['alpha']
         term11 = 0.0174 / alpha + 0.2407
@@ -287,19 +287,19 @@ class KeroseneCombustionProducts(IdealGas):
         exp2 = 4.187e3 * (term21 + term22 - term23)
         return exp1 * (T < 750) + exp2 * (T >= 750)
 
-    def _c_p_av_func(self, T, **kwargs):
+    def c_p_av_func(self, T, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания керосина"""
         alpha = kwargs['alpha']
         exp1 = ((2.25 + 1.2 * alpha) * (T - 70) / (alpha * 1e5) + 0.236) * 4.187e3
         exp2 = ((1.25 + 2.2 * alpha) * (T + 450) / (alpha * 1e5) + 0.218) * 4.187e3
         return exp1 * (T < 700) + exp2 * (T >= 700)
 
-    def _c_p_av_int_func(self, T1, T2, **kwargs):
+    def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания керосина в интервале температур"""
         alpha = kwargs['alpha']
         T0 = 273
-        return (self._c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
-                self._c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
+                self.c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
 
 
 class NaturalGasCombustionProducts(IdealGas):
@@ -374,12 +374,12 @@ class NaturalGasCombustionProducts(IdealGas):
         self._c_p_real_interp = interp2d(self._alpha_arr, self._temp_arr, self._c_p_real_arr)
         self._c_p_av_interp = interp2d(self._alpha_arr, self._temp_arr, self._c_p_av_arr)
 
-        self._c_p = self._c_p_real_func(self._T, alpha=self._alpha)
-        self._c_p_av = self._c_p_av_func(self._T, alpha=self._alpha)
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=self._alpha)
-        self._k = self._k_func(self._c_p)
-        self._k_av = self._k_func(self._c_p_av)
-        self._k_av_int = self._k_func(self._c_p_av_int)
+        self._c_p = self.c_p_real_func(self._T, alpha=self._alpha)
+        self._c_p_av = self.c_p_av_func(self._T, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2, alpha=self._alpha)
+        self._k = self.k_func(self._c_p)
+        self._k_av = self.k_func(self._c_p_av)
+        self._k_av_int = self.k_func(self._c_p_av_int)
 
     @property
     def alpha(self):
@@ -388,11 +388,11 @@ class NaturalGasCombustionProducts(IdealGas):
     @alpha.setter
     def alpha(self, value):
         self._alpha = value
-        self._c_p = self._c_p_real_func(self._T, alpha=value)
+        self._c_p = self.c_p_real_func(self._T, alpha=value)
         self._k = self._c_p / (self._c_p - self._R)
-        self._c_p_av = self._c_p_av_func(self._T, alpha=value)
+        self._c_p_av = self.c_p_av_func(self._T, alpha=value)
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, self._T2, alpha=value)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2, alpha=value)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     def mu(self, T):
@@ -406,9 +406,9 @@ class NaturalGasCombustionProducts(IdealGas):
 
     def _T_set(self, value):
         self._T = value
-        self._c_p = self._c_p_real_func(value, alpha=self._alpha)
+        self._c_p = self.c_p_real_func(value, alpha=self._alpha)
         self._k = self._c_p / (self._c_p - self._R)
-        self._c_p_av = self._c_p_av_func(value, alpha=self._alpha)
+        self._c_p_av = self.c_p_av_func(value, alpha=self._alpha)
         self._k_av = self._c_p_av / (self._c_p_av - self._R)
 
     T = property(_T_get, _T_set)
@@ -418,7 +418,7 @@ class NaturalGasCombustionProducts(IdealGas):
 
     def _T1_set(self, value):
         self._T1 = value
-        self._c_p_av_int = self._c_p_av_int_func(value, self._T2, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(value, self._T2, alpha=self._alpha)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T1 = property(_T1_get, _T1_set)
@@ -428,27 +428,27 @@ class NaturalGasCombustionProducts(IdealGas):
 
     def _T2_set(self, value):
         self._T2 = value
-        self._c_p_av_int = self._c_p_av_int_func(self._T1, value, alpha=self._alpha)
+        self._c_p_av_int = self.c_p_av_int_func(self._T1, value, alpha=self._alpha)
         self._k_av_int = self._c_p_av_int / (self._c_p_av_int - self._R)
 
     T2 = property(_T2_get, _T2_set)
 
-    def _c_p_real_func(self, T, **kwargs):
+    def c_p_real_func(self, T, **kwargs):
         """Истинная удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
         return self._c_p_real_interp(alpha, T)[0]
 
-    def _c_p_av_func(self, T, **kwargs):
+    def c_p_av_func(self, T, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
         return self._c_p_av_interp(alpha, T)[0]
 
-    def _c_p_av_int_func(self, T1, T2, **kwargs):
+    def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания природного газа в интервале температур"""
         alpha = kwargs['alpha']
         T0 = 273
-        return (self._c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
-                self._c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
+                self.c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
 
 
 if __name__ == '__main__':

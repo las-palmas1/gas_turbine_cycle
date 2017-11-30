@@ -1,0 +1,155 @@
+</ macro cycle(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load)  />
+
+
+\section{Расчет цикла для выбранного \pi_к^*.}
+
+\subsection{Исходные данные.}
+
+\begin{enumerate}
+
+	\item Давление торможения на входе во входное устройство: $p_{н} = << (atm.p0 / 10**6)|round(2) >> \cdot 10^6\ Па$.
+	\item Температура на входе во входное устройство: $T_{н} = << atm.T0 >>\ К$.
+	\item Степень повышения давления по параметрам торможения в компрессоре: $\pi_к^*= << comp.pi_c >>$.
+	\item Мощность на валу силовой турбины: $ N = << (load.power)/ 10**6 >> \cdot 10^6\ МВт $.
+	\item Температура торможения после камеры сгорания: $T_г^* = << comb_chamber.T_satg_out >>\ К$.
+	\item Политропический КПД компрессора: $\eta^*_{к п} = << comp.eta_stag_p >> $.
+	\item Политропический КПД турбины компрессора: $\eta^*_{ткп} = << turb_с.eta_stag_p >>$.
+	\item Политропический КПД силовой турбины: $\eta^*_{тсп} = << turb_с.eta_stag_p >>$.
+	\item Низшая теплота сгорания топлива (риродный газ): $Q^р_н = << turb_с.work_fluid.Q_n / 10**6>> \cdot 10^6\ Дж/кг$.
+	\item Теоретически необходимая масса воздуха: $l_0 = << turb_с.work_fluid.l0 >>\ кг/кг$.
+
+	\item Степень сохранения полного давления во входном патрубке: $\sigma_{вх} = << inlet.sigma >>$.
+	\item Степень сохранения полного давления в камере сгорания: $\sigma_г = << comb_chamber.sigma_comb >>$.
+	\item Коэффициент полноты сгорания: $\eta_г = << comb_chamber.eta_burn >> $. 
+	\item Относительный расход на охлаждение лопаток: $g_{охл} = << sink.g_cooling >>$.
+	\item Относительный расход на прочие нужды: $g_{ут} = << sink.g_outflow >>$.
+	\item Относительный расход воздуха, возвращаемого перед турбиной компрессора: $g_{воз.тк} = << source1.g_return >>$.
+	\item Относительный расход воздуха, возвращаемого перед силовой турбиной: $g_{воз.тс} = << source2.g_return >>$.
+	\item Механический КПД на валу турбины компрессора: $\eta_{м.тк} = << turb_с.eta_m >>$.
+	\item Механический КПД на валу силовой турбины: $\eta_{м.тс} = << turb_p.eta_m >>$.
+	\item КПД редуктора: $ \eta_р = << turb_p.eta_r >>$.
+
+\end{enumerate}
+
+\subsection{Расчет.}
+
+\begin{enumerate}
+	
+	\item Показатель адиабаты из предыдущей итерации: $k_в = << comp.k_old|round(4) >>$.
+
+	\item Определим давление за входным устройством: 
+	$$p_{вх}^* = \sigma_{вх} p_{н} = 
+	<< inlet.sigma >> \cdot << (atm.p0 / 10**6)|round(3) >> \cdot 10^6 = 
+	<< (inlet.p_stag_out / 10**6)|round(3) >> \cdot 10^6\ Па$$
+
+	\item Определим давление за компрессором: 
+	$$p_к^* = \pi_к p_{вх}^* = << comp.pi_c >> \cdot 
+							   << (inlet.p_stag_out / 10**6)|round(3) >> \cdot 10^6 
+	= << (comp.p_stag_out / 10**6)|round(3) >> \cdot 10^6 \ Па$$
+
+	\item Определим адиабатический КПД компрессора: 
+	\[\eta_{к}^* = \frac{
+							\pi_к ^ {\frac{k_в - 1}{k_в} - 1}
+					}{
+							\pi_к ^ {\frac{k_в - 1}{k_в \eta_{кп}^* - 1}}
+					} = 
+		\frac{
+				<<comp.pi_c>> ^ {\frac{
+										<<comp.k_old|round(4)>> - 1
+										}{
+										<<comp.k_old|round(4)>>
+									} - 1}
+		}{
+				<<comp.pi_c>> ^ {\frac{
+										<<comp.k_old|round(4)>> - 1
+									}{
+										<<comp.k_old|round(4)>> \cdot <<comp.eta_stag_p>> - 1
+									}}
+		} 
+		= << comp.eta_stag|round(4) >>\]
+
+	\item Определим температуру газа за компрессором: 
+	$$T_к^* = T_н \left[ 
+					1 + \frac{
+								\pi_к^{\frac{k_в - 1}{k_в}} - 1
+							}{
+								\eta_к^*
+						} 
+			\right] = 
+			<< comp.T_stag_in >> \cdot \left[ 
+						1 + \frac{
+									<<comp.pi_c>> ^ {\frac{<<comp.k_old|round(4)>> - 1}{ <<comp.k_old|round(4)>> }} - 1
+								}{
+									<< comp.eta_stag|round(4) >>
+							} 
+						\right] = <<comp.T_stag_out|round(2)>> \/\ К$$
+
+	\item Определим уточненное значение показателя адиабаты:
+	\begin{enumerate}
+
+		\item  Средняя теплоемкость воздуха в интервале температур от 273 К до $T_н$:
+
+		$$c_{pв\ ср}(T_н) = << (comp.work_fluid.c_p_av_func(comp.T_stag_in))|round(2) >>\ ДЖ/(кг \cdot К) $$
+
+		\item Средняя теплоемкость воздуха в интервале температур от 273 К до $T_к^*$:
+
+		$$ c_{pв\ ср}(T_к^*) = << (comp.work_fluid.c_p_av_func(comp.T_stag_out))|round(2) >>\ ДЖ/(кг \cdot К) $$
+
+		\item Средняя теплоемкость воздуха в интервале температур от $T_н$ до $T_к^*$:
+
+		\[c_{pв} = \frac{
+		c_{pв\ ср}(T_к^*) (T_к^* - T_0) - c_{pв\ ср}(T_н)(T_н - T_0)
+		}{
+		T_к^* - T_a} = \]
+		\[ =\frac{
+		<< (comp.work_fluid.c_p_av_func(comp.T_stag_out))|round(2) >> \cdot (<<comp.T_stag_out|round(2)>> - 273) - 
+		<< (comp.work_fluid.c_p_av_func(comp.T_stag_in))|round(2) >> \cdot (<<comp.T_stag_in|round(2)>> - 273)
+		}{
+		<<comp.T_stag_out|round(2)>> - <<comp.T_stag_in|round(2)>>} = 
+		<< comp.work_fluid.c_p_av_int|round(2) >> \ Дж / (кг \cdot К)\]
+
+		\item Новое значение показателя адиабаты:
+
+		\[k_в^\prime = \frac{c_{pв}}{c_{pв} - R_в} = 
+					\frac{
+					<< comp.work_fluid.c_p_av_int|round(2) >>
+					}{
+					<< comp.work_fluid.c_p_av_int|round(2) >> - <<comp.work_fluid.R>>} 
+					= << comp.k|round(4) >>\]
+
+	\end{enumerate}
+
+	\item Определим погрешность определения показателя адиабаты:
+	
+	$$\delta = \frac{\left| k_в^\prime - k_в \right|}{k_в} \cdot 100 \% = 
+	\frac{
+	\left| <<comp.work_fluid.k|round(4)>> - <<comp.work_fluid.k_old|round(4)>> \right|
+	}{
+	<<comp.work_fluid.k_old|round(4)>>
+	} \cdot 100 \% = 
+	<< (comp.k_res * 100)|round(4) >> \% < 1 \%$$
+	Точность определения показателя адиабаты воздуха находится в пределах допуска.
+
+	\item Определим работу компрессора:
+
+	$$L_к = c_{pв} \left( T_к^* - T_a \right) = 
+			comp.work_fluid.c_p_av_int|round(2) \cdot 
+			\left( <<comp.T_stag_out|round(2)>> - <<comp.T_stag_in|round(2)>> \right) = 
+			<< (comp.consumable_labour / 10**6)|round(4) >> \cdot 10^6 \/\ Дж/кг $$
+
+	\item Температура газа за камерой сгорания:
+
+	$$T_г^* = << comb_chamber.T_stag_out >> \/\ К$$
+
+	\item Относительный расход воздуха на входе в камеру сгорания:
+
+	$$ 
+	g_{вх\ кс} = 
+	1 - g_{охл} - g_{ут} = 
+	1 - << sink.g_cooling >> - << sink.g_outflow>> =
+	<< comb_chamber.g_in >>
+	$$
+
+\end{enumerate}
+
+</ endmacro />
