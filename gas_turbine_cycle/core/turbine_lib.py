@@ -125,6 +125,10 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
         return self._k_old
 
     @property
+    def k_res(self):
+        return self._k_res
+
+    @property
     def pi_t(self):
         return self._pi_t
 
