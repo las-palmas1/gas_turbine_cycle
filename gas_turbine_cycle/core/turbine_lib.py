@@ -531,39 +531,11 @@ class CombustionChamber(GasDynamicUnit):
                                       self.work_fluid_out_T0.c_p * 288)
                 self.g_out = self.g_in * (1 + self._g_fuel_prime)
                 self._alpha_out_old = self.work_fluid_out.alpha
-                self.alpha_out = 1 / (self.l0 * (self.g_fuel_in + self._g_fuel_prime))
-                self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime
+                self.alpha_out = 1 / (self.l0 * (self.g_fuel_prime * self.g_in) / (self.g_in - self.g_fuel_in))
+                self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime * self.g_in
                 self.work_fluid_out.alpha = self.alpha_out
                 self.work_fluid_out_T0.alpha = self.alpha_out
                 self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out
-
-            # self.work_fluid_in_T_out = type(self.work_fluid_in)()
-            # self.work_fluid_in_T0 = type(self.work_fluid_in)()
-            # self.work_fluid_out_clear = type(self.work_fluid_out)()
-            # self.work_fluid_out_clear_T0 = type(self.work_fluid_out)()
-            #
-            # self.work_fluid_in_T_out.alpha = self.alpha_in
-            # self.work_fluid_in_T0.alpha = self.alpha_in
-            # self.work_fluid_out_clear.alpha = 1
-            # self.work_fluid_out_clear_T0.alpha = 1
-            #
-            # self.work_fluid_in_T_out.T = self.T_stag_out
-            # self.work_fluid_in_T0.T = 288
-            # self.work_fluid_out_clear.T = self.T_stag_out
-            # self.work_fluid_out_clear_T0.T = 288
-            #
-            # self._g_fuel_prime = (self.work_fluid_in_T_out.c_p_av * self.T_stag_out -
-            #                       self.work_fluid_in.c_p * self.T_stag_in) / \
-            #                      (self.Q_n * self.eta_burn - (1 + self.l0) *
-            #                       (self.work_fluid_out_clear.c_p_av * self.T_stag_out -
-            #                        self.work_fluid_out_clear_T0.c_p_av * 288) + self.l0 *
-            #                       (self.work_fluid_in_T_out.c_p_av * self.T_stag_out -
-            #                        self.work_fluid_in_T0.c_p_av * 288))
-            #
-            # self.alpha_out = 1 / (self.l0 * (self.g_fuel_in + self._g_fuel_prime))
-            # self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime
-            # self.work_fluid_out.alpha = self.alpha_out
-            # self.g_out = self.g_in * (1 + self._g_fuel_prime)
 
             if self.check_upstream_behaviour():
                 self.p_stag_out = self.p_stag_in * self.sigma_comb
