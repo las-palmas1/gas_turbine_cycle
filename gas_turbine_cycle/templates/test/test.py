@@ -5,6 +5,8 @@ from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, Source, Sink
 from gas_turbine_cycle.gases import KeroseneCombustionProducts, NaturalGasCombustionProducts, Air
 from jinja2 import Template, Environment, select_autoescape, FileSystemLoader
 import os
+import gas_turbine_cycle.templates
+import gas_turbine_cycle.templates.test
 
 
 class TemplateTester(unittest.TestCase):
@@ -43,7 +45,7 @@ class TemplateTester(unittest.TestCase):
         self.solver.solve()
 
     def test_2N_template(self):
-        loader = FileSystemLoader([os.path.dirname(os.path.dirname(__file__)), os.path.dirname(__file__)])
+        loader = FileSystemLoader([gas_turbine_cycle.templates.__path__[0], gas_turbine_cycle.templates.test.__path__[0]])
         env = Environment(
             loader=loader,
             autoescape=select_autoescape(['tex']),
