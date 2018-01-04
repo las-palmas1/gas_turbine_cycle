@@ -1,15 +1,11 @@
-﻿</ macro cycle(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load)  />
+﻿\usepackage{amsmath}
 
 
-\section{Расчет цикла для выбранного $\pi_к^*$.}
-
-\subsection{Исходные данные.}
-
+</ macro init_data(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load)  />
 \begin{enumerate}
 
 	\item Давление окружающей среды: $p_{н} = << (atm.p0 / 10**6)|round(2) >> \cdot 10^6\ Па$.
 	\item Температура окружающей среды: $T_{н} = << atm.T0 >>\ К$.
-	\item Степень повышения давления по параметрам торможения в компрессоре: $\pi_к^*= << comp.pi_c >>$.
 	\item Мощность на валу силовой турбины: $ N = << (load.power)/ 10**6 >> \cdot 10^6\ МВт $.
 	\item Температура торможения после камеры сгорания: $T_г^* = << comb_chamber.T_stag_out >>\ К$.
 	\item Политропический КПД компрессора: $\eta^*_{к п} = << comp.eta_stag_p >> $.
@@ -21,7 +17,7 @@
 	\item Степень сохранения полного давления во входном патрубке: $\sigma_{вх} = << inlet.sigma >>$.
 	\item Степень сохранения полного давления в выходном патрубке: $\sigma_{вых} = << outlet.sigma >>$.
 	\item Степень сохранения полного давления в камере сгорания: $\sigma_г = << comb_chamber.sigma_comb >>$.
-	\item Коэффициент полноты сгорания: $\eta_г = << comb_chamber.eta_burn >> $. 
+	\item Коэффициент полноты сгорания: $\eta_г = << comb_chamber.eta_burn >> $.
 	\item Относительный расход на охлаждение лопаток: $g_{охл} = << sink.g_cooling >>$.
 	\item Относительный расход на прочие нужды: $g_{ут} = << sink.g_outflow >>$.
 	\item Относительный расход воздуха, возвращаемого перед турбиной компрессора: $g_{воз.тк} = << source1.g_return >>$.
@@ -32,8 +28,9 @@
 	\item Приведенная скорость на выходе из выходного устройства: $ \lambda_{вых} = << atm.lam_in >> $
 
 \end{enumerate}
+</ endmacro />
 
-\subsection{Расчет.}
+</ macro cycle(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load)  />
 
 \begin{enumerate}
 	
@@ -187,14 +184,14 @@
 			\left[
 				<< (comb_chamber.work_fluid_out.c_p_av_func(comb_chamber.T_stag_out, alpha=comb_chamber.alpha_out))|round(2) >> \cdot << comb_chamber.T_stag_out >> -
 				<< (comb_chamber.work_fluid_out.c_p_av_func(288, alpha=comb_chamber.alpha_out))|round(2) >> \cdot 288 \right]	  }
-		=  << comb_chamber.g_fuel_out|round(4) >>
+		=  << comb_chamber.g_fuel_prime|round(4) >>
 		\]
 	
 	\item Новое значение коэффициента избытка воздуха:
 	
 	\[
 	\alpha^ \prime = \frac{ 1 }{ g_т l_0 }  = 
-	\frac{ 1 }{ << comb_chamber.g_fuel_out|round(4) >> \cdot << comb_chamber.l0 >> } = << comb_chamber.alpha_out | round(4) >>
+	\frac{ 1 }{ << comb_chamber.g_fuel_prime|round(4) >> \cdot << comb_chamber.l0 >> } = << comb_chamber.alpha_out | round(4) >>
 	\]
 	
 	\item Погрешность определения коэффициента избытка воздуха:
@@ -209,7 +206,7 @@
 	
 	\[
 	g_{г.тк} = g_{вх.кс} \cdot ( 1 + g_т ) + g_{воз.тк} = 
-		<< comb_chamber.g_in >> \cdot ( 1 + << comb_chamber.g_fuel_out|round(4) >>) + << source1.g_return >> = 
+		<< comb_chamber.g_in >> \cdot ( 1 + << comb_chamber.g_fuel_prime|round(4) >>) + << source1.g_return >> = 
 		<< turb_c.g_in | round(4) >>
 	\]
 	
@@ -388,30 +385,27 @@
 	
 	\item Давление торможения на выходе из выходного устройства
 	
-	\[
-	p_{вых}^* = \frac{ p_н 
+	\begin{gather*}
+	    p_{вых}^* = \frac{ p_н
 				}{
-					\left(  
+					\left(
 						1 - \frac{ k_{г\ ис} - 1 }{ k_{г\ ис} + 1 } \cdot \lambda_{вых} ^ 2
-					\right) 
+					\right)
 						^ {
 							\frac{ k_{г\ ис} }{ k_{г\ ис} - 1 }
 						}
-				} = 
-	\]
-	
-	\[
-	= \frac{ << (atm.p0 / 10**6)|round(2) >> \cdot 10^6 
+				} =\\
+	    = \frac{ << (atm.p0 / 10**6)|round(2) >> \cdot 10^6
 		}{
-			\left(  
+			\left(
 				1 - \frac{ << atm.work_fluid_in.k | round(4) >> - 1 }{ << atm.work_fluid_in.k | round(4) >> + 1 } \cdot << atm.lam_in >> ^ 2
-			\right) 
+			\right)
 				^ {
 					\frac{ << atm.work_fluid_in.k | round(4) >> }{ << atm.work_fluid_in.k | round(4) >> - 1 }
 				}
-				} = 
-		<< (atm.p_stag_in / 10**6) | round(4) >> \cdot 10^6\ Па
-	\]
+				} =
+		<< (atm.p_stag_in / 10**6) | round(4) >> \cdot 10^6\ Па\\
+	\end{gather*}
 	
 	\item Определим давление торможения за силовой турбиной:
 	
@@ -457,31 +451,29 @@
 	
 	\item Определим температуру торможения на выходе из силовой турбины:
 	
-	\[
-	T_{тс}^* = T_{тк}^* 
-		\left\lbrace 
-			1 - 
-			\left[ 
-				1 - 
+	\begin{gather*}
+	    T_{тс}^* = T_{тк}^*
+		\left\lbrace
+			1 -
+			\left[
+				1 -
 					\left(
 						\frac{ p_{тк}^* }{ p_{тс}^* }
 					\right) ^ \frac{ k_г }{ k_г - 1 }
 			\right] \cdot \eta_{тс}^*
-		\right\rbrace = 
-	\]
-	\[
-	= << turb_p.T_stag_in | round(2) >> \cdot
-		\left\lbrace 
-			1 - 
-			\left[ 
-				1 - 
+		\right\rbrace =\\
+	    = << turb_p.T_stag_in | round(2) >> \cdot
+		\left\lbrace
+			1 -
+			\left[
+				1 -
 					\left(
 						\frac{ << (turb_p.p_stag_in / 10**6) | round(4) >> \cdot 10^6 }{ << (turb_p.p_stag_out / 10**6) | round(4) >> \cdot 10^6 }
 					\right) ^ \frac{ << turb_p.k_old | round(4) >> }{ << turb_p.k_old | round(4) >> - 1 }
 			\right] \cdot << turb_p.eta_stag | round(4) >>
-		\right\rbrace = 
-	<< turb_p.T_stag_out | round(2) >>\ К
-	\]
+		\right\rbrace =
+	<< turb_p.T_stag_out | round(2) >>\ К\\
+	\end{gather*}
 	
 	\item Погрешность определения температуры за силовой турбиной:
 	
@@ -496,7 +488,7 @@
 		}{ 
 			<< turb_p.T_stag_out | round(2) >>
 		} \cdot 100 \% =
-	<< (((turb_p.T_stag_out - atm.temp_inlet_port._linked_connection.previous_value | round(2)) | abs()) / turb_p.T_stag_out * 100) | round(3) >>
+	<< (((turb_p.T_stag_out - atm.temp_inlet_port._linked_connection.previous_value | round(2)) | abs()) / turb_p.T_stag_out * 100) | round(3) >> \%
 	\]
 	
 	\item Опеределим уточненное значение показателя адиабаты газа.
@@ -517,20 +509,18 @@
 		
 		\item Новое значение средней теплоемкости в интервале температуре от $ T_{тc}^* $ от $ T_{тк}^* $:
 		
-		\[
-		c_{pг}^\prime = \frac{
+		\begin{gather*}
+		    c_{pг}^\prime = \frac{
 			c_{pг\ ср}(T_{тк}^*) (T_{тк}^* - T_0) - c_{pг\ ср}(T_{тс}^*) (T_{тс}^* - T_0)
 		}{
-			T_{тк}^* - T_{тс}^*} = 
-		\]
-		
-		\[ = \frac{
-			<< (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_in, alpha=turb_p.alpha_in )) | round(2) >> \cdot (<< turb_p.T_stag_in | round(2) >> - 273) - 
+			T_{тк}^* - T_{тс}^*} =\\
+		    = \frac{
+			<< (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_in, alpha=turb_p.alpha_in )) | round(2) >> \cdot (<< turb_p.T_stag_in | round(2) >> - 273) -
 			<< (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_out, alpha=turb_p.alpha_in )) | round(2) >> \cdot (<< turb_p.T_stag_out|round(2) >> - 273)
 		}{
-			<< turb_p.T_stag_in | round(2) >> - << turb_p.T_stag_out|round(2) >>} = 
-			<< turb_p.work_fluid.c_p_av_int | round(2) >> \ Дж / (кг \cdot К)
-		\]
+			<< turb_p.T_stag_in | round(2) >> - << turb_p.T_stag_out|round(2) >>} =
+			<< turb_p.work_fluid.c_p_av_int | round(2) >> \ Дж / (кг \cdot К)\\
+		\end{gather*}
 		
 		\item Новое значение показателя адиабаты:
 		
@@ -545,7 +535,7 @@
 		\[
 		\delta = \frac{ \left| k_{г}^\prime - k_{г} \right| }{ k_{г} } \cdot 100 \% =
 				\frac{ \left|  << turb_p.k | round(4) >> - << turb_p.k_old | round(4) >> \right| }{ << turb_p.k_old | round(4) >> } \cdot 100 \% =
-				<< (turb_p.k_res * 100)| round(4) >>
+				<< (turb_p.k_res * 100)| round(4) >> \%
 		\]
 	
 	\end{enumerate}

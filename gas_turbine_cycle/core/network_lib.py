@@ -375,6 +375,79 @@ class GasDynamicUnit(Unit):
         self._g_work_fluid_outlet_port.set(value)
 
 
+class GasDynamicUnitStaticOutlet(GasDynamicUnit):
+    """Газодинамический юнит со статическими параметрами на выходе."""
+    def __init__(self):
+        GasDynamicUnit.__init__(self)
+        self._stat_pres_outlet_port = OutletPort(self)
+        self._stat_temp_outlet_port = OutletPort(self)
+
+    @property
+    def stat_temp_outlet_port(self) -> OutletPort:
+        """Возвращает выходной порт по статической температуре."""
+        return self._stat_temp_outlet_port
+
+    @property
+    def stat_pres_outlet_port(self) -> OutletPort:
+        """Возвращает выходной порт по статическому давлению."""
+        return self._stat_pres_outlet_port
+
+    @property
+    def T_out(self):
+        """Статическая температура на выходе."""
+        return self._stat_temp_outlet_port.get()
+
+    @T_out.setter
+    def T_out(self, value):
+        self._stat_temp_outlet_port.set(value)
+
+    @property
+    def p_out(self):
+        """Статическое давление на выходе."""
+        return self._stat_pres_outlet_port.get()
+
+    @p_out.setter
+    def p_out(self, value):
+        self._stat_pres_outlet_port.set(value)
+
+
+class GasDynamicUnitStaticInlet(GasDynamicUnit):
+    """Газодинамический юнит со статическими параметрами на входе."""
+    def __init__(self):
+        GasDynamicUnit.__init__(self)
+        self._stat_pres_inlet_port = InletPort(self)
+        self._stat_temp_inlet_port = InletPort(self)
+
+    @property
+    def stat_temp_inlet_port(self) -> InletPort:
+        """Возвращает выходной порт по статической температуре."""
+        return self._stat_temp_inlet_port
+
+    @property
+    def stat_pres_inlet_port(self) -> InletPort:
+        """Возвращает выходной порт по статическому давлению."""
+        return self._stat_pres_inlet_port
+
+    @property
+    def T_in(self):
+        """Статическая температура на выходе."""
+        return self._stat_temp_inlet_port.get()
+
+    @T_in.setter
+    def T_in(self, value):
+        self._stat_temp_inlet_port.set(value)
+
+    @property
+    def p_in(self):
+        """Статическое давление на выходе."""
+        return self._stat_pres_inlet_port.get()
+
+    @p_in.setter
+    def p_in(self, value):
+        self._stat_pres_inlet_port.set(value)
+
+
+
 class MechEnergyConsumingUnit(Unit):
     """Осуществляет доступ к портам приема работы юнита, потребляющего механическую энергию"""
     def __init__(self):

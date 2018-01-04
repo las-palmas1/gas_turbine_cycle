@@ -6,7 +6,7 @@ import numpy as np
 from gas_turbine_cycle.core.network_lib import *
 from gas_turbine_cycle.core.solver import NetworkSolver
 from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, Source, Sink, CombustionChamber, Inlet, Outlet, \
-    Atmosphere, Load
+    Atmosphere, Load, FullExtensionNozzle
 from gas_turbine_cycle.gases import KeroseneCombustionProducts, NaturalGasCombustionProducts, Air
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
@@ -160,8 +160,11 @@ class UnitsTests(unittest.TestCase):
         self.turbine = Turbine(p_stag_out_init=1e5)
         self.source = Source()
         self.sink = Sink()
+        self.nozzle = FullExtensionNozzle()
         self.upstream_gd_unit = GasDynamicUnit()
+        self.upstream_static_gd_unit = GasDynamicUnitStaticOutlet()
         self.downstream_gd_unit = GasDynamicUnit()
+        self.downstream_static_gd_unit = GasDynamicUnitStaticInlet()
         self.consume_unit1 = MechEnergyConsumingUnit()
         self.consume_unit2 = MechEnergyConsumingUnit()
         self.gen_unit = MechEnergyGeneratingUnit()
@@ -680,9 +683,9 @@ class UnitsTests(unittest.TestCase):
         self.assertEqual(self.inlet.p_stag_out, self.inlet.p_stag_in * self.inlet.sigma)
 
     def test_outlet(self):
-        solver = NetworkSolver([self.upstream_gd_unit, self.outlet, self.downstream_gd_unit])
+        solver = NetworkSolver([self.upstream_gd_unit, self.outlet, self.downstream_static_gd_unit])
         solver.create_gas_dynamic_connection(self.upstream_gd_unit, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.downstream_gd_unit)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.downstream_static_gd_unit)
 
         self.outlet.set_behaviour()
 
@@ -693,21 +696,23 @@ class UnitsTests(unittest.TestCase):
         self.assertEqual(self.outlet.g_work_fluid_inlet_port.port_type, PortType.Input)
 
         self.assertEqual(self.outlet.temp_outlet_port.port_type, PortType.Output)
-        self.assertEqual(self.outlet.pres_outlet_port.port_type, PortType.Input)
+        self.assertEqual(self.outlet.pres_outlet_port.port_type, PortType.Output)
         self.assertEqual(self.outlet.alpha_outlet_port.port_type, PortType.Output)
         self.assertEqual(self.outlet.g_fuel_outlet_port.port_type, PortType.Output)
         self.assertEqual(self.outlet.g_work_fluid_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.outlet.stat_temp_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.outlet.stat_pres_outlet_port.port_type, PortType.Input)
 
         self.assertFalse(self.outlet.check_input())
         self.upstream_gd_unit.T_stag_out = 300
-        self.assertFalse(self.outlet.check_input())
-        self.downstream_gd_unit.p_stag_in = 1e5
         self.assertFalse(self.outlet.check_input())
         self.upstream_gd_unit.alpha_out = np.inf
         self.assertFalse(self.outlet.check_input())
         self.upstream_gd_unit.g_fuel_out = 0
         self.assertFalse(self.outlet.check_input())
         self.upstream_gd_unit.g_out = 1.0
+        self.assertFalse(self.outlet.check_input())
+        self.downstream_static_gd_unit.p_in = 1e5
         self.assertTrue(self.outlet.check_input())
 
         self.outlet.update()
@@ -718,9 +723,49 @@ class UnitsTests(unittest.TestCase):
         self.assertNotEqual(self.outlet.g_out, None)
         self.assertEqual(self.outlet.p_stag_in, self.outlet.p_stag_out / self.outlet.sigma)
 
+    def test_nozzle(self):
+        solver = NetworkSolver([self.upstream_gd_unit, self.nozzle, self.downstream_static_gd_unit])
+        solver.create_gas_dynamic_connection(self.upstream_gd_unit, self.nozzle)
+        solver.create_static_gas_dynamic_connection(self.nozzle, self.downstream_static_gd_unit)
+
+        self.nozzle.set_behaviour()
+
+        self.assertEqual(self.nozzle.temp_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.nozzle.pres_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.nozzle.alpha_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.nozzle.g_work_fluid_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.nozzle.g_fuel_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.nozzle.stat_pres_outlet_port.port_type, PortType.Input)
+
+        self.assertEqual(self.nozzle.temp_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.nozzle.pres_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.nozzle.stat_temp_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.nozzle.alpha_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.nozzle.g_work_fluid_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.nozzle.g_fuel_outlet_port.port_type, PortType.Output)
+
+        self.upstream_gd_unit.g_fuel_out = 0.02
+        self.upstream_gd_unit.g_out = 1.02
+        self.upstream_gd_unit.alpha_out = 2.5
+        self.upstream_gd_unit.T_stag_out = 1000
+        self.upstream_gd_unit.p_stag_out = 2.5e5
+        self.downstream_static_gd_unit.p_in = 1.e5
+
+        self.nozzle.update()
+
+        self.assertNotEqual(self.nozzle.T_out, None)
+        self.assertNotEqual(self.nozzle.T_stag_out, None)
+        self.assertNotEqual(self.nozzle.p_stag_out, None)
+        self.assertNotEqual(self.nozzle.pi_n, None)
+        self.assertNotEqual(self.nozzle.H_n, None)
+        self.assertNotEqual(self.nozzle.c_out, None)
+        self.assertNotEqual(self.nozzle.alpha_out, None)
+        self.assertNotEqual(self.nozzle.g_out, None)
+        self.assertNotEqual(self.nozzle.g_fuel_out, None)
+
     def test_atmosphere(self):
-        solver = NetworkSolver([self.upstream_gd_unit, self.atmosphere, self.downstream_gd_unit])
-        solver.create_gas_dynamic_connection(self.upstream_gd_unit, self.atmosphere)
+        solver = NetworkSolver([self.upstream_static_gd_unit, self.atmosphere, self.downstream_gd_unit])
+        solver.create_static_gas_dynamic_connection(self.upstream_static_gd_unit, self.atmosphere)
         solver.create_gas_dynamic_connection(self.atmosphere, self.downstream_gd_unit)
 
         self.atmosphere.set_behaviour()
@@ -728,18 +773,22 @@ class UnitsTests(unittest.TestCase):
         self.assertEqual(self.atmosphere.alpha_inlet_port.port_type, PortType.Input)
         self.assertEqual(self.atmosphere.g_fuel_inlet_port.port_type, PortType.Input)
         self.assertEqual(self.atmosphere.g_work_fluid_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.atmosphere.stat_temp_inlet_port.port_type, PortType.Input)
+        self.assertEqual(self.atmosphere.pres_inlet_port.port_type, PortType.Input)
 
         self.assertEqual(self.atmosphere.temp_outlet_port.port_type, PortType.Output)
-        self.assertEqual(self.atmosphere.pres_inlet_port.port_type, PortType.Output)
         self.assertEqual(self.atmosphere.pres_outlet_port.port_type, PortType.Output)
+        self.assertEqual(self.atmosphere.stat_pres_inlet_port.port_type, PortType.Output)
         self.assertEqual(self.atmosphere.alpha_outlet_port.port_type, PortType.Output)
         self.assertEqual(self.atmosphere.g_fuel_outlet_port.port_type, PortType.Output)
         self.assertEqual(self.atmosphere.g_work_fluid_outlet_port.port_type, PortType.Output)
 
-        self.upstream_gd_unit.T_stag_out = 500
-        self.upstream_gd_unit.alpha_out = 2.5
-        self.upstream_gd_unit.g_fuel_out = 0.05
-        self.upstream_gd_unit.g_out = 1.03
+        self.upstream_static_gd_unit.T_stag_out = 500
+        self.upstream_static_gd_unit.alpha_out = 2.5
+        self.upstream_static_gd_unit.g_fuel_out = 0.05
+        self.upstream_static_gd_unit.g_out = 1.03
+        self.upstream_static_gd_unit.T_out = 490
+        self.upstream_static_gd_unit.p_stag_out = 1.1e5
 
         self.atmosphere.update()
         print()
@@ -751,6 +800,7 @@ class UnitsTests(unittest.TestCase):
         self.assertNotEqual(self.atmosphere.alpha_out, None)
         self.assertNotEqual(self.atmosphere.g_fuel_out, None)
         self.assertNotEqual(self.atmosphere.g_out, None)
+        self.assertNotEqual(self.atmosphere.p_in, None)
 
     def test_undefined_ports_checking(self):
         solver = NetworkSolver([self.upstream_gd_unit, self.atmosphere, self.downstream_gd_unit])

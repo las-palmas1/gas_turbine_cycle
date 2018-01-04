@@ -2,7 +2,7 @@ import logging
 
 import numpy as np
 
-import gas_turbine_cycle.tools.gas_dynamics as gd
+from gas_turbine_cycle.tools.gas_dynamics import GasDynamicFunctions as gd
 from gas_turbine_cycle.core.network_lib import *
 from gas_turbine_cycle.gases import *
 from gas_turbine_cycle.tools import functions as func
@@ -589,19 +589,25 @@ class Inlet(GasDynamicUnit):
             logging.info('Some of input parameters are not specified.')
 
 
-class Outlet(GasDynamicUnit):
-    def __init__(self, sigma=0.99, work_fluid=KeroseneCombustionProducts()):
-        GasDynamicUnit.__init__(self)
+class Outlet(GasDynamicUnitStaticOutlet):
+    def __init__(self, sigma=0.99, lam_out=0.015, work_fluid=KeroseneCombustionProducts()):
+        """
+        :param sigma: Коэффициент сохранения полного давления.
+        :param lam_out: Приведенная скорость на выходе из выходного устройства.
+        :param work_fluid:
+        """
+        GasDynamicUnitStaticOutlet.__init__(self)
         self.sigma = sigma
+        self.lam_out = lam_out
         self.work_fluid = work_fluid
 
     def check_input(self) -> bool:
         cond1 = self.T_stag_in is not None
-        cond2 = self.p_stag_out is not None
+        cond2 = self.p_out is not None
         cond3 = self.alpha_in is not None
         cond4 = self.g_in is not None
         cond5 = self.g_fuel_in is not None
-        return cond1 and cond2 and cond3 and cond4 and cond5
+        return cond1 and cond2 and cond3 and cond4 and cond5 and cond2
 
     def check_input_partially(self) -> bool:
         """Проверка наличия входных данных для осуществления части расчета юнита"""
@@ -613,43 +619,47 @@ class Outlet(GasDynamicUnit):
         self.make_port_input(self.alpha_inlet_port)
         self.make_port_input(self.g_fuel_inlet_port)
         self.make_port_input(self.g_work_fluid_inlet_port)
+        self.make_port_input(self.stat_pres_outlet_port)
 
         self.make_port_output(self.temp_outlet_port)
         self.make_port_output(self.alpha_outlet_port)
         self.make_port_output(self.g_fuel_outlet_port)
         self.make_port_output(self.g_work_fluid_outlet_port)
+        self.make_port_output(self.stat_temp_outlet_port)
 
         self.make_port_output(self.pres_inlet_port)
-        self.make_port_input(self.pres_outlet_port)
+        self.make_port_output(self.pres_outlet_port)
 
     def update(self):
         if self.check_input():
+            self.work_fluid.T = self.T_stag_in
             self.T_stag_out = self.T_stag_in
             self.g_out = self.g_in
             self.alpha_out = self.alpha_in
             self.g_fuel_out = self.g_fuel_in
+            self.p_stag_out = self.p_out / gd.pi_lam(self.lam_out, self.work_fluid.k)
+            self.T_out = self.T_stag_out * gd.tau_lam(self.lam_out, self.work_fluid.k)
             self.p_stag_in = self.p_stag_out / self.sigma
         elif self.check_input_partially():
+            self.p_stag_out = self.p_out / gd.pi_lam(self.lam_out, self.work_fluid.k)
             self.p_stag_in = self.p_stag_out / self.sigma
         else:
             logging.info('Some of input parameters are not specified.')
 
 
-class Atmosphere(GasDynamicUnit):
-    def __init__(self, p0=1e5, T0=288, lam_in=0.04, work_fluid_in: IdealGas=KeroseneCombustionProducts(),
+class Atmosphere(GasDynamicUnitStaticInlet):
+    def __init__(self, p0=1e5, T0=288, work_fluid_in: IdealGas=KeroseneCombustionProducts(),
                  work_fluid_out: IdealGas=Air(), **kwargs):
         """
         :param p0: атмосферное давление
         :param T0: темперактура атмосферы
-        :param lam_in: приведенная скорость на входе в атмосферу (на выходе их выходного устройства)
         :param work_fluid_in: рабочее тело на входе в атмосферу
         :param work_fluid_out: рабочее тело на выходе из атмосферы (на входе во входной устройство)
-        :param kwargs: T_stag_in_init - начальное прибилжение для температуры выходных газов
+        :param kwargs: T_stag_in_init - начальное прибилижение для температуры выходных газов
         """
-        GasDynamicUnit.__init__(self)
+        GasDynamicUnitStaticInlet.__init__(self)
         self.p0 = p0
         self.T0 = T0
-        self.lam_in = lam_in
         self.work_fluid_in = work_fluid_in
         self.work_fluid_out = work_fluid_out
         if 'T_stag_in_init' in kwargs:
@@ -674,7 +684,10 @@ class Atmosphere(GasDynamicUnit):
         self.make_port_output(self.g_work_fluid_outlet_port)
 
         self.make_port_output(self.pres_outlet_port)
-        self.make_port_output(self.pres_inlet_port)
+        self.make_port_input(self.pres_inlet_port)
+
+        self.make_port_input(self.stat_temp_inlet_port)
+        self.make_port_output(self.stat_pres_inlet_port)
 
     def update(self):
         if self.check_input():
@@ -686,9 +699,73 @@ class Atmosphere(GasDynamicUnit):
             self.work_fluid_in.__init__()
             self.work_fluid_out.__init__()
             self.work_fluid_in.T = self.T_stag_in
-            self.p_stag_in = self.p0 / gd.GasDynamicFunctions.pi_lam(self.lam_in, self.work_fluid_in.k)
+            self.p_in = self.p0
         else:
             logging.info('Some of input parameters are not specified.')
+
+
+class FullExtensionNozzle(GasDynamicUnitStaticOutlet):
+    def __init__(self, phi=0.99, work_fluid: IdealGas=KeroseneCombustionProducts(), precision=0.01):
+        GasDynamicUnitStaticOutlet.__init__(self)
+        self.phi = phi
+        self.work_fluid = work_fluid
+        self.precision = precision
+        self._k = self.work_fluid.k_av_int
+        self._c_p = self.work_fluid.c_p_av_int
+        self._k_res = 1.
+        self._k_old = None
+        self.pi_n = None
+        self.c_out = None
+        self.H_n = None
+
+    def check_input(self):
+        cond1 = self.p_stag_in is not None
+        cond2 = self.T_stag_in is not None
+        cond3 = self.p_out is not None
+        cond4 = self.alpha_in is not None
+        cond5 = self.g_in is not None
+        cond6 = self.g_fuel_in is not None
+        return cond1 and cond2 and cond3 and cond4 and cond5 and cond6
+
+    def set_behaviour(self):
+        self.make_port_input(self.temp_inlet_port)
+        self.make_port_input(self.alpha_inlet_port)
+        self.make_port_input(self.g_fuel_inlet_port)
+        self.make_port_input(self.g_work_fluid_inlet_port)
+        self.make_port_input(self.pres_inlet_port)
+
+        self.make_port_output(self.temp_outlet_port)
+        self.make_port_output(self.alpha_outlet_port)
+        self.make_port_output(self.g_fuel_outlet_port)
+        self.make_port_output(self.g_work_fluid_outlet_port)
+        self.make_port_output(self.pres_outlet_port)
+
+        self.make_port_input(self.stat_pres_outlet_port)
+        self.make_port_output(self.stat_temp_outlet_port)
+
+    def update(self):
+        if self.check_input():
+            self.pi_n = self.p_stag_in / self.p_out
+            self.work_fluid.alpha = self.alpha_in
+            self.work_fluid.T1 = self.T_stag_in
+            self.T_stag_out = self.T_stag_in
+            self.alpha_out = self.alpha_in
+            self.g_out = self.g_in
+            self.g_fuel_out = self.g_fuel_in
+
+            while self._k_res >= self.precision:
+                self._k_old = self._k
+                self.H_n = self._c_p * self.T_stag_in * (1 - self.pi_n ** ((1 - self._k) / self._k))
+                self.T_out = self.T_stag_in - self.phi * self.H_n / self._c_p
+                self.c_out = self.phi * (self.H_n * 2) ** 0.5
+                self.work_fluid.T2 = self.T_out
+                self._k = self.work_fluid.k_av_int
+                self._c_p = self.work_fluid.c_p_av_int
+                self._k_res = abs(self._k_res - self._k_old) / self._k_res
+
+            self.p_stag_out = self.p_out / gd.pi_lam(
+                self.c_out / gd.a_cr(self.T_stag_out, self._k, self.work_fluid.R), self._k
+            )
 
 
 class Load(MechEnergyConsumingUnit):

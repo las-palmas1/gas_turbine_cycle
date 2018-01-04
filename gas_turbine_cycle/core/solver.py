@@ -67,6 +67,39 @@ class NetworkSolver:
         downstream_unit.g_work_fluid_inlet_port.set_connection(g_work_fluid_conn)
         downstream_unit.g_fuel_inlet_port.set_connection(g_fuel_conn)
 
+    def create_static_gas_dynamic_connection(self, upstream_unit: GasDynamicUnitStaticOutlet,
+                                             downstream_unit: GasDynamicUnitStaticInlet):
+        """Связывает газодинамические порты двух юнитов со статическим выходом и входом."""
+        assert self._unit_arr.count(upstream_unit) != 0 and self._unit_arr.count(downstream_unit) != 0, \
+            "You try to connect units, of which at least one isn't added to the solver units list."
+        temp_conn = Connection()
+        pres_conn = Connection()
+        stat_temp_conn = Connection()
+        stat_pres_conn = Connection()
+        alpha_conn = Connection()
+        g_work_fluid_conn = Connection()
+        g_fuel_conn = Connection()
+        conn_set = ConnectionSet([temp_conn, pres_conn, stat_temp_conn, stat_pres_conn, alpha_conn,
+                                  g_work_fluid_conn, g_fuel_conn])
+
+        self._connection_arr.append(conn_set)
+
+        upstream_unit.temp_outlet_port.set_connection(temp_conn)
+        upstream_unit.pres_outlet_port.set_connection(pres_conn)
+        upstream_unit.alpha_outlet_port.set_connection(alpha_conn)
+        upstream_unit.g_work_fluid_outlet_port.set_connection(g_work_fluid_conn)
+        upstream_unit.g_fuel_outlet_port.set_connection(g_fuel_conn)
+        upstream_unit.stat_temp_outlet_port.set_connection(stat_temp_conn)
+        upstream_unit.stat_pres_outlet_port.set_connection(stat_pres_conn)
+
+        downstream_unit.temp_inlet_port.set_connection(temp_conn)
+        downstream_unit.pres_inlet_port.set_connection(pres_conn)
+        downstream_unit.alpha_inlet_port.set_connection(alpha_conn)
+        downstream_unit.g_work_fluid_inlet_port.set_connection(g_work_fluid_conn)
+        downstream_unit.g_fuel_inlet_port.set_connection(g_fuel_conn)
+        downstream_unit.stat_temp_inlet_port.set_connection(stat_temp_conn)
+        downstream_unit.stat_pres_inlet_port.set_connection(stat_pres_conn)
+
     def get_sorted_unit_list(self) -> typing.List[Unit]:
         """Возвращает отсортированный список юнитов, в котором снала следуют газодинамические юниты
         в порядке протекания через них рабочего тела, затем нагрузки"""
