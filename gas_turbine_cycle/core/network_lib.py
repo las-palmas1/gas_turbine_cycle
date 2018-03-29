@@ -447,7 +447,6 @@ class GasDynamicUnitStaticInlet(GasDynamicUnit):
         self._stat_pres_inlet_port.set(value)
 
 
-
 class MechEnergyConsumingUnit(Unit):
     """Осуществляет доступ к портам приема работы юнита, потребляющего механическую энергию"""
     def __init__(self):

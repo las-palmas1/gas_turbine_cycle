@@ -1,5 +1,4 @@
 import logging
-
 import numpy as np
 
 from gas_turbine_cycle.tools.gas_dynamics import GasDynamicFunctions as gd
@@ -396,7 +395,7 @@ class Sink(GasDynamicUnit):
 
 class CombustionChamber(GasDynamicUnit):
     def __init__(self, T_gas, precision=0.01, eta_burn=0.99, sigma_comb=0.98,
-                 work_fluid_in=Air(), work_fluid_out=KeroseneCombustionProducts(), **kwargs):
+                 work_fluid_in=Air(), work_fluid_out=KeroseneCombustionProducts(), T_fuel=288, **kwargs):
         """
         :param T_gas: температура газа после камеры сгорания
         :param precision:  точноссть расчета камеры
@@ -404,6 +403,7 @@ class CombustionChamber(GasDynamicUnit):
         :param sigma_comb: коэффициент сохранения полного давления
         :param work_fluid_in: рабочее тело на входе
         :param work_fluid_out: рабочее тело на выходе
+        :param T_fuel: температура топлива.
         :param kwargs: alpha_out_init - начальное приближение для коэффициента избытка воздуха \n
                     p_stag_out_init - начальное приближение для давления на выходе, необходимо задать,
                     если камера сгорания находится после силовой турбины
@@ -416,6 +416,7 @@ class CombustionChamber(GasDynamicUnit):
         self.precision = precision
         self.eta_burn = eta_burn
         self.sigma_comb = sigma_comb
+        self.T_fuel = T_fuel
         self._alpha_res = 1
         self._alpha_out_old = None
         self._g_fuel_prime = 0
@@ -590,15 +591,17 @@ class Inlet(GasDynamicUnit):
 
 
 class Outlet(GasDynamicUnitStaticOutlet):
-    def __init__(self, sigma=0.99, lam_out=0.015, work_fluid=KeroseneCombustionProducts()):
+    def __init__(self, sigma=0.99, c_out=100, work_fluid=KeroseneCombustionProducts()):
         """
         :param sigma: Коэффициент сохранения полного давления.
-        :param lam_out: Приведенная скорость на выходе из выходного устройства.
+        :param c_out: Скорость на выходе из выходного устройства.
         :param work_fluid:
         """
         GasDynamicUnitStaticOutlet.__init__(self)
         self.sigma = sigma
-        self.lam_out = lam_out
+        self.c_out = c_out
+        self.a_cr_out = None
+        self.lam_out = None
         self.work_fluid = work_fluid
 
     def check_input(self) -> bool:
@@ -637,6 +640,8 @@ class Outlet(GasDynamicUnitStaticOutlet):
             self.g_out = self.g_in
             self.alpha_out = self.alpha_in
             self.g_fuel_out = self.g_fuel_in
+            self.a_cr_out = gd.a_cr(self.T_stag_out, self.work_fluid.k, self.work_fluid.R)
+            self.lam_out = self.c_out / self.a_cr_out
             self.p_stag_out = self.p_out / gd.pi_lam(self.lam_out, self.work_fluid.k)
             self.T_out = self.T_stag_out * gd.tau_lam(self.lam_out, self.work_fluid.k)
             self.p_stag_in = self.p_stag_out / self.sigma

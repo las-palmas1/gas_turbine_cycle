@@ -1,0 +1,69 @@
+
+
+</ macro generator_params(N_gen, eta_gen, name_gen)/>
+\begin{enumerate}
+	\item Электрогенератор: << name_gen >>.
+	\item Мощность электрогенератора: $N_{эг} = << (N_gen/10**6)|round(0) >>\ МВт$.
+	\item КПД электрогенератора: $\eta_{эг} = << eta_gen >>$
+	\item Мощность на валу электрогенератора: $N = \frac{N_{эг}}{\eta_{эг}} = << (N_gen / 10**6 / eta_gen)| round(3) >>\ МВт$.
+\end{enumerate}
+</ endmacro />
+
+
+</ macro gas_compressor_params(N_gen, N_gas_comp, mass_rate_gas_comp, press_in_gas_comp, press_out_gas_comp, T_in_gas_comp, T_out_gas_comp, rho_gas_comp, c_p_nat_gas_av, k_nat_gas_av, eta_ad_gas_comp, eta_el_eng, name_gas_comp) />
+\begin{enumerate}
+    \item Дожимной компрессор: <<name_gas_comp>>.
+    \item Средняя теплоемкость природного газа: $с_{p\ пг.ср} = << c_p_nat_gas_av | round(1) >>\ Дж/(кг \cdot К) $.
+    \item Средний показатель адиабаты: $k_{пг.ср} = << k_nat_gas_av | round(3) >>$.
+    \item Плотность по ГСССД 160-93 при давлениее $p_{вх}$: $\rho_{пг} = << rho_gas_comp | round(2) >>\ кг/м^3$.
+    \item Адиабатический КПД компрессора: $\eta_{ад} = << eta_ad_gas_comp | round(3) >>$.
+    \item КПД электродвигателя: $\eta_{эд} = << eta_el_eng >>$
+    \item Массовый расход: $G_{г} = G_{т} = << mass_rate_gas_comp | round(3) >>$.
+    \item Температура на входе: $T_{вх} = <<T_in_gas_comp>>\ К$.
+    \item Начальное давление: $p_{вх} = << (press_in_gas_comp / 10**6) | round(4) >>\ МПа$.
+    \item Давление на выходе: $p_{вых} = << (press_out_gas_comp / 10**6)| round(4) >>\ МПа$.
+    \item Степень повышения давления:
+    \[
+        \pi = \frac{p_{вых}}{p_{вх}} = \frac{<< (press_out_gas_comp / 10**6)| round(4) >>}
+        {<< (press_in_gas_comp / 10**6) | round(4) >>} =
+        << (press_out_gas_comp / press_in_gas_comp) | round(3) >>
+    \]
+    \item Температура на выходе:
+    \[
+        T_{вых} = T_{вх} \cdot \left[
+                1 + \frac{
+                        \pi^{\frac{k_{пг.ср} - 1}{k_{пг.ср}}} - 1
+                    }{ \eta_{ад} }
+        \right] =
+    \]
+    \[
+        = <<T_in_gas_comp>> \cdot \left[
+                1 + \frac{
+                        << (press_out_gas_comp / press_in_gas_comp) | round(3) >> ^
+                        {\frac{<< k_nat_gas_av | round(3) >> - 1}{<< k_nat_gas_av | round(3) >>}} - 1
+                    }{ << eta_ad_gas_comp | round(3) >> }
+        \right] =
+        << T_out_gas_comp | round(2) >>\ К
+    \]
+    \item Удельная работа:
+    \[
+        L_e = с_{p\ пг.ср} \cdot ( T_{вых} - T_{вх} ) =
+                << c_p_nat_gas_av | round(1) >> \cdot ( << T_out_gas_comp | round(2) >> - <<T_in_gas_comp>> ) =
+        << (c_p_nat_gas_av * (T_out_gas_comp - T_in_gas_comp) / 10**3) | round(2) >>\ КДж/кг
+    \]
+    \item Мощность электродвигателя для привода компрессора:
+    \[
+        N_{эл} = \frac{L_e}{G_{г} \cdot \eta_{эд}} =
+        \frac{<< (c_p_nat_gas_av * (T_out_gas_comp - T_in_gas_comp) / 10**3) | round(2) >>}
+        {<< mass_rate_gas_comp | round(3) >> \cdot << eta_el_eng >> } =
+        << (N_gas_comp / 10**3) | round(2) >>\ КВт.
+    \]
+    \item Электрическая мощность за вычетом затрат на привод компрессора: $N_{эл} = N_{эг} - N_{к} = <<((N_gen - N_gas_comp) / 10**6) | round(2)>>$ МВт.
+    \item Производительность компрессора:
+    \[
+        Q = \frac{60 \cdot G_г}{\rho_{пг}} = \frac{60 \cdot << mass_rate_gas_comp | round(3) >>}
+        {<< rho_gas_comp | round(2) >>} = << (60 * mass_rate_gas_comp / rho_gas_comp) | round(3) >>\ м^{3}/мин.
+    \]
+\end{enumerate}
+
+</ endmacro />

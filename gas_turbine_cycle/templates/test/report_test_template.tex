@@ -20,17 +20,25 @@
 \usepackage{titlesec}
 
 </ import '2N.tex' as TwoN />
+</ import 'equipment.tex' as Equip/>
 
 \begin{document}
 
+    \section{Параметры электрогенератора.}
+
+    << Equip.generator_params(N_gen, eta_gen, name_gen) >>
+
     \section{Исходные данные.}
 
-    << TwoN.init_data(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load) >>
+    << TwoN.init_data(atm, inlet, comp, sink, comb_chamber, turb_c, source, turb_p, outlet, load) >>
 
     \section{Расчет.}
 
-    << TwoN.cycle(atm, inlet, comp, sink, comb_chamber, source1, turb_c, source2, turb_p, outlet, load) >>
+    << TwoN.cycle(atm, inlet, comp, sink, comb_chamber, turb_c, source, turb_p, outlet, load) >>
 
+    \section{Параметры дожимного компрессора.}
+
+    << Equip.gas_compressor_params(N_gen, N_gas_comp, mass_rate_gas_comp, press_in_gas_comp, press_out_gas_comp, T_in_gas_comp, T_out_gas_comp, rho_gas_comp, c_p_nat_gas_av, k_nat_gas_av, eta_ad_gas_comp, eta_el_eng, name_gas_comp) >>
 
 
 \end{document}

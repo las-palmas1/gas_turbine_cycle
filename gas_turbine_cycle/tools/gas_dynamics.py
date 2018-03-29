@@ -39,6 +39,14 @@ class GasDynamicFunctions:
         if 'pi' in kwargs:
             return np.sqrt((k + 1) / (k - 1) * (1 - kwargs['pi']**((k - 1) / k)))
 
+    @staticmethod
+    def q(lam, k):
+        return ((k + 1) / 2) ** (1 / (k - 1)) * lam * (1 - (k - 1) / (k + 1) * lam**2) ** (1 / (k - 1))
+
+    @staticmethod
+    def m(k):
+        return (2 / (k + 1)) ** ((k + 1) / (2 * (k - 1))) * k ** 0.5
+
 
 class GasDynamicsParameters:
     def __init__(self, **kwargs):

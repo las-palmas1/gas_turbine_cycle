@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractproperty, abstractstaticmethod, abstractmethod
-from scipy.interpolate import interp2d
+from scipy.interpolate import interp2d, interp1d
 import numpy as np
+from scipy.integrate import quad
 
 
 class IdealGas(metaclass=ABCMeta):
@@ -140,6 +141,15 @@ class Air(IdealGas):
         self._T = 288
         self._T1 = 288
         self._T2 = 400
+        self._c_p_real_arr = np.array([1.0036, 1.0103, 1.0245, 1.0446, 1.0685, 1.0923, 1.1149, 1.1355, 1.1539,
+                                       1.1702, 1.1844, 1.1970, 1.2083, 1.2179, 1.2267, 1.2347, 1.2418, 1.2485,
+                                       1.2544, 1.2602, 1.2653, 1.2703, 1.2749]) * 1e3
+        self._c_p_av_arr = np.array([1.0036, 1.0061, 1.0115, 1.0191, 1.0283, 1.0387, 1.0496, 1.0605, 1.0710, 1.0815,
+                                     1.0907, 1.0999, 1.1082, 1.1166, 1.1242, 1.1313, 1.1380, 1.1443, 1.1501, 1.1560,
+                                     1.1610, 1.1664, 1.1710]) * 1e3
+        self._T_arr = np.linspace(0, 2200, 23) + 273
+        self._c_p_real_interp = interp1d(self._T_arr, self._c_p_real_arr)
+        self._c_p_av_interp = interp1d(self._T_arr, self._c_p_av_arr)
         self._c_p = self.c_p_real_func(self._T)
         self._c_p_av = self.c_p_av_func(self._T)
         self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2)
@@ -187,17 +197,11 @@ class Air(IdealGas):
 
     def c_p_real_func(self, T, **kwargs):
         """Истинная удельная теплоемкость воздуха"""
-        exp1 = 1e3 * (0.2407 + 0.0193 * (2.5 * 1e-3 * T - 0.875) +
-                      2 * 1e-3 * (2.5 * 1e-5 * T ** 2 - 0.0275 * T + 6.5625)) * 4.187
-        exp2 = 1e3 * (0.26 + 0.032 * (1.176 * 1e-3 * T - 0.88235) -
-                      0.374 * 1e-2 * (5.5556 * 1e-6 * T ** 2 - 1.3056 * 1e-2 * T + 6.67)) * 4.187
-        return exp1 * (T < 750) + exp2 * (T >= 750)
+        return self._c_p_real_interp(T).__float__()
 
     def c_p_av_func(self, T, **kwargs):
         """Средняя удельная теплоемкость воздуха"""
-        exp1 = 4.187e3 * (1.2e-5 * (T - 70) + 0.236)
-        exp2 = 4.187e3 * (2.2e-5 * (T + 450) + 0.218)
-        return exp1 * (T < 700) + exp2 * (T >= 700)
+        return self._c_p_av_interp(T).__float__()
 
     def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя теплоемкость воздуха в интервале температур"""
@@ -436,12 +440,12 @@ class NaturalGasCombustionProducts(IdealGas):
     def c_p_real_func(self, T, **kwargs):
         """Истинная удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
-        return self._c_p_real_interp(alpha, T)[0]
+        return self._c_p_real_interp(alpha, T).__float__()
 
     def c_p_av_func(self, T, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания природного газа"""
         alpha = kwargs['alpha']
-        return self._c_p_av_interp(alpha, T)[0]
+        return self._c_p_av_interp(alpha, T).__float__()
 
     def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания природного газа в интервале температур"""
@@ -454,9 +458,9 @@ class NaturalGasCombustionProducts(IdealGas):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
-    gas = NaturalGasCombustionProducts()
+    gas = Air()
     gas.T1 = 300
-    temp = np.linspace(300, 1800, 30)
+    temp = np.linspace(273, 1800, 30)
     gas.alpha = 7.5
     c_p_av = []
     c_p_real = []

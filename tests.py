@@ -844,7 +844,7 @@ class SolverTests(unittest.TestCase):
         solver.create_gas_dynamic_connection(self.comb_chamber, self.source1)
         solver.create_gas_dynamic_connection(self.source1, self.turbine_low_pres_power)
         solver.create_gas_dynamic_connection(self.turbine_low_pres_power, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.atmosphere)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.atmosphere)
         solver.create_mechanical_connection(self.turbine_low_pres_power, self.compressor1, self.load)
         return solver
 
@@ -861,7 +861,7 @@ class SolverTests(unittest.TestCase):
         solver.create_gas_dynamic_connection(self.source1, self.turbine_comp_up)
         solver.create_gas_dynamic_connection(self.turbine_comp_up, self.turbine_low_pres_power)
         solver.create_gas_dynamic_connection(self.turbine_low_pres_power, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.atmosphere)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.atmosphere)
         solver.create_mechanical_connection(self.turbine_low_pres_power, self.load, self.zero_load1)
         solver.create_mechanical_connection(self.turbine_comp_up, self.compressor2, self.zero_load2)
         return solver
@@ -882,7 +882,7 @@ class SolverTests(unittest.TestCase):
         solver.create_gas_dynamic_connection(self.comb_chamber_inter_up, self.source2)
         solver.create_gas_dynamic_connection(self.source2, self.turbine_low_pres_power)
         solver.create_gas_dynamic_connection(self.turbine_low_pres_power, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.atmosphere)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.atmosphere)
         solver.create_mechanical_connection(self.turbine_low_pres_power, self.load, self.zero_load1)
         solver.create_mechanical_connection(self.turbine_comp_up, self.compressor2, self.zero_load2)
         return solver
@@ -902,7 +902,7 @@ class SolverTests(unittest.TestCase):
         solver.create_gas_dynamic_connection(self.turbine_high_pres_power, self.source2)
         solver.create_gas_dynamic_connection(self.source2, self.turbine_comp_down)
         solver.create_gas_dynamic_connection(self.turbine_comp_down, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.atmosphere)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.atmosphere)
         solver.create_mechanical_connection(self.turbine_high_pres_power, self.load, self.zero_load1)
         solver.create_mechanical_connection(self.turbine_comp_down, self.compressor2, self.zero_load2)
         return solver
@@ -923,7 +923,7 @@ class SolverTests(unittest.TestCase):
         solver.create_gas_dynamic_connection(self.comb_chamber_inter_down, self.source2)
         solver.create_gas_dynamic_connection(self.source2, self.turbine_comp_down)
         solver.create_gas_dynamic_connection(self.turbine_comp_down, self.outlet)
-        solver.create_gas_dynamic_connection(self.outlet, self.atmosphere)
+        solver.create_static_gas_dynamic_connection(self.outlet, self.atmosphere)
         solver.create_mechanical_connection(self.turbine_high_pres_power, self.load, self.zero_load1)
         solver.create_mechanical_connection(self.turbine_comp_down, self.compressor2, self.zero_load2)
         return solver
