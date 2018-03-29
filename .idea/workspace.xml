@@ -2,14 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a60b778-d1dd-43f3-83f2-c600364bd843" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/solver.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/solver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests.py" afterPath="$PROJECT_DIR$/tests.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/equipment.tex" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gas_turbine_cycle/tools/standard_atmosphere.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/gas_turbine_cycle.iml" afterPath="$PROJECT_DIR$/.idea/gas_turbine_cycle.iml" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py" />
+      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" afterPath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" />
+      <change beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
+      <change beforePath="$PROJECT_DIR$/tests.py" afterPath="$PROJECT_DIR$/tests.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,16 +26,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$gases.coverage" NAME="gases Coverage Results" MODIFIED="1508441462019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_atmosphere.coverage" NAME="Nosetests for tests.UnitsTests.test_atmosphere Coverage Results" MODIFIED="1515104626840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$test.coverage" NAME="test Coverage Results" MODIFIED="1490831557447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$network_lib.coverage" NAME="network_lib Coverage Results" MODIFIED="1507728521844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_test_py.coverage" NAME="Nosetests in test.py Coverage Results" MODIFIED="1514144762124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$tests.coverage" NAME="tests Coverage Results" MODIFIED="1508080724465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$standard_atmosphere.coverage" NAME="standard_atmosphere Coverage Results" MODIFIED="1515178972620" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle/tools" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$turbine_lib.coverage" NAME="turbine_lib Coverage Results" MODIFIED="1507668164951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_sorting_units.coverage" NAME="Nosetests for tests.SolverTests.test_2N_sorting_units Coverage Results" MODIFIED="1520815006047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_test_py.coverage" NAME="Nosetests in test.py Coverage Results" MODIFIED="1514144762124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_tests_py.coverage" NAME="Nosetests in tests.py Coverage Results" MODIFIED="1513099327864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_nozzle.coverage" NAME="Nosetests for tests.UnitsTests.test_nozzle Coverage Results" MODIFIED="1515105348192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$network_lib.coverage" NAME="network_lib Coverage Results" MODIFIED="1507728521844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_solving.coverage" NAME="Nosetests for tests.SolverTests.test_2N_solving Coverage Results" MODIFIED="1520815011214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$test.coverage" NAME="test Coverage Results" MODIFIED="1490831557447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_atmosphere.coverage" NAME="Nosetests for tests.UnitsTests.test_atmosphere Coverage Results" MODIFIED="1515104626840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests.coverage" NAME="Nosetests for tests.SolverTests Coverage Results" MODIFIED="1520815018408" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_outlet.coverage" NAME="Nosetests for tests.UnitsTests.test_outlet Coverage Results" MODIFIED="1515104345433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_nozzle.coverage" NAME="Nosetests for tests.UnitsTests.test_nozzle Coverage Results" MODIFIED="1515105348192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$gases.coverage" NAME="gases Coverage Results" MODIFIED="1508441462019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$tests.coverage" NAME="tests Coverage Results" MODIFIED="1508080724465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_behaviour_setting.coverage" NAME="Nosetests for tests.SolverTests.test_2N_behaviour_setting Coverage Results" MODIFIED="1520814997857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -48,10 +60,64 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="966">
-              <caret line="54" column="36" lean-forward="false" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
+            <state relative-caret-position="1806">
+              <caret line="94" column="38" lean-forward="false" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="equipment.tex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/equipment.tex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="17" column="67" lean-forward="false" selection-start-line="17" selection-start-column="67" selection-end-line="17" selection-end-column="67" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#814#819#2" expanded="true" />
+                <element signature="e#971#975#2" expanded="true" />
+                <element signature="e#1066#1070#2" expanded="true" />
+                <element signature="e#1146#1150#2" expanded="true" />
+                <element signature="e#1561#1564#2" expanded="true" />
+                <element signature="e#1839#1844#2" expanded="true" />
+                <element signature="e#1903#1906#3" expanded="true" />
+                <element signature="e#1968#1972#3" expanded="true" />
+                <element signature="e#2040#2045#2" expanded="true" />
+                <element signature="e#2453#2458#2" expanded="true" />
+                <element signature="e#2530#2535#2" expanded="true" />
+                <element signature="e#2796#2801#3" expanded="true" />
+                <element signature="e#2802#2806#3" expanded="true" />
+                <element signature="e#2952#2957#3" expanded="true" />
+                <element signature="e#3261#3266#3" expanded="true" />
+                <element signature="e#3272#3276#3" expanded="true" />
+                <element signature="e#3294#3299#3" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="report_test_template.tex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <marker date="1521634666088" expanded="false" signature="38:351" ph="\usepackage{...}" />
+                <marker date="1521634666088" expanded="false" signature="353:374" ph="\usepackage{...}" />
+                <marker date="1521634666088" expanded="false" signature="414:438" ph="\usepackage{...}" />
+                <marker date="1521634666088" expanded="false" signature="440:461" ph="\usepackage{...}" />
+                <marker date="1521634666088" expanded="true" signature="657:785" ph="\section{Исходные данные.}..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2N.tex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="536" column="21" lean-forward="false" selection-start-line="536" selection-start-column="21" selection-end-line="536" selection-end-column="21" />
+              <folding>
+                <marker date="1522341205367" expanded="true" signature="0:20" ph="\usepackage{...}" />
               </folding>
             </state>
           </provider>
@@ -60,11 +126,9 @@
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="643">
-              <caret line="745" column="0" lean-forward="true" selection-start-line="745" selection-start-column="0" selection-end-line="745" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-117">
+              <caret line="863" column="30" lean-forward="false" selection-start-line="863" selection-start-column="30" selection-end-line="863" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,8 +136,8 @@
       <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="119" lean-forward="false" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
+            <state relative-caret-position="273">
+              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,8 +146,8 @@
       <file leaf-file-name="network_lib.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="387" column="31" lean-forward="true" selection-start-line="387" selection-start-column="31" selection-end-line="387" selection-end-column="31" />
+            <state relative-caret-position="8631">
+              <caret line="413" column="6" lean-forward="false" selection-start-line="413" selection-start-column="6" selection-end-line="413" selection-end-column="6" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -94,8 +158,8 @@
       <file leaf-file-name="turbine_lib.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="748" column="49" lean-forward="false" selection-start-line="748" selection-start-column="49" selection-end-line="748" selection-end-column="49" />
+            <state relative-caret-position="4935">
+              <caret line="241" column="44" lean-forward="false" selection-start-line="241" selection-start-column="44" selection-end-line="241" selection-end-column="44" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -106,8 +170,8 @@
       <file leaf-file-name="solver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+            <state relative-caret-position="147">
+              <caret line="11" column="50" lean-forward="false" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -128,6 +192,12 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>124</find>
+      <find>atm.p0</find>
+      <find>source</find>
+      <find>g_{вх.кс}</find>
+      <find>1e</find>
+      <find>Относительный расход газа на входе в силовую турбину</find>
+      <find>Сщьи</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -147,21 +217,27 @@
         <option value="$PROJECT_DIR$/gas_turbine_cycle/c_p_natural_gas_real.csv" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/c_p_natural_gas_av.csv" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_template.tex" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test_report.tex" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test_report_template.tex" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/__init__.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/__init__.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/wewew.tex" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/core/solver.py" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/standard_atmosphere.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/fuels.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/equipment.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/equipment.tex" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" />
       </list>
     </option>
   </component>
@@ -181,8 +257,8 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1932" />
-    <option name="height" value="1056" />
+    <option name="width" value="1938" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -199,7 +275,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -216,6 +291,12 @@
               <item name="gas_turbine_cycle" type="b2602c69:ProjectViewProjectNode" />
               <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
               <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gas_turbine_cycle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
+              <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -225,18 +306,30 @@
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="gas_turbine_cycle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
+              <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
+              <item name="tools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gas_turbine_cycle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gas_turbine_cycle" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../turbine" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../6 year/диплом/calculation" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -258,62 +351,67 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Nosetests for tests.UnitsTests.test_nozzle">
-    <configuration name="Nosetests for tests.UnitsTests.test_atmosphere" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="LaTeX.report_test">
+    <configuration name="report_test" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <compiler-arguments />
+        <main-file>$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex</main-file>
+        <aux-dir>true</aux-dir>
+        <output-format>PDF</output-format>
+        <bib-run-config />
+      </texify>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="gases" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gas_turbine_cycle" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="gas_turbine_cycle" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.UnitsTests.test_atmosphere&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="Nosetests for tests.UnitsTests.test_nozzle" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration default="true" type="Tox" factoryName="Tox">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.UnitsTests.test_nozzle&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-    </configuration>
-    <configuration name="Nosetests for tests.UnitsTests.test_outlet" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.UnitsTests.test_outlet&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
     </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -379,113 +477,19 @@
       <option name="ADDITIONAL_ARGS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
       <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module name="gas_turbine_cycle" />
-      <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="gas_turbine_cycle" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Attests">
@@ -508,45 +512,142 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration name="test_report1" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
-      <texify>
-        <compiler>PDFLATEX</compiler>
-        <compiler-path />
-        <main-file>$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex</main-file>
-        <aux-dir>true</aux-dir>
-        <output-format>PDF</output-format>
-        <bib-run-config />
-      </texify>
+    <configuration name="Nosetests for test.TemplateTester.test_2N_template" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test.TemplateTester.test_2N_template&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="wewew" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
-      <texify>
-        <compiler>PDFLATEX</compiler>
-        <compiler-path />
-        <main-file>$PROJECT_DIR$</main-file>
-        <aux-dir>true</aux-dir>
-        <output-format>PDF</output-format>
-        <bib-run-config />
-      </texify>
+    <configuration name="Nosetests for tests.SolverTests" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.SolverTests&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Nosetests in test.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="gas_turbine_cycle" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="LaTeX.test_report1" />
-      <item index="1" class="java.lang.String" itemvalue="LaTeX.wewew" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_outlet" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_atmosphere" />
-      <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_nozzle" />
+      <item index="0" class="java.lang.String" itemvalue="LaTeX.report_test" />
+      <item index="1" class="java.lang.String" itemvalue="Python.gases" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.SolverTests" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests in test.py" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for test.TemplateTester.test_2N_template" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_nozzle" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_atmosphere" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.UnitsTests.test_outlet" />
-        <item index="3" class="java.lang.String" itemvalue="LaTeX.wewew" />
-        <item index="4" class="java.lang.String" itemvalue="LaTeX.test_report1" />
+        <item index="0" class="java.lang.String" itemvalue="LaTeX.report_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests in test.py" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for test.TemplateTester.test_2N_template" />
+        <item index="3" class="java.lang.String" itemvalue="Python.gases" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for tests.SolverTests" />
       </list>
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -619,39 +720,46 @@
       <option name="project" value="LOCAL" />
       <updated>1514078194511</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Add FullExtensionNozzle class, add GasDynamicUnitStaticInlet and GasDynamicUnitStaticOutlet abstract classes. Make some changes in templates.">
+      <created>1515105525634</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1515105525635</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_atmosphere - 2018.01.05 at 01h 23m 49s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_atmosphere" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 19m 10s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_nozzle - 2018.01.05 at 01h 31m 10s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_nozzle" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 19m 42s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_nozzle - 2018.01.05 at 01h 35m 50s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_nozzle" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 20m 58s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_outlet - 2018.01.05 at 01h 13m 04s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_outlet" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 21m 12s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_outlet - 2018.01.05 at 01h 16m 59s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_outlet" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 26m 01s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_outlet - 2018.01.05 at 01h 18m 04s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_outlet" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_TemplateTester_test_2N_template - 2018.03.21 at 15h 26m 51s.xml">
+      <configuration name="Nosetests for test.TemplateTester.test_2N_template" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_outlet - 2018.01.05 at 01h 19m 09s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_outlet" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetests_in_test_py - 2017.12.24 at 22h 41m 42s.xml">
+    <history-entry file="Nosetests_in_test_py - 2018.03.21 at 15h 28m 35s.xml">
       <configuration name="Nosetests in test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_test_py - 2017.12.24 at 22h 46m 05s.xml">
+    <history-entry file="Nosetests_in_test_py - 2018.03.21 at 15h 29m 59s.xml">
       <configuration name="Nosetests in test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_tests_py - 2017.12.12 at 20h 22m 10s.xml">
-      <configuration name="Nosetests in tests.py" configurationId="tests" />
+    <history-entry file="Nosetests_in_test_py - 2018.03.23 at 12h 20m 36s.xml">
+      <configuration name="Nosetests in test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_test_py - 2018.03.29 at 19h 37m 25s.xml">
+      <configuration name="Nosetests in test.py" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -666,25 +774,28 @@
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900944" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21152829" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32821724" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900944" sideWeight="0.5021482" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3254717" sideWeight="0.49785176" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38915095" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4033019" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32665095" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20032224" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32665095" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2706767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6953955" sideWeight="0.49785176" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38606846" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="14" y="350" width="1891" height="330" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41558442" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2855632" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32467532" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39740565" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921588" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="434" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32585597" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -752,7 +863,8 @@
     <MESSAGE value="Add report template for 2N scheme and test for its rendering." />
     <MESSAGE value="Change the way of alpha computing in combustion chamber calculation." />
     <MESSAGE value="Add templates to package data." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add templates to package data." />
+    <MESSAGE value="Add FullExtensionNozzle class, add GasDynamicUnitStaticInlet and GasDynamicUnitStaticOutlet abstract classes. Make some changes in templates." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add FullExtensionNozzle class, add GasDynamicUnitStaticInlet and GasDynamicUnitStaticOutlet abstract classes. Make some changes in templates." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -761,53 +873,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3234">
-          <caret line="154" column="16" lean-forward="true" selection-start-line="154" selection-start-column="16" selection-end-line="154" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17304">
-          <caret line="824" column="38" lean-forward="false" selection-start-line="824" selection-start-column="38" selection-end-line="824" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4746">
-          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -829,9 +894,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -846,9 +908,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -863,9 +922,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -880,9 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -893,93 +946,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="uml://Python/#D:/Asus/Documents/GitHub/gas_turbine_cycle/turbine_lib.py">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>Python</ID>
-          <OriginalElement>#D:/Asus/Documents/GitHub/gas_turbine_cycle/turbine_lib.py</OriginalElement>
-          <nodes>
-            <node x="" y="">turbine_lib.CombustionChamber</node>
-            <node x="" y="">turbine_lib.Compressor</node>
-            <node x="" y="">abc.ABCMeta</node>
-            <node x="" y="">network_lib.Unit</node>
-            <node x="" y="">_collections_abc.Hashable</node>
-            <node x="" y="">turbine_lib.Inlet</node>
-            <node x="" y="">turbine_lib.Regenerator</node>
-            <node x="" y="">turbine_lib.Atmosphere</node>
-            <node x="" y="">turbine_lib.Turbine</node>
-            <node x="" y="">turbine_lib.Load</node>
-            <node x="" y="">object</node>
-            <node x="" y="">turbine_lib.Outlet</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.8693217174859987" x="794.0" y="157.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://Python/#D:/Asus/Documents/GitHub/gas_turbine_cycle/gases.py">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>Python</ID>
-          <OriginalElement>#D:/Asus/Documents/GitHub/gas_turbine_cycle/gases.py</OriginalElement>
-          <nodes>
-            <node x="" y="">gases.Air</node>
-            <node x="" y="">abc.ABCMeta</node>
-            <node x="" y="">metaclass</node>
-            <node x="" y="">_collections_abc.Hashable</node>
-            <node x="" y="">gases.KeroseneCombustionProducts</node>
-            <node x="" y="">object</node>
-            <node x="" y="">gases.IdealGas</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="201.0" y="190.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
+    <entry file="uml://Python/#D:/Asus/Documents/GitHub/gas_turbine_cycle/turbine_lib.py" />
+    <entry file="uml://Python/#D:/Asus/Documents/GitHub/gas_turbine_cycle/gases.py" />
     <entry file="file://$PROJECT_DIR$/test.py" />
     <entry file="file://$PROJECT_DIR$/Test Results - Nosetests_in_tests_py.html" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/ide/ide-scripting.js" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/ide/ide-scripting.groovy" />
-    <entry file="uml://Python/#C:/Users/User/Documents/study/gas_turbine_cycle/network_lib.py">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>Python</ID>
-          <OriginalElement>#C:/Users/User/Documents/study/gas_turbine_cycle/network_lib.py</OriginalElement>
-          <nodes>
-            <node x="" y="">network_lib.PortType</node>
-            <node x="" y="">network_lib.Unit</node>
-            <node x="" y="">metaclass</node>
-            <node x="" y="">network_lib.ConnectionSet</node>
-            <node x="" y="">object</node>
-            <node x="" y="">network_lib.Connection</node>
-            <node x="" y="">network_lib.GasDynamicUnit</node>
-            <node x="" y="">network_lib.MechEnergyGeneratingUnit</node>
-            <node x="" y="">network_lib.PortNew</node>
-            <node x="" y="">network_lib.MechEnergyConsumingUnit</node>
-            <node x="" y="">network_lib.OutletPort</node>
-            <node x="" y="">_collections_abc.Hashable</node>
-            <node x="" y="">network_lib.InletPort</node>
-            <node x="" y="">enum.Enum</node>
-            <node x="" y="">enum.EnumMeta</node>
-            <node x="" y="">abc.ABCMeta</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="590.0" y="178.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
+    <entry file="uml://Python/#C:/Users/User/Documents/study/gas_turbine_cycle/network_lib.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/logging/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1016,20 +989,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/nose/suite.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="916">
@@ -1062,16 +1021,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="464" column="17" lean-forward="false" selection-start-line="464" selection-start-column="17" selection-end-line="464" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1079,92 +1028,159 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7225">
-          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/wewew.tex" />
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="94" lean-forward="true" selection-start-line="8" selection-start-column="94" selection-end-line="8" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="966">
-          <caret line="54" column="36" lean-forward="false" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/unittest/case.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="677" column="0" lean-forward="false" selection-start-line="677" selection-start-column="0" selection-end-line="677" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/standard_atmosphere.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5103">
+          <caret line="243" column="12" lean-forward="false" selection-start-line="243" selection-start-column="12" selection-end-line="243" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/jinja2/asyncsupport.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="461" column="16" lean-forward="false" selection-start-line="461" selection-start-column="16" selection-end-line="461" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/fuels.py" />
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/equipment.py" />
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="119" lean-forward="false" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
+        <state relative-caret-position="273">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/network_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="387" column="31" lean-forward="true" selection-start-line="387" selection-start-column="31" selection-end-line="387" selection-end-column="31" />
+        <state relative-caret-position="8631">
+          <caret line="413" column="6" lean-forward="false" selection-start-line="413" selection-start-column="6" selection-end-line="413" selection-end-column="6" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="748" column="49" lean-forward="false" selection-start-line="748" selection-start-column="49" selection-end-line="748" selection-end-column="49" />
+        <state relative-caret-position="147">
+          <caret line="11" column="50" lean-forward="false" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test.tex">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="745" column="0" lean-forward="true" selection-start-line="745" selection-start-column="0" selection-end-line="745" selection-end-column="0" />
+        <state relative-caret-position="13605">
+          <caret line="689" column="28" lean-forward="true" selection-start-line="689" selection-start-column="28" selection-end-line="689" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1806">
+          <caret line="94" column="38" lean-forward="false" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/equipment.tex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="67" lean-forward="false" selection-start-line="17" selection-start-column="67" selection-end-line="17" selection-end-column="67" />
+          <folding>
+            <element signature="e#814#819#2" expanded="true" />
+            <element signature="e#971#975#2" expanded="true" />
+            <element signature="e#1066#1070#2" expanded="true" />
+            <element signature="e#1146#1150#2" expanded="true" />
+            <element signature="e#1561#1564#2" expanded="true" />
+            <element signature="e#1839#1844#2" expanded="true" />
+            <element signature="e#1903#1906#3" expanded="true" />
+            <element signature="e#1968#1972#3" expanded="true" />
+            <element signature="e#2040#2045#2" expanded="true" />
+            <element signature="e#2453#2458#2" expanded="true" />
+            <element signature="e#2530#2535#2" expanded="true" />
+            <element signature="e#2796#2801#3" expanded="true" />
+            <element signature="e#2802#2806#3" expanded="true" />
+            <element signature="e#2952#2957#3" expanded="true" />
+            <element signature="e#3261#3266#3" expanded="true" />
+            <element signature="e#3272#3276#3" expanded="true" />
+            <element signature="e#3294#3299#3" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/report_test_template.tex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <marker date="1521634666088" expanded="false" signature="38:351" ph="\usepackage{...}" />
+            <marker date="1521634666088" expanded="false" signature="353:374" ph="\usepackage{...}" />
+            <marker date="1521634666088" expanded="false" signature="414:438" ph="\usepackage{...}" />
+            <marker date="1521634666088" expanded="false" signature="440:461" ph="\usepackage{...}" />
+            <marker date="1521634666088" expanded="true" signature="657:785" ph="\section{Исходные данные.}..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4935">
+          <caret line="241" column="44" lean-forward="false" selection-start-line="241" selection-start-column="44" selection-end-line="241" selection-end-column="44" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="536" column="21" lean-forward="false" selection-start-line="536" selection-start-column="21" selection-end-line="536" selection-end-column="21" />
+          <folding>
+            <marker date="1522341205367" expanded="true" signature="0:20" ph="\usepackage{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-117">
+          <caret line="863" column="30" lean-forward="false" selection-start-line="863" selection-start-column="30" selection-end-line="863" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
