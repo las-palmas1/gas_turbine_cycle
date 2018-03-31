@@ -1,5 +1,6 @@
 import numpy as np
 import logging.config
+from ..gases import IdealGas
 
 
 def create_logger(name=__name__, loggerlevel=logging.INFO, add_file_handler=True,
@@ -39,3 +40,30 @@ def eta_turb_stag(pi_turb_stag, k, eta_turb_stag_p):
 def eta_turb_l(eta_turb_stag, H_turb_stag, H_turb, c_out):
     """Лопаточный КПД турбины через КПД по параметрам торможения"""
     return eta_turb_stag * H_turb_stag / H_turb + c_out ** 2 / (2 * H_turb)
+
+
+def get_mixture_temp(comb_products: IdealGas, air: IdealGas, temp_comb_products, temp_air,
+                     g_comb_products, g_air, alpha_mixture):
+    """Возвращает значение температуры смеси рабочего и охлаждающего тела, а также истинные теплоемкости газа и
+    воздуха при температурах смешения."""
+    mixture = type(comb_products)()
+    mixture.alpha = alpha_mixture
+
+    mix_temp = None
+    mixture.T = temp_comb_products
+    mix_temp_new = temp_comb_products
+    temp_mix_res = 1.
+
+    comb_products.T = temp_comb_products
+    air.T = temp_air
+    c_p_comb_products_true = comb_products.c_p
+    c_p_air_true = air.c_p
+
+    while temp_mix_res >= 0.001:
+        mix_temp = mix_temp_new
+        mixture.T = mix_temp_new
+        mix_temp_new = (c_p_comb_products_true * temp_comb_products * g_comb_products + c_p_air_true * temp_air * g_air) / \
+                      (mixture.c_p * (g_air + g_comb_products))
+        temp_mix_res = abs(mix_temp_new - mix_temp) / mix_temp
+
+    return mix_temp_new, mixture, c_p_comb_products_true, c_p_air_true, mix_temp, temp_mix_res

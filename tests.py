@@ -158,7 +158,7 @@ class UnitsTests(unittest.TestCase):
         self.comb_chamber = CombustionChamber(1450, p_stag_out_init=10e5, alpha_out_init=2.4)
         self.compressor = Compressor(5)
         self.turbine = Turbine(p_stag_out_init=1e5)
-        self.source = Source()
+        self.source = Source(work_fluid=KeroseneCombustionProducts(), g_return=0.05, return_fluid_temp=700)
         self.sink = Sink()
         self.nozzle = FullExtensionNozzle()
         self.upstream_gd_unit = GasDynamicUnit()
@@ -453,16 +453,19 @@ class UnitsTests(unittest.TestCase):
         self.upstream_gd_unit.pres_outlet_port.make_output()
         self.source.set_behaviour()
 
+        g_fuel = 0.04
+        g = 1.04
+        alpha = 1 / (self.source.work_fluid.l0 * (g_fuel / (g - g_fuel)))
         self.assertFalse(self.source.check_input())
-        self.upstream_gd_unit.T_stag_out = 500
-        self.assertFalse(self.source.check_input())
-        self.upstream_gd_unit.alpha_out = 2.5
+        self.upstream_gd_unit.T_stag_out = 1200
         self.assertFalse(self.source.check_input())
         self.upstream_gd_unit.p_stag_out = 2.5e5
         self.assertFalse(self.source.check_input())
-        self.upstream_gd_unit.g_out = 1.04
+        self.upstream_gd_unit.g_out = g
         self.assertFalse(self.source.check_input())
-        self.upstream_gd_unit.g_fuel_out = 0.04
+        self.upstream_gd_unit.g_fuel_out = g_fuel
+        self.assertFalse(self.source.check_input())
+        self.upstream_gd_unit.alpha_out = alpha
         self.assertTrue(self.source.check_input())
         self.source.update()
 
@@ -475,6 +478,8 @@ class UnitsTests(unittest.TestCase):
         self.assertNotEqual(self.source.p_stag_out, None)
         self.assertNotEqual(self.source.T_stag_out, None)
         self.assertEqual(self.source.g_out, self.source.g_in + self.source.g_return)
+        self.assertLess(self.source.T_stag_out, self.source.T_stag_in)
+        self.assertGreater(self.source.alpha_out, self.source.alpha_in)
 
     def test_downstream_source(self):
         solver = NetworkSolver([self.upstream_gd_unit, self.source, self.downstream_gd_unit])
@@ -822,8 +827,8 @@ class SolverTests(unittest.TestCase):
         self.comb_chamber_inter_up = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001)
         self.comb_chamber_inter_down = CombustionChamber(1300, alpha_out_init=2.7, precision=0.001,
                                                          p_stag_out_init=4e5)
-        self.source1 = Source()
-        self.source2 = Source()
+        self.source1 = Source(work_fluid=KeroseneCombustionProducts(), g_return=0.03)
+        self.source2 = Source(work_fluid=KeroseneCombustionProducts(), g_return=0.03)
         self.turbine_low_pres_power = Turbine(p_stag_out_init=1e5)
         self.turbine_comp_up = Turbine()
         self.turbine_high_pres_power = Turbine(p_stag_out_init=4e5, precision=0.001)

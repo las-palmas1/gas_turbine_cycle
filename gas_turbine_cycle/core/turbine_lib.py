@@ -1,10 +1,10 @@
 import logging
 import numpy as np
 
-from gas_turbine_cycle.tools.gas_dynamics import GasDynamicFunctions as gd
-from gas_turbine_cycle.core.network_lib import *
-from gas_turbine_cycle.gases import *
-from gas_turbine_cycle.tools import functions as func
+from ..tools.gas_dynamics import GasDynamicFunctions as gd
+from .network_lib import *
+from ..gases import *
+from ..tools import functions as func
 
 logging.basicConfig(format='%(levelname)s: %(message)s', filemode='w', filename='cycle.log', level=logging.INFO)
 
@@ -272,12 +272,16 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
 
 class Source(GasDynamicUnit):
     """Моделирует возврат в проточную часть части воздуха, отобранного для охлаждения."""
-    def __init__(self, g_return=0.01):
+    def __init__(self, work_fluid: IdealGas=KeroseneCombustionProducts(), g_return=0.01, return_fluid: IdealGas=Air(),
+                 return_fluid_temp=700):
         """
         :param g_return: относительный расход возвращаемого воздуха (по отношению к расходу на входе в компрессор)
         """
         GasDynamicUnit.__init__(self)
+        self.work_fluid = work_fluid
         self.g_return = g_return
+        self.return_fluid = return_fluid
+        self.return_fluid_temp = return_fluid_temp
 
     def check_upstream_behaviour(self) -> bool:
         """Возвращает True, если источник должен передавать давление по потоку, т.е. если он находится по
@@ -331,21 +335,35 @@ class Source(GasDynamicUnit):
             self.make_port_output(self.pres_inlet_port)
             self.make_port_input(self.pres_outlet_port)
 
+    def _compute(self):
+        self.work_fluid.__init__()
+        self.work_fluid.alpha = self.alpha_in
+        self.alpha_out = 1 / (self.work_fluid.l0 * (self.g_fuel_in / (self.g_in + self.g_return - self.g_fuel_in)))
+        self.g_out = self.g_in + self.g_return
+
+        (self.mix_temp_new, self.mixture, self.c_p_comb_products_true,
+         self.c_p_air_true, self._mix_temp, self.temp_mix_res) = func.get_mixture_temp(
+            comb_products=self.work_fluid,
+            air=self.return_fluid,
+            temp_comb_products=self.T_stag_in,
+            temp_air=self.return_fluid_temp,
+            g_comb_products=self.g_in,
+            g_air=self.g_return,
+            alpha_mixture=self.alpha_out
+        )
+
+        self.g_fuel_out = self.g_fuel_in
+        self.T_stag_out = self._mix_temp
+
     def update(self):
         if self.check_input():
-            self.alpha_out = self.alpha_in
-            self.g_fuel_out = self.g_fuel_in
-            self.T_stag_out = self.T_stag_in
-            self.g_out = self.g_in + self.g_return
+            self._compute()
             if self.check_upstream_behaviour():
                 self.p_stag_out = self.p_stag_in
             elif self.check_downstream_behaviour():
                 self.p_stag_in = self.p_stag_out
         elif self.check_input_partially():
-            self.alpha_out = self.alpha_in
-            self.g_fuel_out = self.g_fuel_in
-            self.T_stag_out = self.T_stag_in
-            self.g_out = self.g_in + self.g_return
+            self._compute()
         else:
             logging.info('Some of input parameters are not specified.')
 
