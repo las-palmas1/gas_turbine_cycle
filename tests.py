@@ -158,7 +158,7 @@ class UnitsTests(unittest.TestCase):
         self.comb_chamber = CombustionChamber(1450, p_stag_out_init=10e5, alpha_out_init=2.4)
         self.compressor = Compressor(5)
         self.turbine = Turbine(p_stag_out_init=1e5)
-        self.source = Source(work_fluid=KeroseneCombustionProducts(), g_return=0.05, return_fluid_temp=700)
+        self.source = Source(work_fluid=KeroseneCombustionProducts(), g_return=0.05, T_return=700)
         self.sink = Sink()
         self.nozzle = FullExtensionNozzle()
         self.upstream_gd_unit = GasDynamicUnit()
@@ -1315,6 +1315,10 @@ class SolverTests(unittest.TestCase):
         self.assertEqual(type(self.turbine_comp_down.work_fluid), NaturalGasCombustionProducts)
         self.assertEqual(type(self.outlet.work_fluid), NaturalGasCombustionProducts)
         self.assertEqual(type(self.turbine_high_pres_power.work_fluid), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.source1.work_fluid), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.source2.work_fluid), NaturalGasCombustionProducts)
+        self.assertEqual(type(self.source1.return_fluid), Air)
+        self.assertEqual(type(self.source2.return_fluid), Air)
 
 
 if __name__ == '__main__':

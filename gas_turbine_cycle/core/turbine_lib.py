@@ -273,7 +273,7 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
 class Source(GasDynamicUnit):
     """Моделирует возврат в проточную часть части воздуха, отобранного для охлаждения."""
     def __init__(self, work_fluid: IdealGas=KeroseneCombustionProducts(), g_return=0.01, return_fluid: IdealGas=Air(),
-                 return_fluid_temp=700):
+                 T_return=700):
         """
         :param g_return: относительный расход возвращаемого воздуха (по отношению к расходу на входе в компрессор)
         """
@@ -281,7 +281,7 @@ class Source(GasDynamicUnit):
         self.work_fluid = work_fluid
         self.g_return = g_return
         self.return_fluid = return_fluid
-        self.return_fluid_temp = return_fluid_temp
+        self.T_return = T_return
 
     def check_upstream_behaviour(self) -> bool:
         """Возвращает True, если источник должен передавать давление по потоку, т.е. если он находится по
@@ -341,19 +341,19 @@ class Source(GasDynamicUnit):
         self.alpha_out = 1 / (self.work_fluid.l0 * (self.g_fuel_in / (self.g_in + self.g_return - self.g_fuel_in)))
         self.g_out = self.g_in + self.g_return
 
-        (self.mix_temp_new, self.mixture, self.c_p_comb_products_true,
-         self.c_p_air_true, self._mix_temp, self.temp_mix_res) = func.get_mixture_temp(
+        (self.T_mix_new, self.mixture, self.c_p_comb_products_true,
+         self.c_p_air_true, self._T_mix, self.temp_mix_res) = func.get_mixture_temp(
             comb_products=self.work_fluid,
             air=self.return_fluid,
             temp_comb_products=self.T_stag_in,
-            temp_air=self.return_fluid_temp,
+            temp_air=self.T_return,
             g_comb_products=self.g_in,
             g_air=self.g_return,
             alpha_mixture=self.alpha_out
         )
 
         self.g_fuel_out = self.g_fuel_in
-        self.T_stag_out = self._mix_temp
+        self.T_stag_out = self._T_mix
 
     def update(self):
         if self.check_input():

@@ -42,11 +42,24 @@ def eta_turb_l(eta_turb_stag, H_turb_stag, H_turb, c_out):
     return eta_turb_stag * H_turb_stag / H_turb + c_out ** 2 / (2 * H_turb)
 
 
+def eta_comp_stag_p(pi_comp_stag, k, eta_comp_stag):
+    """Политропический КПД компрессора."""
+    log = np.log(1 + (pi_comp_stag ** ((k - 1) / k) - 1) / eta_comp_stag) / np.log(pi_comp_stag)
+    return (k - 1) / (k * log)
+
+
+def eta_turb_stag_p(pi_turb_stag, k, eta_turb_stag):
+    """Политропический КПД турбины."""
+    log = np.log(1 - eta_turb_stag * (1 - pi_turb_stag ** ((1 - k) / k))) / np.log(pi_turb_stag)
+    return k * log / (1 - k)
+
+
 def get_mixture_temp(comb_products: IdealGas, air: IdealGas, temp_comb_products, temp_air,
                      g_comb_products, g_air, alpha_mixture):
     """Возвращает значение температуры смеси рабочего и охлаждающего тела, а также истинные теплоемкости газа и
     воздуха при температурах смешения."""
     mixture = type(comb_products)()
+    air.__init__()
     mixture.alpha = alpha_mixture
 
     mix_temp = None

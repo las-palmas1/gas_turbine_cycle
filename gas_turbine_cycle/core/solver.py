@@ -1,7 +1,7 @@
 import logging
 
 from gas_turbine_cycle.core.network_lib import *
-from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, CombustionChamber, Inlet, Outlet, Load, Atmosphere
+from gas_turbine_cycle.core.turbine_lib import Compressor, Turbine, CombustionChamber, Inlet, Outlet, Load, Atmosphere, Source
 from gas_turbine_cycle.gases import IdealGas, Air, KeroseneCombustionProducts
 
 logging.basicConfig(format='%(levelname)s: %(message)s', filemode='w', filename='cycle.log', level=logging.INFO)
@@ -156,22 +156,25 @@ class NetworkSolver:
         """
         for unit in unit_list:
             if type(unit) == Inlet or type(unit) == Compressor:
-                unit.work_fluid = self.cold_work_fluid
+                unit.work_fluid = type(self.cold_work_fluid)()
             elif type(unit) == Outlet or type(unit) == Turbine:
-                unit.work_fluid = self.hot_work_fluid
+                unit.work_fluid = type(self.hot_work_fluid)()
             elif type(unit) == Atmosphere:
-                unit.work_fluid_in = self.hot_work_fluid
-                unit.work_fluid_out = self.cold_work_fluid
+                unit.work_fluid_in = type(self.hot_work_fluid)()
+                unit.work_fluid_out = type(self.cold_work_fluid)()
+            elif type(unit) == Source:
+                unit.work_fluid = type(self.hot_work_fluid)()
+                unit.return_fluid = type(self.cold_work_fluid)()
         count = 0
         for unit in unit_list:
             if type(unit) == CombustionChamber:
                 count += 1
                 if count == 1:
-                    unit.work_fluid_in = self.cold_work_fluid
-                    unit.work_fluid_out = self.hot_work_fluid
+                    unit.work_fluid_in = type(self.cold_work_fluid)()
+                    unit.work_fluid_out = type(self.hot_work_fluid)()
                     unit.work_fluid_out_T0 = type(self.hot_work_fluid)()
                 else:
-                    unit.work_fluid_in = self.hot_work_fluid
+                    unit.work_fluid_in = type(self.hot_work_fluid)()
                     unit.work_fluid_out = type(self.hot_work_fluid)()
                     unit.work_fluid_out_T0 = type(self.hot_work_fluid)()
 

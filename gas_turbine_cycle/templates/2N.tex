@@ -19,7 +19,8 @@
 	\item Коэффициент полноты сгорания: $\eta_г = << comb_chamber.eta_burn >> $.
 	\item Относительный расход на охлаждение лопаток: $g_{охл} = << sink.g_cooling | round(4) >>$.
 	\item Относительный расход на прочие нужды: $g_{ут} = << sink.g_outflow >>$.
-	\item Относительный расход воздуха, возвращаемого перед силовой турбиной: $g_{воз.тс} = << source.g_return |round(4) >>$.
+	\item Относительный расход воздуха, возвращаемого перед силовой турбиной: $g_{воз} = << source.g_return |round(4) >>$.
+	\item Температура возвращаемого перед силовой турбиной воздуха: $T_{воз} = << source.T_return | round(4) >>\ К$.
 	\item Механический КПД на валу турбины компрессора: $\eta_{м.тк} = << turb_c.eta_m >>$.
 	\item Механический КПД на валу силовой турбины: $\eta_{м.тс} = << turb_p.eta_m >>$.
 	\item КПД редуктора: $ \eta_р = << turb_p.eta_r >>$.
@@ -366,12 +367,83 @@
 	\item Относительный расход газа на входе в силовую турбину:
 	
 	\[ g_{г.тс} = g_{г.тк} + g_{воз} = << turb_c.g_in | round(4) >> + << source.g_return | round(4) >> = << turb_p.g_in | round(4) >> \]
+
+	\item Значение коэффициента избытка воздуха на входе в силовую турбину с учетом подмешивания охлаждающего воздуха:
+
+	\[
+		\alpha_{см} = \frac{1}{
+				l_0 \cdot \frac{g_т \cdot g_{вх.кс}}{g_{г.тс} - g_т \cdot g_{вх.кс}}
+		} =
+		\frac{1}{
+				<< source.work_fluid.l0 >> \cdot \frac{
+					<< comb_chamber.g_fuel_prime | round(4) >> \cdot << comb_chamber.g_in | round(4) >>
+					}{
+					<< turb_p.g_in | round(4) >> -
+					<< comb_chamber.g_fuel_prime | round(4) >> \cdot << comb_chamber.g_in | round(4) >>
+			}
+		} =
+		<< source.alpha_out | round(3) >>
+	\]
+
+	\item Температура на входе в силовую турбину с учетом подмешивания охлаждающего воздуха.
+	\begin{enumerate}
+
+		\item Истинная теплоемкость охлаждающего воздуха при температуре $T_{воз} = << source.T_return | round(2) >>\ К $:
+
+		\[
+			с_{pв\ ис} (T_{воз}) = << source.c_p_air_true | round(2) >>\ Дж/(кг \cdot К)
+		\]
+
+		\item Истинная теплоемкость газа при температуре $T_{тк} = << turb_c.T_stag_out | round(2) >>\ К$:
+
+		\[
+			c_{pг\ ис} (T_{тк}^*, \alpha) = << source.c_p_comb_products_true | round(2) >>\ Дж/(кг \cdot К)
+		\]
+
+		\item Значение температуры смеси с предпоследней итерации $T_{см}^* = << source.T_stag_out | round(2) >>\ К$.
+
+		\item Истинная теплоемкость смеси:
+		\[
+			c_{pг} (T_{см}^*, \alpha_{см}) = << source.mixture.c_p | round(3) >>\ Дж/(кг \cdot К)
+		\]
+
+		\item Новое значение температуры смеси:
+		\begin{gather*}
+			T_{см}^*\prime = \frac{
+                        c_{pг\ ис} (T_{тк}^*, \alpha) T_{тк}^* g_{г.тк} + c_{pв} (T_{воз}) T_{воз} g_{воз}
+                    }{
+                        c_{pг\ ис} (T_{см}^{*}, \alpha_{см}) g_{г.тс}
+                    } =\\
+			= \frac{
+                        << source.c_p_comb_products_true | round(2) >> \cdot << source.T_stag_in | round(2) >> \cdot
+						<< source.g_in | round(3) >> +
+						<< source.c_p_air_true | round(2) >> \cdot << source.T_return | round(2) >> \cdot
+						<< source.g_return | round(3) >>
+                    }{
+                        << source.mixture.c_p | round(3) >> \cdot  << source.g_out | round(3) >>
+                    } =
+			<< source.T_mix_new | round(2) >>\ К\\
+		\end{gather*}
+
+		\item Значение невязки:
+		\[
+			\delta =\frac{ \left| T_{см}^{*} - T_{см}^*\prime \right| }{T_{см}^{*}} \cdot 100 \% =
+				\frac{
+                        \left| << source.T_stag_out | round(2) >> - << source.T_mix_new | round(2) >> \right|
+                    }{
+                        << source.T_stag_out | round(2) >>
+                    } \cdot 100 \% =
+			<< (source.temp_mix_res * 100) | round(4) >> \%
+		\]
+
+
+	\end{enumerate}
 	
 	\item Температура на выходе из силовой турбины из предыдущей итерации: $ T_{тс}^* = << atm.temp_inlet_port._linked_connection.previous_value | round(2) >>\ К$.
 
 	\item Истинная теплоемкость газа при данной температуре:
 	
-	\[ c_{pг\ ис} (T_{тс}^*) = << atm.work_fluid_in.c_p | round(2) >>\ Дж/ (кг \cdot К) \]
+	\[ c_{pг\ ис} (T_{тс}^*, \alpha_{см}) = << atm.work_fluid_in.c_p | round(2) >>\ Дж/ (кг \cdot К) \]
 	
 	\item Коэффициент адиабаты:
 	
@@ -429,13 +501,13 @@
 	\item Определим давление торможения за силовой турбиной:
 	
 	\[
-	p_{ст}^* = \frac{ p_{вых}^* }{ \sigma_{вых} } = \frac{ << (atm.p_stag_in / 10**6) | round(4) >> \cdot 10^6 }{ << outlet.sigma >> } = 
+	p_{тс}^* = \frac{ p_{вых}^* }{ \sigma_{вых} } = \frac{ << (atm.p_stag_in / 10**6) | round(4) >> \cdot 10^6 }{ << outlet.sigma >> } =
 			<< (outlet.p_stag_in / 10**6) | round(4) >> \cdot 10^6\ Па
 	\]
 
 	\item Степень понижения давления в силовой турбине:
 	
-	\[ \pi_{ст} = \frac{ p_{тк}^* }{ p_{ст}^* } =
+	\[ \pi_{тс} = \frac{ p_{тк}^* }{ p_{тс}^* } =
 			\frac{ 
 				<< (turb_c.p_stag_out / 10**6) | round(4) >> \cdot 10^6 
 			}{ 
@@ -471,7 +543,7 @@
 	\item Определим температуру торможения на выходе из силовой турбины:
 	
 	\begin{gather*}
-	    T_{тс}^* = T_{тк}^*
+	    T_{тс}^* = T_{см}^*
 		\left\lbrace
 			1 -
 			\left[
@@ -514,25 +586,25 @@
 	
 	\begin{enumerate}
 	
-		\item Средняя удельная теплоемкость в интервале температур от 288 К до $ T_{тк}^* $:
+		\item Средняя удельная теплоемкость в интервале температур от 288 К до $ T_{см}^* $:
 		
 		\[
-		c_{pг\ ср} (T_{тк}^*) = << (turb_c.work_fluid.c_p_av_func( turb_c.T_stag_out, alpha=turb_c.alpha_in )) | round(2) >>\ Дж / (кг \cdot К)
+		c_{pг\ ср} (T_{тк}^*, \alpha_{см}) = << (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_in, alpha=turb_p.alpha_in )) | round(2) >>\ Дж / (кг \cdot К)
 		\]
 		
 		\item Средняя удельная теплоемкость в интервале температур от 288 К до $ T_{тс}^* $:
 		
 		\[
-		c_{pг\ ср} (T_{тс}^*) = << (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_out, alpha=turb_p.alpha_in )) | round(2) >>\ Дж / (кг \cdot К)
+		c_{pг\ ср} (T_{см}^*, \alpha_{см}) = << (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_out, alpha=turb_p.alpha_out )) | round(2) >>\ Дж / (кг \cdot К)
 		\]
 		
-		\item Новое значение средней теплоемкости в интервале температуре от $ T_{тc}^* $ от $ T_{тк}^* $:
+		\item Новое значение средней теплоемкости в интервале температуре от $ T_{тc}^* $ от $ T_{см}^* $:
 		
 		\begin{gather*}
 		    c_{pг}^\prime = \frac{
-			c_{pг\ ср}(T_{тк}^*) (T_{тк}^* - T_0) - c_{pг\ ср}(T_{тс}^*) (T_{тс}^* - T_0)
+			c_{pг\ ср}(T_{см}^*) (T_{см}^* - T_0) - c_{pг\ ср}(T_{тс}^*) (T_{тс}^* - T_0)
 		}{
-			T_{тк}^* - T_{тс}^*} =\\
+			T_{см}^* - T_{тс}^*} =\\
 		    = \frac{
 			<< (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_in, alpha=turb_p.alpha_in )) | round(2) >> \cdot (<< turb_p.T_stag_in | round(2) >> - 273) -
 			<< (turb_p.work_fluid.c_p_av_func( turb_p.T_stag_out, alpha=turb_p.alpha_in )) | round(2) >> \cdot (<< turb_p.T_stag_out|round(2) >> - 273)
