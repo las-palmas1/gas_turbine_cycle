@@ -456,23 +456,4 @@ class NaturalGasCombustionProducts(IdealGas):
 
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-
-    gas = Air()
-    gas.T1 = 300
-    temp = np.linspace(273, 1800, 30)
-    gas.alpha = 7.5
-    c_p_av = []
-    c_p_real = []
-
-    for T in temp:
-        gas.T = T
-        gas.T2 = T
-        c_p_av.append(gas.c_p_av_int)
-        c_p_real.append(gas.c_p)
-
-    plt.plot(temp, c_p_real, color='red', label='real')
-    plt.plot(temp, c_p_av, color='blue', label='av')
-    plt.legend()
-    plt.grid()
-    plt.show()
+    pass
