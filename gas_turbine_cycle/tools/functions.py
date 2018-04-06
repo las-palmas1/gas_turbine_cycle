@@ -55,7 +55,7 @@ def eta_turb_stag_p(pi_turb_stag, k, eta_turb_stag):
 
 
 def get_mixture_temp(comb_products: IdealGas, air: IdealGas, temp_comb_products, temp_air,
-                     g_comb_products, g_air, alpha_mixture):
+                     g_comb_products, g_air, alpha_mixture, precision=0.001):
     """Возвращает значение температуры смеси рабочего и охлаждающего тела, а также истинные теплоемкости газа и
     воздуха при температурах смешения."""
     mixture = type(comb_products)()
@@ -69,14 +69,17 @@ def get_mixture_temp(comb_products: IdealGas, air: IdealGas, temp_comb_products,
 
     comb_products.T = temp_comb_products
     air.T = temp_air
-    c_p_comb_products_true = comb_products.c_p
-    c_p_air_true = air.c_p
+    c_p_comb_products_av = comb_products.c_p_av
+    c_p_air_av = air.c_p_av
 
-    while temp_mix_res >= 0.001:
+    while temp_mix_res >= precision:
         mix_temp = mix_temp_new
         mixture.T = mix_temp_new
-        mix_temp_new = (c_p_comb_products_true * temp_comb_products * g_comb_products + c_p_air_true * temp_air * g_air) / \
-                      (mixture.c_p * (g_air + g_comb_products))
+        enthalpy_comb_products = c_p_comb_products_av * (temp_comb_products - comb_products.T0) * g_comb_products
+        enthalpy_air = c_p_air_av * (temp_air - air.T0) * g_air
+        mix_temp_new = (
+                (enthalpy_air + enthalpy_comb_products) / (mixture.c_p_av * (g_air + g_comb_products)) + mixture.T0
+        )
         temp_mix_res = abs(mix_temp_new - mix_temp) / mix_temp
 
-    return mix_temp_new, mixture, c_p_comb_products_true, c_p_air_true, mix_temp, temp_mix_res
+    return mix_temp_new, mixture, c_p_comb_products_av, c_p_air_av, mix_temp, temp_mix_res

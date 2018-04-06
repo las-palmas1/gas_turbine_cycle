@@ -341,8 +341,8 @@ class Source(GasDynamicUnit):
         self.alpha_out = 1 / (self.work_fluid.l0 * (self.g_fuel_in / (self.g_in + self.g_return - self.g_fuel_in)))
         self.g_out = self.g_in + self.g_return
 
-        (self.T_mix_new, self.mixture, self.c_p_comb_products_true,
-         self.c_p_air_true, self._T_mix, self.temp_mix_res) = func.get_mixture_temp(
+        (self.T_mix_new, self.mixture, self.c_p_comb_products_av,
+         self.c_p_air_av, self._T_mix, self.temp_mix_res) = func.get_mixture_temp(
             comb_products=self.work_fluid,
             air=self.return_fluid,
             temp_comb_products=self.T_stag_in,

@@ -19,6 +19,12 @@ class IdealGas(metaclass=ABCMeta):
         self._k_av = None
         self._k_av_int = None
         self._alpha = 1
+        self._T0 = 273
+
+    @property
+    def T0(self):
+        """Точка нулевой энтальпии."""
+        return self._T0
 
     @property
     def l0(self):
@@ -205,8 +211,7 @@ class Air(IdealGas):
 
     def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя теплоемкость воздуха в интервале температур"""
-        T0 = 273
-        return (self.c_p_av_func(T2) * (T2 - T0) - self.c_p_av_func(T1) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2) * (T2 - self.T0) - self.c_p_av_func(T1) * (T1 - self.T0)) / (T2 - T1)
 
 
 class KeroseneCombustionProducts(IdealGas):
@@ -301,9 +306,8 @@ class KeroseneCombustionProducts(IdealGas):
     def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания керосина в интервале температур"""
         alpha = kwargs['alpha']
-        T0 = 273
-        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
-                self.c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - self.T0) -
+                self.c_p_av_func(T1, alpha=alpha) * (T1 - self.T0)) / (T2 - T1)
 
 
 class NaturalGasCombustionProducts(IdealGas):
@@ -450,9 +454,8 @@ class NaturalGasCombustionProducts(IdealGas):
     def c_p_av_int_func(self, T1, T2, **kwargs):
         """Средняя удельная теплоемкость продуктов сгорания природного газа в интервале температур"""
         alpha = kwargs['alpha']
-        T0 = 273
-        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - T0) -
-                self.c_p_av_func(T1, alpha=alpha) * (T1 - T0)) / (T2 - T1)
+        return (self.c_p_av_func(T2, alpha=alpha) * (T2 - self.T0) -
+                self.c_p_av_func(T1, alpha=alpha) * (T1 - self.T0)) / (T2 - T1)
 
 
 if __name__ == '__main__':

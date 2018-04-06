@@ -388,39 +388,39 @@
 	\item Температура на входе в силовую турбину с учетом подмешивания охлаждающего воздуха.
 	\begin{enumerate}
 
-		\item Истинная теплоемкость охлаждающего воздуха при температуре $T_{воз} = << source.T_return | round(2) >>\ К $:
+		\item Средняя теплоемкость охлаждающего воздуха от $T_0 = << source.work_fluid.T0 | round(2) >>\ К$ до $T_{воз} = << source.T_return | round(2) >>\ К $:
 
 		\[
-			с_{pв\ ис} (T_{воз}) = << source.c_p_air_true | round(2) >>\ Дж/(кг \cdot К)
+			с_{pв\ ср} (T_{воз}) = << source.c_p_air_av | round(2) >>\ Дж/(кг \cdot К)
 		\]
 
-		\item Истинная теплоемкость газа при температуре $T_{тк} = << turb_c.T_stag_out | round(2) >>\ К$:
+		\item Средняя теплоемкость газа от $T_0 = << source.work_fluid.T0 | round(2) >>\ К$ до $T_{тк} = << turb_c.T_stag_out | round(2) >>\ К$:
 
 		\[
-			c_{pг\ ис} (T_{тк}^*, \alpha) = << source.c_p_comb_products_true | round(2) >>\ Дж/(кг \cdot К)
+			c_{pг\ ср} (T_{тк}^*, \alpha) = << source.c_p_comb_products_av | round(2) >>\ Дж/(кг \cdot К)
 		\]
 
 		\item Значение температуры смеси с предпоследней итерации $T_{см}^* = << source.T_stag_out | round(2) >>\ К$.
 
-		\item Истинная теплоемкость смеси:
+		\item Средняя теплоемкость смеси:
 		\[
-			c_{pг} (T_{см}^*, \alpha_{см}) = << source.mixture.c_p | round(3) >>\ Дж/(кг \cdot К)
+			c_{pг\ ср} (T_{см}^*, \alpha_{см}) = << source.mixture.c_p_av | round(3) >>\ Дж/(кг \cdot К)
 		\]
 
 		\item Новое значение температуры смеси:
 		\begin{gather*}
 			T_{см}^*\prime = \frac{
-                        c_{pг\ ис} (T_{тк}^*, \alpha) T_{тк}^* g_{г.тк} + c_{pв} (T_{воз}) T_{воз} g_{воз}
+                        c_{pг\ ср} (T_{тк}^*, \alpha) T_{тк}^* g_{г.тк} + c_{pв\ ср} (T_{воз}) T_{воз} g_{воз}
                     }{
-                        c_{pг\ ис} (T_{см}^{*}, \alpha_{см}) g_{г.тс}
+                        c_{pг\ ср} (T_{см}^{*}, \alpha_{см}) g_{г.тс}
                     } =\\
 			= \frac{
-                        << source.c_p_comb_products_true | round(2) >> \cdot << source.T_stag_in | round(2) >> \cdot
+                        << source.c_p_comb_products_av | round(2) >> \cdot << source.T_stag_in | round(2) >> \cdot
 						<< source.g_in | round(3) >> +
-						<< source.c_p_air_true | round(2) >> \cdot << source.T_return | round(2) >> \cdot
+						<< source.c_p_air_av | round(2) >> \cdot << source.T_return | round(2) >> \cdot
 						<< source.g_return | round(3) >>
                     }{
-                        << source.mixture.c_p | round(3) >> \cdot  << source.g_out | round(3) >>
+                        << source.mixture.c_p_av | round(3) >> \cdot  << source.g_out | round(3) >>
                     } =
 			<< source.T_mix_new | round(2) >>\ К\\
 		\end{gather*}
