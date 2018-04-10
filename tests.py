@@ -808,8 +808,8 @@ class UnitsTests(unittest.TestCase):
         self.assertNotEqual(self.atmosphere.p_in, None)
 
     def test_undefined_ports_checking(self):
-        solver = NetworkSolver([self.upstream_gd_unit, self.atmosphere, self.downstream_gd_unit])
-        solver.create_gas_dynamic_connection(self.upstream_gd_unit, self.atmosphere)
+        solver = NetworkSolver([self.upstream_static_gd_unit, self.atmosphere, self.downstream_gd_unit])
+        solver.create_static_gas_dynamic_connection(self.upstream_static_gd_unit, self.atmosphere)
         solver.create_gas_dynamic_connection(self.atmosphere, self.downstream_gd_unit)
         self.assertTrue(self.atmosphere.has_undefined_ports())
         self.atmosphere.set_behaviour()

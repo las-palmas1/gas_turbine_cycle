@@ -59,6 +59,9 @@ class IdealGas(metaclass=ABCMeta):
     def c_p_func(self, k):
         return k * self._R / (k - 1)
 
+    def get_specific_enthalpy(self, T, **kwargs):
+        return self.c_p_av_func(T, **kwargs) * (T - self.T0)
+
     @property
     def R(self):
         return self._R
@@ -132,11 +135,11 @@ class IdealGas(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def c_p_av_func(self, T, **kwargs):
+    def c_p_av_func(self, T, **kwargs) -> float:
         pass
 
     @abstractmethod
-    def c_p_av_int_func(self, T1, T2, **kwargs):
+    def c_p_av_int_func(self, T1, T2, **kwargs) -> float:
         pass
 
 

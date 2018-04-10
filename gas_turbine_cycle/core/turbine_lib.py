@@ -4,6 +4,7 @@ import numpy as np
 from ..tools.gas_dynamics import GasDynamicFunctions as gd
 from .network_lib import *
 from ..gases import *
+from ..fuels import Fuel, NaturalGas
 from ..tools import functions as func
 
 logging.basicConfig(format='%(levelname)s: %(message)s', filemode='w', filename='cycle.log', level=logging.INFO)
@@ -413,7 +414,8 @@ class Sink(GasDynamicUnit):
 
 class CombustionChamber(GasDynamicUnit):
     def __init__(self, T_gas, precision=0.01, eta_burn=0.99, sigma_comb=0.98,
-                 work_fluid_in=Air(), work_fluid_out=KeroseneCombustionProducts(), T_fuel=288, **kwargs):
+                 work_fluid_in: IdealGas=Air(), work_fluid_out: IdealGas=NaturalGasCombustionProducts(),
+                 fuel: Fuel=NaturalGas(), T_fuel=288, delta_p_fuel=5e5, **kwargs):
         """
         :param T_gas: температура газа после камеры сгорания
         :param precision:  точноссть расчета камеры
@@ -421,7 +423,9 @@ class CombustionChamber(GasDynamicUnit):
         :param sigma_comb: коэффициент сохранения полного давления
         :param work_fluid_in: рабочее тело на входе
         :param work_fluid_out: рабочее тело на выходе
+        :param fuel: топливо
         :param T_fuel: температура топлива.
+        :param delta_p_fuel: превышение давления топлива над давлением рабочего тела на входе.
         :param kwargs: alpha_out_init - начальное приближение для коэффициента избытка воздуха \n
                     p_stag_out_init - начальное приближение для давления на выходе, необходимо задать,
                     если камера сгорания находится после силовой турбины
@@ -430,14 +434,19 @@ class CombustionChamber(GasDynamicUnit):
         self._T_gas = T_gas
         self.work_fluid_in = work_fluid_in
         self.work_fluid_out = work_fluid_out
-        self.work_fluid_out_T0 = type(self.work_fluid_out)()
         self.precision = precision
         self.eta_burn = eta_burn
         self.sigma_comb = sigma_comb
+        self.fuel = fuel
         self.T_fuel = T_fuel
+        self.delta_p_fuel = delta_p_fuel
         self._alpha_res = 1
         self._alpha_out_old = None
         self._g_fuel_prime = 0
+        self.i_in_stag = None
+        self.i_out_stag = None
+        self.i_fuel = None
+        self.p_fuel = None
         if 'alpha_out_init' in kwargs:
             self._alpha_out_init = kwargs['alpha_out_init']
             self.alpha_outlet_port.value = self._alpha_out_init
@@ -529,37 +538,38 @@ class CombustionChamber(GasDynamicUnit):
             assert self._p_stag_out_init is not None, 'For downstream combustion chamber computing the initial ' \
                                                       'approximation of outlet stagnation pressure must be set'
         if self.check_input():
+            if self.check_upstream_behaviour():
+                self.p_stag_out = self.p_stag_in * self.sigma_comb
+            else:
+                self.p_stag_in = self.p_stag_out / self.sigma_comb
+
             self._alpha_res = 1
             self.T_stag_out = self._T_gas
             self.work_fluid_in.__init__()
             self.work_fluid_out.__init__()
-            self.work_fluid_out_T0.__init__()
 
             self.work_fluid_in.alpha = self.alpha_in
             self.work_fluid_out.alpha = self.alpha_out
-            self.work_fluid_out_T0.alpha = self.alpha_out
 
             self.work_fluid_in.T = self.T_stag_in
             self.work_fluid_out.T = self.T_stag_out
-            self.work_fluid_out_T0.T = 288
 
             while self._alpha_res >= self.precision:
-                self._g_fuel_prime = (self.work_fluid_out.c_p_av * self.T_stag_out -
-                                      self.work_fluid_in.c_p_av * self.T_stag_in) / \
-                                     (self.Q_n * self.eta_burn - self.work_fluid_out.c_p_av * self.T_stag_out +
-                                      self.work_fluid_out_T0.c_p * 288)
+                self.i_in_stag = self.work_fluid_in.get_specific_enthalpy(self.T_stag_in, alpha=self.alpha_in)
+                self.i_out_stag = self.work_fluid_out.get_specific_enthalpy(self.T_stag_out,
+                                                                            alpha=self.work_fluid_out.alpha)
+                self.p_fuel = self.p_stag_in + self.delta_p_fuel
+                self.i_fuel = self.fuel.get_specific_enthalpy(self.T_fuel, p=self.p_fuel)
+                self._g_fuel_prime = (self.i_out_stag - self.i_in_stag) / (
+                        self.Q_n * self.eta_burn + self.i_fuel - self.i_out_stag
+                )
                 self.g_out = self.g_in * (1 + self._g_fuel_prime)
                 self._alpha_out_old = self.work_fluid_out.alpha
                 self.alpha_out = 1 / (self.l0 * (self.g_fuel_prime * self.g_in) / (self.g_in - self.g_fuel_in))
                 self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime * self.g_in
                 self.work_fluid_out.alpha = self.alpha_out
-                self.work_fluid_out_T0.alpha = self.alpha_out
                 self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out
 
-            if self.check_upstream_behaviour():
-                self.p_stag_out = self.p_stag_in * self.sigma_comb
-            else:
-                self.p_stag_in = self.p_stag_out / self.sigma_comb
         elif self.check_input_partially():
             if self.check_upstream_behaviour():
                 self.p_stag_out = self.p_stag_in * self.sigma_comb
