@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.optimize import fsolve
 
 
 class GasDynamicFunctions:
@@ -32,16 +33,20 @@ class GasDynamicFunctions:
         """ГДФ давления через число Маха"""
         return (1 + (k - 1) / 2 * M ** 2) ** (k / (k - 1))
 
-    @staticmethod
-    def lam(k, **kwargs):
+    @classmethod
+    def lam(cls, k, **kwargs):
         if 'tau' in kwargs:
             return np.sqrt((1 - kwargs['tau']) * (k + 1) / (k - 1))
         if 'pi' in kwargs:
             return np.sqrt((k + 1) / (k - 1) * (1 - kwargs['pi']**((k - 1) / k)))
+        if 'q' in kwargs:
+            q = kwargs['q']
+            return fsolve(lambda x: [cls.q(x[0], k) - q], np.array([0.5]))[0]
 
-    @staticmethod
-    def q(lam, k):
+    @classmethod
+    def q(cls, lam, k):
         return ((k + 1) / 2) ** (1 / (k - 1)) * lam * (1 - (k - 1) / (k + 1) * lam**2) ** (1 / (k - 1))
+
 
     @staticmethod
     def m(k):

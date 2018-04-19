@@ -78,6 +78,42 @@ class TestEnthalpyCalculating(unittest.TestCase):
                     self.assertAlmostEqual(enthalpy_res, 0, places=3)
 
 
+class TestAdiabaticTemp(unittest.TestCase):
+    def setUp(self):
+        self.T1 = 1100
+        self.p1 = 8e5
+        self.p2 = 2e5
+        self.alpha = 2.5
+        self.precision = 0.0001
+        self.air = Air()
+        self.ker = KeroseneCombustionProducts()
+        self.ngas = NaturalGasCombustionProducts()
+
+    def test_air(self):
+        ad_res = self.air.get_ad_temp(self.T1, self.p1, self.p2, self.precision)
+        T2 = ad_res[0]
+        c_p_av = self.air.c_p_av_int_func(self.T1, T2)
+        enthalpy = c_p_av * (T2 - self.T1)
+        enthalpy_res = abs(enthalpy - ad_res[1]) / ad_res[1]
+        self.assertAlmostEqual(enthalpy_res, 0, places=3)
+
+    def test_kerosene(self):
+        ad_res = self.ker.get_ad_temp(self.T1, self.p1, self.p2, self.precision, alpha=self.alpha)
+        T2 = ad_res[0]
+        c_p_av = self.ker.c_p_av_int_func(self.T1, T2, alpha=self.alpha)
+        enthalpy = c_p_av * (T2 - self.T1)
+        enthalpy_res = abs(enthalpy - ad_res[1]) / ad_res[1]
+        self.assertAlmostEqual(enthalpy_res, 0, places=3)
+
+    def test_natural_gas(self):
+        ad_res = self.ngas.get_ad_temp(self.T1, self.p1, self.p2, self.precision, alpha=self.alpha)
+        T2 = ad_res[0]
+        c_p_av = self.ngas.c_p_av_int_func(self.T1, T2, alpha=self.alpha)
+        enthalpy = c_p_av * (T2 - self.T1)
+        enthalpy_res = abs(enthalpy - ad_res[1]) / ad_res[1]
+        self.assertAlmostEqual(enthalpy_res, 0, places=3)
+
+
 class TestAveragingSpecoficHeat(unittest.TestCase):
     def setUp(self):
         self.air = Air()

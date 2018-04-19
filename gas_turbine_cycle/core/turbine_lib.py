@@ -565,7 +565,8 @@ class CombustionChamber(GasDynamicUnit):
                 )
                 self.g_out = self.g_in * (1 + self._g_fuel_prime)
                 self._alpha_out_old = self.work_fluid_out.alpha
-                self.alpha_out = 1 / (self.l0 * (self.g_fuel_prime * self.g_in) / (self.g_in - self.g_fuel_in))
+                self.alpha_out = 1 / (self.l0 * (self.g_fuel_prime * self.g_in + self.g_fuel_in) / (self.g_in -
+                                                                                                    self.g_fuel_in))
                 self.g_fuel_out = self.g_fuel_in + self._g_fuel_prime * self.g_in
                 self.work_fluid_out.alpha = self.alpha_out
                 self._alpha_res = abs(self._alpha_out_old - self.alpha_out) / self.alpha_out

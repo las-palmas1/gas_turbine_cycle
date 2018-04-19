@@ -62,6 +62,37 @@ class IdealGas(metaclass=ABCMeta):
     def get_specific_enthalpy(self, T, **kwargs):
         return self.c_p_av_func(T, **kwargs) * (T - self.T0)
 
+    def get_ad_temp(self, T1, p1, p2, precision=0.001, **kwargs):
+        k_res = 1
+        T2 = 600
+        c_p_av = self.c_p_av_int_func(T1, T2, **kwargs)
+        c_p_av_old = self.c_p_av_int_func(T1, T2, **kwargs)
+        k_av = self.k_func(c_p_av)
+        k_av_old = self.k_func(c_p_av)
+        enthalpy = None
+        while k_res >= precision:
+            c_p_av_old = c_p_av
+            k_av_old = k_av
+            enthalpy = c_p_av_old * T1 * (
+                (p2 / p1) ** ((k_av_old - 1) / k_av_old) - 1
+            )
+            T2 = T1 + enthalpy / c_p_av
+            c_p_av = self.c_p_av_int_func(T1, T2, **kwargs)
+            k_av = self.k_func(c_p_av)
+            k_res = abs(k_av - k_av_old) / k_av_old
+        return T2, enthalpy, c_p_av_old, k_av_old, k_av, k_res
+
+    def get_temp(self, T1, enthalpy, precision=0.001, **kwargs):
+        c_p_res = 1
+        T2 = 600
+        c_p_av = self.c_p_av_int_func(T1, T2, **kwargs)
+        while c_p_res >= precision:
+            c_p_av_old = c_p_av
+            T2 = T1 + enthalpy / c_p_av
+            c_p_av = self.c_p_av_int_func(T1, T2, **kwargs)
+            c_p_res = abs(c_p_av - c_p_av_old) / c_p_av_old
+        return T2
+
     @property
     def R(self):
         return self._R
@@ -150,6 +181,7 @@ class Air(IdealGas):
         self._T = 288
         self._T1 = 288
         self._T2 = 400
+        self._l0 = 1
         self._c_p_real_arr = np.array([1.0036, 1.0103, 1.0245, 1.0446, 1.0685, 1.0923, 1.1149, 1.1355, 1.1539,
                                        1.1702, 1.1844, 1.1970, 1.2083, 1.2179, 1.2267, 1.2347, 1.2418, 1.2485,
                                        1.2544, 1.2602, 1.2653, 1.2703, 1.2749]) * 1e3
