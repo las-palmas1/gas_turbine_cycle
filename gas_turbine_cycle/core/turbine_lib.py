@@ -73,7 +73,8 @@ class Compressor(GasDynamicUnit, MechEnergyConsumingUnit):
                 self._k_old = self._k
                 self._k = self.work_fluid.k_av_int
                 self._k_res = abs(self._k - self._k_old) / self._k_old
-            self.consumable_labour = self.work_fluid.c_p_av_int * (self.T_stag_out - self.T_stag_in)
+            self.consumable_labour = self.work_fluid.c_p_av_int_func(
+                self.T_stag_in, self.T_stag_out) * (self.T_stag_out - self.T_stag_in)
             self.p_stag_out = self.p_stag_in * self.pi_c
             self.g_out = self.g_in
             self.alpha_out = self.alpha_in

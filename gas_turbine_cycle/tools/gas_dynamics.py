@@ -47,7 +47,6 @@ class GasDynamicFunctions:
     def q(cls, lam, k):
         return ((k + 1) / 2) ** (1 / (k - 1)) * lam * (1 - (k - 1) / (k + 1) * lam**2) ** (1 / (k - 1))
 
-
     @staticmethod
     def m(k):
         return (2 / (k + 1)) ** ((k + 1) / (2 * (k - 1))) * k ** 0.5

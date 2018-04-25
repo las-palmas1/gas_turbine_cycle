@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a60b778-d1dd-43f3-83f2-c600364bd843" name="Default" comment="Add tests for calculation of mixture temperature. Add test for computation of enthalpy. Correct calculation of mixture temperature. Correct templates.">
-      <change beforePath="$PROJECT_DIR$/.idea/gas_turbine_cycle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gas_turbine_cycle.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="1a60b778-d1dd-43f3-83f2-c600364bd843" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -71,20 +68,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gases.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="gases.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1124">
-              <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
+            <state relative-caret-position="153">
+              <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gas_dynamics.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gas_dynamics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="43" column="71" selection-start-line="43" selection-start-column="71" selection-end-line="43" selection-end-column="71" />
+            <state relative-caret-position="799">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -95,8 +92,8 @@
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1853">
-              <caret line="148" lean-forward="true" selection-start-line="148" selection-end-line="148" />
+            <state relative-caret-position="2465">
+              <caret line="148" selection-start-line="148" selection-end-line="148" />
               <folding>
                 <element signature="e#0#90#0" expanded="true" />
               </folding>
@@ -108,7 +105,7 @@
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="578">
-              <caret line="43" column="86" lean-forward="true" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+              <caret line="43" column="86" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -117,7 +114,7 @@
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -125,8 +122,8 @@
       <file leaf-file-name="turbine_lib.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9418">
-              <caret line="573" column="17" lean-forward="true" selection-start-line="573" selection-start-column="17" selection-end-line="573" selection-end-column="17" />
+            <state relative-caret-position="357">
+              <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -227,9 +224,9 @@
         <option value="$PROJECT_DIR$/gas_turbine_cycle/fuels.py" />
         <option value="$PROJECT_DIR$/tests.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/tests.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" />
       </list>
     </option>
   </component>
@@ -257,6 +254,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -290,7 +288,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -738,7 +735,14 @@
       <option name="project" value="LOCAL" />
       <updated>1523385679351</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Correct mistake in combustion chamber model. Add function for computing temperature at the end of adiabatic process with given initial and ending pressure.">
+      <created>1524099162815</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1524099162815</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -790,17 +794,17 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5021482" side_tool="true" weight="0.32900944" />
       <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="6" side_tool="true" weight="0.3281879" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3705357" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49785176" weight="0.5535714" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49785176" weight="0.55228275" />
       <window_info anchor="bottom" x="14" y="350" width="1891" height="330" id="Python Console" order="7" weight="0.38504463" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32253313" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.23288591" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3705357" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3210604" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.23892617" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32975295" />
       <window_info anchor="right" id="SciView" order="4" weight="0.3295302" />
       <window_info id="Structure" order="2" sideWeight="0.5011161" side_tool="true" weight="0.22974414" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3950893" />
       <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3950893" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -884,7 +888,8 @@
     <MESSAGE value="Add tests for gases." />
     <MESSAGE value="Add tests for calculation of mixture temperature. Add test for computation of enthalpy. Correct calculation of mixture temperature. Correct templates." />
     <MESSAGE value="Add fuels. Add computation fuel enthalpy in combustion chamber model." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add fuels. Add computation fuel enthalpy in combustion chamber model." />
+    <MESSAGE value="Correct mistake in combustion chamber model. Add function for computing temperature at the end of adiabatic process with given initial and ending pressure." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correct mistake in combustion chamber model. Add function for computing temperature at the end of adiabatic process with given initial and ending pressure." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1000,6 +1005,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6987">
           <caret line="413" column="6" selection-start-line="413" selection-start-column="6" selection-end-line="413" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1139,13 +1147,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1160,7 +1164,41 @@
     <entry file="file://$PROJECT_DIR$/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
-          <caret line="43" column="86" lean-forward="true" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+          <caret line="43" column="86" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4002">
+          <caret line="390" column="106" selection-start-line="390" selection-start-column="106" selection-end-line="390" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2465">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+          <folding>
+            <element signature="e#0#90#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1184,54 +1222,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4002">
-          <caret line="390" column="106" selection-start-line="390" selection-start-column="106" selection-end-line="390" selection-end-column="106" />
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9418">
-          <caret line="573" column="17" lean-forward="true" selection-start-line="573" selection-start-column="17" selection-end-line="573" selection-end-column="17" />
+        <state relative-caret-position="357">
+          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1853">
-          <caret line="148" lean-forward="true" selection-start-line="148" selection-end-line="148" />
-          <folding>
-            <element signature="e#0#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1124">
-          <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="43" column="71" selection-start-line="43" selection-start-column="71" selection-end-line="43" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
         </state>
       </provider>
     </entry>

@@ -189,8 +189,8 @@ class Air(IdealGas):
                                      1.0907, 1.0999, 1.1082, 1.1166, 1.1242, 1.1313, 1.1380, 1.1443, 1.1501, 1.1560,
                                      1.1610, 1.1664, 1.1710]) * 1e3
         self._T_arr = np.linspace(0, 2200, 23) + 273
-        self._c_p_real_interp = interp1d(self._T_arr, self._c_p_real_arr)
-        self._c_p_av_interp = interp1d(self._T_arr, self._c_p_av_arr)
+        self._c_p_real_interp = interp1d(self._T_arr, self._c_p_real_arr, bounds_error=False, fill_value='extrapolate')
+        self._c_p_av_interp = interp1d(self._T_arr, self._c_p_av_arr, bounds_error=False, fill_value='extrapolate')
         self._c_p = self.c_p_real_func(self._T)
         self._c_p_av = self.c_p_av_func(self._T)
         self._c_p_av_int = self.c_p_av_int_func(self._T1, self._T2)
