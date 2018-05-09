@@ -18,7 +18,7 @@ class Compressor(GasDynamicUnit, MechEnergyConsumingUnit):
         self.pi_c = pi_c
         self.work_fluid = work_fluid
         self.precision = precision
-        self._k = self.work_fluid.k_av_int
+        self._k = None
         self._k_res = 1
         self._k_old = None
         self._eta_stag = None
@@ -64,6 +64,7 @@ class Compressor(GasDynamicUnit, MechEnergyConsumingUnit):
     def update(self, relax_coef=1):
         if self.check_input():
             self.work_fluid.__init__()
+            self._k = self.work_fluid.k_av_int
             self.work_fluid.T1 = self.T_stag_in
             while self._k_res >= self.precision:
                 self._eta_stag = func.eta_comp_stag(self.pi_c, self._k, self.eta_stag_p)
@@ -102,7 +103,7 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
         self.work_fluid = work_fluid
         self.eta_m = eta_m
         self.eta_r = eta_r
-        self._k = self.work_fluid.k_av_int
+        self._k = None
         self._k_old = None
         self._k_res = None
         self._pi_t = None
@@ -212,6 +213,7 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
         self._k_res = 1
         self._pi_t_res = 1
         self.work_fluid.__init__()
+        self._k = self.work_fluid.k_av_int
         self.work_fluid.alpha = self.alpha_in
         self.work_fluid.T1 = self.T_stag_in
         self.total_labour = (self.gen_labour1 + self.gen_labour2) / (self.g_in * self.eta_m)
@@ -244,6 +246,7 @@ class Turbine(GasDynamicUnit, MechEnergyGeneratingUnit):
             if self.check_power_turbine_behaviour():
                 self._k_res = 1
                 self.work_fluid.__init__()
+                self._k = self.work_fluid.k_av_int
                 self.work_fluid.alpha = self.alpha_in
                 self.work_fluid.T1 = self.T_stag_in
                 self._pi_t = self.p_stag_in / self.p_stag_out

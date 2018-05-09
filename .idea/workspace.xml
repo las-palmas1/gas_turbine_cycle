@@ -4,8 +4,7 @@
     <list default="true" id="1a60b778-d1dd-43f3-83f2-c600364bd843" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/gases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" beforeDir="false" afterPath="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,9 +19,10 @@
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestAveragingSpecoficHeat.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestAveragingSpecoficHeat Coverage Results" MODIFIED="1522968514670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestEnthalpyCalculating_test_air.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestEnthalpyCalculating.test_air Coverage Results" MODIFIED="1523054663249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestAdiabaticTemp_test_air.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air Coverage Results" MODIFIED="1524068993322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_solving.coverage" NAME="Nosetests for tests.SolverTests.test_2N_solving Coverage Results" MODIFIED="1520815011214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_tests_py.coverage" NAME="Nosetests in tests.py Coverage Results" MODIFIED="1523384801714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_solving.coverage" NAME="Nosetests for tests.SolverTests.test_2N_solving Coverage Results" MODIFIED="1525881234507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_tests_py.coverage" NAME="Nosetests in tests.py Coverage Results" MODIFIED="1525881028388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$gases.coverage" NAME="gases Coverage Results" MODIFIED="1508441462019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_comp_turbine.coverage" NAME="Nosetests for tests.SolverTests.test_2N_comp_turbine Coverage Results" MODIFIED="1525884634260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestMixture_test_kerosene_air_mixture.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestMixture.test_kerosene_air_mixture Coverage Results" MODIFIED="1523054859000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestAveragingSpecoficHeat_test_air.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestAveragingSpecoficHeat.test_air Coverage Results" MODIFIED="1522968362643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_undefined_ports_checking.coverage" NAME="Nosetests for tests.UnitsTests.test_undefined_ports_checking Coverage Results" MODIFIED="1523384985401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -30,6 +30,7 @@
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_test_TemplateTester.coverage" NAME="Nosetests for test.TemplateTester Coverage Results" MODIFIED="1523057187728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_upstream_combustion_chamber.coverage" NAME="Nosetests for tests.UnitsTests.test_upstream_combustion_chamber Coverage Results" MODIFIED="1523384585398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_UnitsTests_test_outlet.coverage" NAME="Nosetests for tests.UnitsTests.test_outlet Coverage Results" MODIFIED="1515104345433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_power_turbine.coverage" NAME="Nosetests for tests.SolverTests.test_2N_power_turbine Coverage Results" MODIFIED="1525884661672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$test.coverage" NAME="test Coverage Results" MODIFIED="1490831557447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestEnthalpyCalculating_test_kerosene.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestEnthalpyCalculating.test_kerosene Coverage Results" MODIFIED="1523049938260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_in_test_py.coverage" NAME="Nosetests in test.py Coverage Results" MODIFIED="1514144762124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gas_turbine_cycle/templates/test" />
@@ -43,6 +44,7 @@
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_sorting_units.coverage" NAME="Nosetests for tests.SolverTests.test_2N_sorting_units Coverage Results" MODIFIED="1520815006047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestAveragingSpecoficHeat_test_natural_gas.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestAveragingSpecoficHeat.test_natural_gas Coverage Results" MODIFIED="1522968473028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_gas_turbine_cycle_tests_TestAveragingSpecoficHeat_test_kerosene.coverage" NAME="Nosetests for gas_turbine_cycle.tests.TestAveragingSpecoficHeat.test_kerosene Coverage Results" MODIFIED="1522968300487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gas_turbine_cycle$Nosetests_for_tests_SolverTests_test_2N_compressor.coverage" NAME="Nosetests for tests.SolverTests.test_2N_compressor Coverage Results" MODIFIED="1525884324882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -68,44 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gases.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gases.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
+            <state relative-caret-position="306">
+              <caret line="195" column="50" selection-start-line="195" selection-start-column="50" selection-end-line="195" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gas_dynamics.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2465">
-              <caret line="148" selection-start-line="148" selection-end-line="148" />
-              <folding>
-                <element signature="e#0#90#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="43" column="86" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+            <state relative-caret-position="326">
+              <caret line="1096" column="29" selection-start-line="1096" selection-start-column="29" selection-end-line="1096" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -122,8 +100,8 @@
       <file leaf-file-name="turbine_lib.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+            <state relative-caret-position="70">
+              <caret line="217" column="39" selection-start-line="217" selection-start-column="39" selection-end-line="217" selection-end-column="39" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -146,8 +124,8 @@
       <file leaf-file-name="solver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2720">
-              <caret line="164" column="37" selection-start-line="164" selection-start-column="37" selection-end-line="164" selection-end-column="37" />
+            <state relative-caret-position="1226">
+              <caret line="187" selection-start-line="187" selection-end-line="187" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -222,11 +200,11 @@
         <option value="$PROJECT_DIR$/gas_turbine_cycle/templates/2N.tex" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/fuals.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/fuels.py" />
-        <option value="$PROJECT_DIR$/tests.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/tests.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py" />
-        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
         <option value="$PROJECT_DIR$/gas_turbine_cycle/gases.py" />
+        <option value="$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py" />
+        <option value="$PROJECT_DIR$/tests.py" />
       </list>
     </option>
   </component>
@@ -316,7 +294,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air">
+  <component name="RunManager" selected="Python tests.Nosetests for tests.SolverTests.test_2N_power_turbine">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="gas_turbine_cycle" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -466,7 +444,7 @@
       <arguments />
       <envs />
     </configuration>
-    <configuration name="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for tests.SolverTests.test_2N_comp_turbine" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <module name="gas_turbine_cycle" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -478,10 +456,10 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;gas_turbine_cycle.tests.TestAdiabaticTemp&quot;" />
+      <option name="_new_target" value="&quot;tests.SolverTests.test_2N_comp_turbine&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for tests.SolverTests.test_2N_compressor" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <module name="gas_turbine_cycle" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -493,10 +471,10 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;gas_turbine_cycle.tests.TestAdiabaticTemp.test_air&quot;" />
+      <option name="_new_target" value="&quot;tests.SolverTests.test_2N_compressor&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="Nosetests for tests.UnitsTests.test_undefined_ports_checking" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <module name="gas_turbine_cycle" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -508,10 +486,10 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.UnitsTests.test_undefined_ports_checking&quot;" />
+      <option name="_new_target" value="&quot;tests.SolverTests.test_2N_power_turbine&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for tests.SolverTests.test_2N_solving" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <module name="gas_turbine_cycle" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -523,7 +501,7 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.UnitsTests.test_upstream_combustion_chamber&quot;" />
+      <option name="_new_target" value="&quot;tests.SolverTests.test_2N_solving&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
     <configuration name="Nosetests in tests.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
@@ -586,19 +564,19 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
     <list>
-      <item itemvalue="Python tests.Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" />
       <item itemvalue="Python tests.Nosetests in tests.py" />
-      <item itemvalue="Python tests.Nosetests for tests.UnitsTests.test_undefined_ports_checking" />
-      <item itemvalue="Python tests.Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air" />
-      <item itemvalue="Python tests.Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp" />
+      <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_solving" />
+      <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_compressor" />
+      <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_comp_turbine" />
+      <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_power_turbine" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air" />
-        <item itemvalue="Python tests.Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp" />
-        <item itemvalue="Python tests.Nosetests for tests.UnitsTests.test_undefined_ports_checking" />
+        <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_power_turbine" />
+        <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_comp_turbine" />
+        <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_compressor" />
+        <item itemvalue="Python tests.Nosetests for tests.SolverTests.test_2N_solving" />
         <item itemvalue="Python tests.Nosetests in tests.py" />
-        <item itemvalue="Python tests.Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" />
       </list>
     </recent_temporary>
   </component>
@@ -742,39 +720,46 @@
       <option name="project" value="LOCAL" />
       <updated>1524099162815</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Correct mistake in compressor computing.">
+      <created>1524617126465</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1524617126465</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_for_test_TemplateTester - 2018.04.07 at 02h 26m 30s.xml">
-      <configuration name="Nosetests for test.TemplateTester" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_compressor - 2018.05.09 at 19h 45m 29s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_compressor" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_upstream_combustion_chamber - 2018.04.10 at 21h 20m 23s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 45m 41s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_upstream_combustion_chamber - 2018.04.10 at 21h 22m 25s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 45m 47s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_upstream_combustion_chamber - 2018.04.10 at 21h 23m 07s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_upstream_combustion_chamber" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_comp_turbine - 2018.05.09 at 19h 45m 56s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_comp_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_tests_py - 2018.04.10 at 21h 23m 40s.xml">
-      <configuration name="Nosetests in tests.py" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 46m 09s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_tests_py - 2018.04.10 at 21h 26m 44s.xml">
-      <configuration name="Nosetests in tests.py" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 47m 49s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_tests_UnitsTests_test_undefined_ports_checking - 2018.04.10 at 21h 29m 47s.xml">
-      <configuration name="Nosetests for tests.UnitsTests.test_undefined_ports_checking" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_comp_turbine - 2018.05.09 at 19h 49m 30s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_comp_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_gas_turbine_cycle_tests_TestAdiabaticTemp_test_air - 2018.04.18 at 18h 11m 44s.xml">
-      <configuration name="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_comp_turbine - 2018.05.09 at 19h 50m 37s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_comp_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_gas_turbine_cycle_tests_TestAdiabaticTemp - 2018.04.18 at 18h 23m 41s.xml">
-      <configuration name="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 50m 44s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_gas_turbine_cycle_tests_TestAdiabaticTemp_test_air - 2018.04.18 at 19h 29m 54s.xml">
-      <configuration name="Nosetests for gas_turbine_cycle.tests.TestAdiabaticTemp.test_air" configurationId="tests" />
+    <history-entry file="Nosetests_for_tests_SolverTests_test_2N_power_turbine - 2018.05.09 at 19h 51m 05s.xml">
+      <configuration name="Nosetests for tests.SolverTests.test_2N_power_turbine" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -792,24 +777,24 @@
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32821724" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5021482" side_tool="true" weight="0.32900944" />
-      <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="6" side_tool="true" weight="0.3281879" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5375552" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49785176" weight="0.55228275" />
       <window_info anchor="bottom" x="14" y="350" width="1891" height="330" id="Python Console" order="7" weight="0.38504463" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3705357" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3210604" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.23892617" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3210604" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.24228188" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32975295" />
       <window_info anchor="right" id="SciView" order="4" weight="0.3295302" />
       <window_info id="Structure" order="2" sideWeight="0.5011161" side_tool="true" weight="0.22974414" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39469808" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3950893" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" id="Data View" order="5" weight="0.32975295" />
+      <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="6" side_tool="true" weight="0.3281879" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32585597" />
@@ -817,22 +802,22 @@
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.24973147" />
       <window_info id="Structure" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="10" />
+      <window_info anchor="bottom" id="Version Control" order="1" weight="0.32941177" />
       <window_info anchor="bottom" id="Run" order="6" />
-      <window_info anchor="bottom" id="Python Console" order="2" />
       <window_info anchor="bottom" id="Find" order="5" />
       <window_info anchor="right" id="Database" order="0" weight="0.32975295" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" weight="0.32941177" />
-      <window_info anchor="bottom" id="Version Control" order="1" weight="0.32941177" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="4" />
-      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="2" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -889,57 +874,58 @@
     <MESSAGE value="Add tests for calculation of mixture temperature. Add test for computation of enthalpy. Correct calculation of mixture temperature. Correct templates." />
     <MESSAGE value="Add fuels. Add computation fuel enthalpy in combustion chamber model." />
     <MESSAGE value="Correct mistake in combustion chamber model. Add function for computing temperature at the end of adiabatic process with given initial and ending pressure." />
-    <option name="LAST_COMMIT_MESSAGE" value="Correct mistake in combustion chamber model. Add function for computing temperature at the end of adiabatic process with given initial and ending pressure." />
+    <MESSAGE value="Correct mistake in compressor computing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correct mistake in compressor computing." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="38" />
+      <option name="time" value="43" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>self.fuel.get_specific_enthalpy(300, 300, p=1e6)</expression-string>
+        <expression-string>comp_turb.work_fluid.c_p_av_int</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.fuel.get_specific_enthalpy(300, p=1e6)</expression-string>
+        <expression-string>comp_turb.total_labour / (comp_turb.T_stag_in - comp_turb.T_stag_out)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.fuel</expression-string>
+        <expression-string>comp_turb.work_fluid.T2</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>enthalpy_c_p_av_arr</expression-string>
+        <expression-string>comp_turb.T_stag_out</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>enthalpy_c_p_av_int_arr</expression-string>
+        <expression-string>comp_turb.T_stag_in</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>comb_products.alpha</expression-string>
+        <expression-string>comp_turb.work_fluid.T1</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>mixture.c_p</expression-string>
+        <expression-string>self.work_fluid.T2</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.alpha_out</expression-string>
+        <expression-string>self.T_stag_out</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>self.alpha_in</expression-string>
+        <expression-string>self.T_stag_in</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -1161,13 +1147,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/fuels.py" />
-    <entry file="file://$PROJECT_DIR$/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="43" column="86" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/templates/test/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -1182,42 +1161,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2465">
-          <caret line="148" selection-start-line="148" selection-end-line="148" />
-          <folding>
-            <element signature="e#0#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2720">
-          <caret line="164" column="37" selection-start-line="164" selection-start-column="37" selection-end-line="164" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1229,20 +1178,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tools/gas_dynamics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+        <state relative-caret-position="816">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="118" column="24" lean-forward="true" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#90#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/gases.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="186" column="44" selection-start-line="186" selection-start-column="44" selection-end-line="186" selection-end-column="44" />
+        <state relative-caret-position="306">
+          <caret line="195" column="50" selection-start-line="195" selection-start-column="50" selection-end-line="195" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/solver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1226">
+          <caret line="187" selection-start-line="187" selection-end-line="187" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gas_turbine_cycle/core/turbine_lib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="217" column="39" selection-start-line="217" selection-start-column="39" selection-end-line="217" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="1096" column="29" selection-start-line="1096" selection-start-column="29" selection-end-line="1096" selection-end-column="29" />
         </state>
       </provider>
     </entry>

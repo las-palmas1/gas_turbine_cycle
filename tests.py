@@ -1062,6 +1062,30 @@ class SolverTests(unittest.TestCase):
                                    (self.atmosphere.p_stag_in * self.turbine_low_pres_power.pi_t *
                                     self.turbine_comp_up.pi_t)), 0, places=4)
 
+    def test_2N_compressor(self):
+        solver = self.get_2N_solver()
+        solver.solve()
+        comp = self.compressor2
+        L_c = (comp.T_stag_out - comp.T_stag_in) * comp.work_fluid.c_p_av_int_func(comp.T_stag_in, comp.T_stag_out)
+        L_c_res = abs(L_c - comp.consumable_labour) / comp.consumable_labour
+        self.assertAlmostEqual(L_c_res, 0, places=4)
+
+    def test_2N_comp_turbine(self):
+        solver = self.get_2N_solver()
+        solver.solve()
+        comp_turb = self.turbine_comp_up
+        L_ct = comp_turb.work_fluid.c_p_av_int * (comp_turb.T_stag_in - comp_turb.T_stag_out)
+        L_tc_res = abs(L_ct - comp_turb.total_labour) / comp_turb.total_labour
+        self.assertAlmostEqual(L_tc_res, 0, places=2)
+
+    def test_2N_power_turbine(self):
+        solver = self.get_2N_solver()
+        solver.solve()
+        power_turb = self.turbine_low_pres_power
+        L_pt = power_turb.work_fluid.c_p_av_int * (power_turb.T_stag_in - power_turb.T_stag_out)
+        L_tc_res = abs(L_pt - power_turb.total_labour) / power_turb.total_labour
+        self.assertAlmostEqual(L_tc_res, 0, places=2)
+
     def test_2V_behaviour_setting(self):
         solver = self.get_2V_solver()
 
